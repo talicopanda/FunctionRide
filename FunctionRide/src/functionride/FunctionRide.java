@@ -27,6 +27,16 @@ public class FunctionRide extends Canvas implements Runnable {
     private Thread thread;
     
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage spriteSheet = null;
+    
+    public void init(){
+        BufferedImageLoader loader = new BufferedImageLoader();
+        try {
+            spriteSheet = loader.loadImage("/sprite_sheet.png");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     private synchronized void start(){
         if(running) return;
@@ -51,6 +61,7 @@ public class FunctionRide extends Canvas implements Runnable {
     
     @Override
     public void run(){
+        init();
         long lastTime = System.nanoTime();
         final double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
