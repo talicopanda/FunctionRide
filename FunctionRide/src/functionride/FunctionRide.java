@@ -29,13 +29,20 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     
+    //temp
+    private BufferedImage player;
+    
     public void init(){
         BufferedImageLoader loader = new BufferedImageLoader();
         try {
-            spriteSheet = loader.loadImage("/sprite_sheet.png");
+            spriteSheet = loader.loadImage("res\\sprite_sheet.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        SpriteSheet ss = new SpriteSheet(spriteSheet);
+        
+        player = ss.grabImage(1,1,32,32);
     }
     
     private synchronized void start(){
@@ -59,7 +66,6 @@ public class FunctionRide extends Canvas implements Runnable {
         System.exit(1);
     }
     
-    @Override
     public void run(){
         init();
         long lastTime = System.nanoTime();
@@ -108,6 +114,7 @@ public class FunctionRide extends Canvas implements Runnable {
         //////////////////////////////////////////// drawing area
         
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(player, 100, 100, this);
         
         ///////////////////////////////////////////
         g.dispose();
