@@ -8,8 +8,13 @@ import java.awt.Graphics2D;
 
 public class AbstractObstacle extends AbstractObject {
 
+    /**
+     * empty constructor for inheritance 
+     */ 
+    public AbstractObstacle() { 
+        
+    } 
  
-
     /**
      * secondary constructor (runs constructor from super class)
      *
@@ -25,8 +30,8 @@ public class AbstractObstacle extends AbstractObject {
      * draw a rectangle 
      * @param g2d drawing utensil
      */
-    public void draw (Graphics2D g2d) { 
-        g2d.drawRect(x,y,width,height);
+    public void draw (Graphics2D g) { 
+        g.drawRect(x,y,width,height);
         
     }
     
@@ -34,8 +39,8 @@ public class AbstractObstacle extends AbstractObject {
      * determine the area when the player is colliding with an obstacle
      * @return an array of x/y locations 
      */
-    public int[] getCollisionArea() { 
-         
-    }
+//    public int[] getCollisionArea() { 
+//         
+//    }
     
 }

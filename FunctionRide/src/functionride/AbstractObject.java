@@ -12,10 +12,16 @@ abstract public class AbstractObject {
     protected int y;
     protected int height;
     protected int width; 
+    
+    /**
+     * empty constructor for inheritance 
+     */
+    public AbstractObject() { 
+        
+    }
 
     /**
      * main constructor
-     *
      * @param x x location
      * @param y y location
      * @param height height of object
