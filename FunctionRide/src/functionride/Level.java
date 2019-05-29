@@ -62,7 +62,7 @@ public class Level {
         drawStart(g); 
         drawEnd(g); 
         for (int i = 0; i < obstacles.length; i++) {
-            obstacles[i].draw(g);
+            obstacles[i].draw(g); 
         }
     } 
     /**
