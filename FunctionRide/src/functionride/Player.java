@@ -5,13 +5,13 @@
  */
 package functionride;
 
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.Point; 
 import java.awt.image.BufferedImage;
 
-public class Player extends AbstractObject {
+public class Player extends AbstractObject { 
     //new attribute 
-    private int speed; 
+    private int speed;  
     private BufferedImage player;
     /**
      * main and only constructor for a player 
@@ -52,7 +52,7 @@ public class Player extends AbstractObject {
      * draws the player sprite
      * @param g 2d drawing utensil
      */
-    public void render(Graphics2D g) { 
+    public void render(Graphics g) { 
          g.drawImage(player, x, y, null);
     }  
     /**
