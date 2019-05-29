@@ -5,7 +5,7 @@
  */
 package functionride;
 
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.Point; 
 import java.awt.image.BufferedImage;
 
@@ -22,9 +22,10 @@ public class Player extends AbstractObject {
      * @param speed the speed that the player will travel at
      * @param game the game class to import spritesheet from 
      */
-    public Player(int x, int y, int width, int height, int speed, FunctionRide game) { 
-        super(x,y,width,height); 
-        this.speed = speed; 
+    public Player(int x, int y, FunctionRide game) { 
+        this.x = x;
+        this.y = y; 
+        speed = 1; 
         //gets the spritesheet that was created in the game class to use it in this class
         SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
         //set the player to the correct sprite 
@@ -45,14 +46,14 @@ public class Player extends AbstractObject {
         return speed;
     }
     
-    public static void tick() { 
-        
+    public void tick() { 
+        //update player
     } 
     /**
      * draws the player sprite
      * @param g 2d drawing utensil
      */
-    public void render(Graphics2D g) { 
+    public void render(Graphics g) { 
          g.drawImage(player, x, y, null);
     }  
     /**

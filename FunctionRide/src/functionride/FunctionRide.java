@@ -7,6 +7,7 @@ package functionride;
 
 import java.awt.Dimension;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -28,21 +29,22 @@ public class FunctionRide extends Canvas implements Runnable {
     
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
+    private BufferedImage background = null;
     
-    //temp
-    private BufferedImage player;
+    private Player p;
     
     public void init(){
         BufferedImageLoader loader = new BufferedImageLoader();
         try {
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
+            background = loader.loadImage("res\\background.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }
         
         SpriteSheet ss = new SpriteSheet(spriteSheet);
         
-        player = ss.grabImage(1,1,32,32);
+        p = new Player(200, 200, this);
     }
     
     private synchronized void start(){
@@ -99,7 +101,7 @@ public class FunctionRide extends Canvas implements Runnable {
     }
     
     private void tick(){
-        
+        p.tick();
     }
     
     private void render(){
@@ -114,7 +116,8 @@ public class FunctionRide extends Canvas implements Runnable {
         //////////////////////////////////////////// drawing area
         
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-        g.drawImage(player, 100, 100, this);
+        g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
+        p.render(g);
         
         ///////////////////////////////////////////
         g.dispose();
@@ -143,3 +146,4 @@ public class FunctionRide extends Canvas implements Runnable {
         return spriteSheet;
     }
 }
+ 
