@@ -138,4 +138,8 @@ public class FunctionRide extends Canvas implements Runnable {
         
         game.start();
     }
+    
+    public BufferedImage getSpriteSheet(){
+        return spriteSheet;
+    }
 }
