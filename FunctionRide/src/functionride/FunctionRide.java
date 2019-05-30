@@ -32,6 +32,15 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage background = null;
     
     private Player p;
+    private Menu menu;
+    
+    private enum STATE{
+        MENU,
+        LEVELSCREEN,
+        LEVEL1
+    };
+    
+    private STATE State = STATE.MENU;
     
     public void init(){
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -45,6 +54,7 @@ public class FunctionRide extends Canvas implements Runnable {
         SpriteSheet ss = new SpriteSheet(spriteSheet);
         
         p = new Player(200, 200, this);
+        menu = new Menu();
     }
     
     private synchronized void start(){
@@ -101,7 +111,10 @@ public class FunctionRide extends Canvas implements Runnable {
     }
     
     private void tick(){
-        p.tick();
+        if(State == STATE.LEVEL1){
+           p.tick();
+        }
+        
     }
     
     private void render(){
@@ -116,8 +129,14 @@ public class FunctionRide extends Canvas implements Runnable {
         //////////////////////////////////////////// drawing area
         
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        
+        if(State == STATE.LEVEL1){
         g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
-        p.render(g);
+        p.render(g); 
+        } else if(State == STATE.MENU){
+            
+        }
+        
         
         ///////////////////////////////////////////
         g.dispose();
