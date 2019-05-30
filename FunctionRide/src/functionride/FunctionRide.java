@@ -31,7 +31,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage background = null;
     
     private Player p;
-    private Menu menu;
+    //private Menu menu;
     
     private enum STATE{
         MENU,
@@ -53,7 +53,7 @@ public class FunctionRide extends Canvas implements Runnable {
         SpriteSheet ss = new SpriteSheet(spriteSheet);
         
         p = new Player(200, 200, this);
-        menu = new Menu();
+        //menu = new Menu();
     }
     
     private synchronized void start(){
