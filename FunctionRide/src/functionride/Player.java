@@ -45,8 +45,9 @@ public class Player extends AbstractObject {
         return speed;
     }
     
-    public static void tick() { 
-        
+    public void tick() { 
+        x += 1;
+        y += 4; 
     } 
     /**
      * draws the player sprite

@@ -13,48 +13,7 @@ public class Level {
     private Point endPoint;
     private AbstractObstacle[] obstacles; 
     
-    /**
-     * reads in a data file that contains info about a level 
-     * @param path the file path to the data file
-     */
-    public void readLevel(String path){
-        //try to open a connection to the file 
-        try {
-            FileReader fr = new FileReader(path); 
-            BufferedReader br = new BufferedReader(fr); 
-            //read in the starting and ending points
-            startPoint.x = Integer.parseInt(br.readLine());
-            startPoint.y = Integer.parseInt(br.readLine()); 
-            endPoint.x = Integer.parseInt(br.readLine());
-            endPoint.y = Integer.parseInt(br.readLine());
-            //tells us how many obstacles are in the level
-            int numObstacles = Integer.parseInt(br.readLine()); 
-            obstacles = new AbstractObstacle[numObstacles]; //set size of obstacle array
-            //loop through and create all obstacles
-            for (int i = 0; i < numObstacles; i++) {
-                String type = br.readLine();
-                int obstacleX = Integer.parseInt(br.readLine());
-                int obstacleY = Integer.parseInt(br.readLine());
-                //if the obstacle is a rectangle, it has a width and a heigth
-                if (type.equals("Rectangle")) {  
-                    int obstacleHeight = Integer.parseInt(br.readLine()); 
-                    int obstacleWidth = Integer.parseInt(br.readLine());
-                    //create a new rectangle and add it to the array 
-                    Rectangle rect = new Rectangle(obstacleX, obstacleY, obstacleHeight, obstacleWidth);
-                    obstacles[i] = rect;
-                //otherwise it must be a ring and it has a radius
-                }else { 
-                    int obstacleRadius = Integer.parseInt(br.readLine());
-                    //create a new ring and add it to the array
-                    Ring r = new Ring(obstacleX, obstacleY, obstacleRadius);
-                    obstacles[i] = r;  
-                } 
-            }
-        //catch a file not found error
-        } catch (IOException e) {
-            System.out.println("Error: " + e);
-        }
-    }
+
     /**
      * constructor for a new level with all attributes 
      * @param startPoint the position of the starting platform
@@ -116,5 +75,10 @@ public class Level {
     public Level clone() { 
         Level l2 = new Level(startPoint, endPoint, obstacles); 
         return l2;
+    }
+    
+    public String toString() { 
+        return "LEVEL:\nStart Point: " + startPoint + "\nEnd Point: " + endPoint + 
+                "\nObstacles: " + obstacles;
     }
 }
