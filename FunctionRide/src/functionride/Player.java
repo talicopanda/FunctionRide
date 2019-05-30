@@ -54,7 +54,7 @@ public class Player extends AbstractObject {
      * @param g 2d drawing utensil
      */
     public void render(Graphics g) { 
-         g.drawImage(player, x, y, null);
+         g.drawImage(player, x, y, 200, 200, null);
     }  
     /**
      * updates the position of the player to follow the function that is drawn
