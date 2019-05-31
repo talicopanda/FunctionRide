@@ -136,7 +136,7 @@ public class FunctionRide extends Canvas implements Runnable {
             menu.render(g);
         }
         
-        
+        System.out.println("Hello");
         ///////////////////////////////////////////
         g.dispose();
         bs.show();
