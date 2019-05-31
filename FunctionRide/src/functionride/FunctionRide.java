@@ -29,7 +29,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
-    
+    private Menu menu;
     private Player p;
     //private Menu menu;
     
@@ -51,7 +51,7 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         
         SpriteSheet ss = new SpriteSheet(spriteSheet);
-        
+        menu=new Menu();
         p = new Player(200, 200, this);
         //menu = new Menu();
     }
@@ -133,7 +133,7 @@ public class FunctionRide extends Canvas implements Runnable {
         g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
         p.render(g); 
         } else if(State == STATE.MENU){
-            
+            menu.render(g);
         }
         
         
