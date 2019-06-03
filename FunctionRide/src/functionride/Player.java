@@ -9,9 +9,9 @@ import java.awt.Graphics;
 import java.awt.Point; 
 import java.awt.image.BufferedImage;
 
-public class Player extends AbstractObject {
+public class Player extends AbstractObject { 
     //new attribute 
-    private int speed; 
+    private int speed;  
     private BufferedImage player;
     /**
      * main and only constructor for a player 

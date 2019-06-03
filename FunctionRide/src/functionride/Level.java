@@ -3,28 +3,23 @@
  * May 28th 2019 
  * template for a level type object
  */
-package functionride;
+package functionride; 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.io.*;
 public class Level {
     //attributes 
-    Point startPoint;
-    Point endPoint;
-    AbstractObstacle[] obstacles; 
+    private Point startPoint;
+    private Point endPoint;
+    private AbstractObstacle[] obstacles; 
+    
+
     /**
      * constructor for a new level with all attributes 
      * @param startPoint the position of the starting platform
      * @param endPoint the position of the ending platform 
      * @param obstacles an array of all obstacles in the level 
      */
-    
-    public void readLevel(String path){
-        try {
-            
-        } catch (Exception e) {
-        }
-    }
-    
     public Level (Point startPoint, Point endPoint, AbstractObstacle[] obstacles) { 
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -80,5 +75,10 @@ public class Level {
     public Level clone() { 
         Level l2 = new Level(startPoint, endPoint, obstacles); 
         return l2;
+    }
+    
+    public String toString() { 
+        return "LEVEL:\nStart Point: " + startPoint + "\nEnd Point: " + endPoint + 
+                "\nObstacles: " + obstacles;
     }
 }
