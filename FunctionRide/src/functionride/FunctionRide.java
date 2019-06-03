@@ -8,8 +8,11 @@ package functionride;
 import java.awt.Dimension;
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
@@ -32,6 +35,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
+    private Image icon=null;
     private Menu menu;
     private Player p;
     //private Menu menu;
@@ -45,10 +49,12 @@ public class FunctionRide extends Canvas implements Runnable {
     public static  STATE State = STATE.MENU;
     
     public void init(){
+        System.out.println("init");
         BufferedImageLoader loader = new BufferedImageLoader();
         try {
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
             background = loader.loadImage("res\\background.jpg");
+            icon = new ImageIcon(("res\\menuback.gif")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,9 +96,9 @@ public class FunctionRide extends Canvas implements Runnable {
         int updates = 0;
         int frames = 0;
         long timer = System.currentTimeMillis();
-        
+        long now;
         while(running){ 
-            long now = System.nanoTime();
+            now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
             if(delta >= 1){
@@ -124,7 +130,8 @@ public class FunctionRide extends Canvas implements Runnable {
         BufferStrategy bs = this.getBufferStrategy();
         
         if(bs == null){
-            createBufferStrategy(3);
+            System.out.println("bs = null");
+            createBufferStrategy(2);
             return;
         }
         
@@ -137,12 +144,13 @@ public class FunctionRide extends Canvas implements Runnable {
         g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
         p.render(g); 
         } else if(State == STATE.MENU){
+            g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
             menu.render(g);
         }
         
         
         ///////////////////////////////////////////
-        g.dispose();
+       g.dispose();
         bs.show();
     }
     
