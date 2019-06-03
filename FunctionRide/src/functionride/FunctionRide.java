@@ -22,6 +22,9 @@ import javax.swing.JFrame;
  */
 public class FunctionRide extends Canvas implements Runnable {
 
+ 
+
+
     public static final int WIDTH = 960;
     public static final int HEIGHT = 640;
     public static final int SCALE = 1;
@@ -33,17 +36,18 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
-    
+    private Menu menu;
     private Player p;
     //private Menu menu;
     
-    private enum STATE{
+    public static  enum STATE{
         MENU,
         LEVELSCREEN,
         LEVEL1
     };
     
-    private STATE State = STATE.LEVEL1;
+
+    public static  STATE State = STATE.MENU;
     
     public void init(){
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -55,8 +59,9 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         
         SpriteSheet ss = new SpriteSheet(spriteSheet);
-        
+        menu=new Menu();
         p = new Player(200, 200, this);
+        this.addMouseListener(new MouseInput());
         //menu = new Menu();
     }
     
@@ -137,7 +142,7 @@ public class FunctionRide extends Canvas implements Runnable {
         g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
         p.render(g); 
         } else if(State == STATE.MENU){
-            
+            menu.render(g);
         }
         
         
@@ -224,4 +229,3 @@ public class FunctionRide extends Canvas implements Runnable {
         return null;
     }
 }
- 
