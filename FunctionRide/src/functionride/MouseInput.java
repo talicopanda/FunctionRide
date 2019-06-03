@@ -24,7 +24,7 @@ public class MouseInput implements MouseListener {
         int my = e.getY();
         if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
             if (my >= 250 && my <= 300) {
-                FunctionRide.State = FunctionRide.STATE.LEVELSCREEN;
+                FunctionRide.State = FunctionRide.STATE.LEVEL1;
             }
         }
         if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {

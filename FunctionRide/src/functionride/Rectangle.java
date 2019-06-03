@@ -5,6 +5,9 @@
  */
 package functionride;
 
+import java.awt.Graphics2D;
+import java.awt.Shape;
+
 
 public class Rectangle extends AbstractObstacle {
     /**
@@ -17,6 +20,7 @@ public class Rectangle extends AbstractObstacle {
     public Rectangle(int x, int y, int height, int width) { 
         super(x,y,height,width); 
     }  
+    
     
     /** 
      * clones the current rectangle

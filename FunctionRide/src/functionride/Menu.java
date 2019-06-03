@@ -18,9 +18,9 @@ import java.awt.Rectangle;
  * @author seher4467
  */
 public class Menu {
-    public Rectangle playButton=new Rectangle (FunctionRide.WIDTH/2+120,150,100,50);
-    public Rectangle helpButton=new Rectangle (FunctionRide.WIDTH/2+120,250,100,50);
-    public Rectangle quitButton=new Rectangle (FunctionRide.WIDTH/2+120,350,100,50);
+    public Rectangle playButton=new Rectangle (FunctionRide.WIDTH/2-50,250,100,50);
+    public Rectangle helpButton=new Rectangle (FunctionRide.WIDTH/2-50,350,100,50);
+    public Rectangle quitButton=new Rectangle (FunctionRide.WIDTH/2-50,450,100,50);
     
     public void render (Graphics g){
         Graphics2D g2d=(Graphics2D)g;
