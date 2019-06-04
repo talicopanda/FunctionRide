@@ -25,16 +25,21 @@ public class Level {
     private Point endPoint;
     private AbstractObstacle[] obstacles;
 
+    //function area variables
+    
     private int maxDataPoints = 500;
     private double initialx = 0;
     private double finalx = 10;
     private double yMin = 0;
     private double yMax = 10;
+    private double xScale = 1;
+    private double yScale = 1;
 
     private final int funcAreaWidth = 600;
     private final int funcAreaHeight = 400;
-    private final int padding = 5;
+    private final int padding = 10;
     private final int labelPadding = 25;
+    private final int hatchSize = 5;
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
@@ -211,10 +216,9 @@ public class Test extends JPanel {
 
         //double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (maxDataPoints - 1);
         //double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
-        double xScale = 1;
-        double yScale = 1;
+        
 
-// draw white background
+        // draw white background
         g2d.setColor(Color.WHITE);
         g2d.fillRect(padding + labelPadding, padding, funcAreaWidth - (2 * padding) - labelPadding, funcAreaHeight - 2 * padding - labelPadding);
         g2d.setColor(Color.BLACK);
@@ -225,6 +229,7 @@ public class Test extends JPanel {
             int x1 = pointWidth + padding + labelPadding;
             int y0 = funcAreaHeight - ((i * (funcAreaHeight - padding * 2 - labelPadding)) / numberYDivisions + padding + labelPadding);
             int y1 = y0;
+            //grid lines
             if (maxDataPoints > 0) {
                 g2d.setColor(gridColor);
                 g2d.drawLine(padding + labelPadding + 1 + pointWidth, y0, funcAreaWidth - padding, y1);
@@ -234,7 +239,8 @@ public class Test extends JPanel {
                 int labelWidth = metrics.stringWidth(yLabel);
                 g2d.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
             }
-            g2d.drawLine(x0, y0, x1, y1);
+            //hatch marks
+            g2d.drawLine(x0, y0, x1 + hatchSize, y1);
         }
         // and for x axis
         for (int i = 0; i < maxDataPoints; i++) {
@@ -252,7 +258,8 @@ public class Test extends JPanel {
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2d.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
                 }
-                g2d.drawLine(x0, y0, x1, y1);
+                //hatch marks
+                g2d.drawLine(x0, y0, x1, y1 + hatchSize);
             }
         }
 
@@ -286,7 +293,7 @@ public class Test extends JPanel {
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GRAY);
-        g2d.fillRect(0, 0, FunctionRide.WIDTH, FunctionRide.HEIGHT);
+        g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
