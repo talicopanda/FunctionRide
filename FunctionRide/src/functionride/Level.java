@@ -28,17 +28,17 @@ public class Level {
     //function area variables
     
     private int maxDataPoints = 500;
-    private double initialx = 0;
-    private double finalx = 10;
-    private double yMin = 0;
+    private double xMin = -10;
+    private double xMax = 10;
+    private double yMin = -10;
     private double yMax = 10;
     private double xScale = 1;
     private double yScale = 1;
 
-    private final int funcAreaWidth = 600;
-    private final int funcAreaHeight = 400;
+    private final int funcAreaWidth = 500;
+    private final int funcAreaHeight = 500;
     private final int padding = 10;
-    private final int labelPadding = 25;
+    private final int labelPadding = 0;
     private final int hatchSize = 5;
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
@@ -225,8 +225,8 @@ public class Test extends JPanel {
 
         // create hatch marks and grid lines for y axis.
         for (int i = 0; i < numberYDivisions + 1; i++) {
-            int x0 = padding + labelPadding;
-            int x1 = pointWidth + padding + labelPadding;
+            int x0 = padding + (funcAreaWidth - (2 * padding) - labelPadding - padding)/2;
+            int x1 = pointWidth + padding + (- padding + funcAreaWidth - (2 * padding) - labelPadding)/2;
             int y0 = funcAreaHeight - ((i * (funcAreaHeight - padding * 2 - labelPadding)) / numberYDivisions + padding + labelPadding);
             int y1 = y0;
             //grid lines
@@ -234,7 +234,7 @@ public class Test extends JPanel {
                 g2d.setColor(gridColor);
                 g2d.drawLine(padding + labelPadding + 1 + pointWidth, y0, funcAreaWidth - padding, y1);
                 g2d.setColor(Color.BLACK);
-                String yLabel = ((int) ((yMin + (yMax - yMin) * ((i * 1.0) / numberYDivisions)) * 100)) / 100.0 + "";
+                String yLabel = ((int) ((yMin + (yMax - yMin) * ((i * 1.0) / numberYDivisions)) * 100)) / 100 + "";
                 FontMetrics metrics = g2d.getFontMetrics();
                 int labelWidth = metrics.stringWidth(yLabel);
                 g2d.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
@@ -243,29 +243,31 @@ public class Test extends JPanel {
             g2d.drawLine(x0, y0, x1 + hatchSize, y1);
         }
         // and for x axis
-        for (int i = 0; i < maxDataPoints; i++) {
-            if (maxDataPoints > 1) {
-                int x0 = i * (funcAreaWidth - padding * 2 - labelPadding) / (maxDataPoints - 1) + padding + labelPadding;
+        double xCurrent = xMin;
+        for (int i = 0; i <= (xMax - xMin); i++) {
+            if ((yMax - xMin) > 1) {
+                int x0 = i * (funcAreaWidth - padding * 2 - labelPadding) / (int)(xMax - xMin) + padding + labelPadding;
                 int x1 = x0;
-                int y0 = funcAreaHeight - padding - labelPadding;
+                int y0 = padding + (funcAreaHeight - padding - labelPadding)/2;
                 int y1 = y0 - pointWidth;
-                if ((i % ((int) ((maxDataPoints / 20.0)) + 1)) == 0) {
+                if ((i % ((int) (((xMax - xMin) / 20.0)) + 1)) == 0) {
                     g2d.setColor(gridColor);
                     g2d.drawLine(x0, funcAreaHeight - padding - labelPadding - 1 - pointWidth, x1, padding);
                     g2d.setColor(Color.BLACK);
-                    String xLabel = i + "";
+                    String xLabel = (int)xCurrent + "";
                     FontMetrics metrics = g2d.getFontMetrics();
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2d.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
                 }
                 //hatch marks
-                g2d.drawLine(x0, y0, x1, y1 + hatchSize);
+                g2d.drawLine(x0, y0, x1, y1 - hatchSize);
             }
+            xCurrent++;
         }
 
         // create x and y axes 
-        g2d.drawLine(padding + labelPadding, funcAreaHeight - padding - labelPadding, padding + labelPadding, padding);
-        g2d.drawLine(padding + labelPadding, funcAreaHeight - padding - labelPadding, funcAreaWidth - padding, funcAreaHeight - padding - labelPadding);
+        g2d.drawLine(padding + (funcAreaWidth - (2 * padding) - labelPadding)/2, funcAreaHeight - padding - labelPadding, padding + (funcAreaWidth - (2 * padding) - labelPadding)/2, padding);
+        g2d.drawLine(padding + labelPadding,(funcAreaHeight - labelPadding)/2, funcAreaWidth - padding, (funcAreaHeight - labelPadding)/2);
 
     }
 
@@ -276,8 +278,8 @@ public class Test extends JPanel {
                     .variables("x")
                     .build()
                     .setVariable("x", x);
-            double step = (finalx - initialx) / maxDataPoints;
-            double xValue = initialx;
+            double step = (xMax - xMin) / maxDataPoints;
+            double xValue = xMin;
             for (int i = 0; i < maxDataPoints; i++) {
                 graphPoints[i][0] = xValue;
                 graphPoints[i][1] = e.evaluate();
