@@ -22,34 +22,31 @@ import javax.swing.JFrame;
  */
 public class FunctionRide extends Canvas implements Runnable {
 
- 
-
-
     public static final int WIDTH = 960;
     public static final int HEIGHT = 640;
     public static final int SCALE = 1;
     public static final String TITLE = "Function Ride";
-    
+
     private boolean running = false;
     private Thread thread;
-    
+
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
     private Menu menu;
     private Player p;
+    private Level[] levels;
     //private Menu menu;
-    
-    public static  enum STATE{
+
+    public static enum STATE {
         MENU,
         LEVELSCREEN,
         LEVEL1
     };
-    
 
-    public static  STATE State = STATE.MENU;
-    
-    public void init(){
+    public static STATE State = STATE.LEVEL1;
+
+    public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
         try {
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
@@ -57,26 +54,31 @@ public class FunctionRide extends Canvas implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         SpriteSheet ss = new SpriteSheet(spriteSheet);
-        menu=new Menu();
+        menu = new Menu();
         p = new Player(200, 200, this);
+        levels = readLevel("res\\Level.txt");
         this.addMouseListener(new MouseInput());
         //menu = new Menu();
     }
-    
-    private synchronized void start(){
-        if(running) return;
-        
+
+    private synchronized void start() {
+        if (running) {
+            return;
+        }
+
         running = true;
         thread = new Thread(this);
         thread.start();
-        
-    }       
-    
-    private synchronized void stop(){
-        if(!running) return;
-        
+
+    }
+
+    private synchronized void stop() {
+        if (!running) {
+            return;
+        }
+
         running = false;
         try {
             thread.join();
@@ -85,8 +87,8 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         System.exit(1);
     }
-    
-    public void run(){
+
+    public void run() {
         init();
         long lastTime = System.nanoTime();
         final double amountOfTicks = 60.0;
@@ -95,20 +97,20 @@ public class FunctionRide extends Canvas implements Runnable {
         int updates = 0;
         int frames = 0;
         long timer = System.currentTimeMillis();
-        
-        while(running){ 
+
+        while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            if(delta >= 1){
+            if (delta >= 1) {
                 tick();
                 delta--;
                 updates++;
             }
             render();
             frames++;
-            
-            if(System.currentTimeMillis() - timer > 1000){
+
+            if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 System.out.println(updates + " Ticks, Fps " + frames);
                 updates = 0;
@@ -117,47 +119,45 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         stop();
     }
-    
-    private void tick(){
-        if(State == STATE.LEVEL1){
-           p.tick();
+
+    private void tick() {
+        if (State == STATE.LEVEL1) {
+            p.tick();
         }
-        
+
     }
-    
-    private void render(){
+
+    private void render() {
         BufferStrategy bs = this.getBufferStrategy();
-        
-        if(bs == null){
+
+        if (bs == null) {
             createBufferStrategy(3);
             return;
         }
-        
+
         Graphics g = bs.getDrawGraphics();
         //////////////////////////////////////////// drawing area
-        
+
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-        
-        if(State == STATE.LEVEL1){
-        g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
-        p.render(g); 
-        } else if(State == STATE.MENU){
+
+        if (State == STATE.LEVEL1) {
+            levels[0].render(g);
+        } else if (State == STATE.MENU) {
             menu.render(g);
         }
-        
-        
+
         ///////////////////////////////////////////
         g.dispose();
         bs.show();
     }
-    
-    public static void main(String args[]){
+
+    public static void main(String args[]) {
         FunctionRide game = new FunctionRide();
-        
+
         game.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         game.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         game.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        
+
         JFrame frame = new JFrame(game.TITLE);
         frame.add(game);
         frame.pack();
@@ -165,36 +165,36 @@ public class FunctionRide extends Canvas implements Runnable {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        
+
         game.start();
-        Level[] levels = readLevel("src\\functionride\\Level.txt");
-        System.out.println(levels[0]);
     }
-    
-    public BufferedImage getSpriteSheet(){
+
+    public BufferedImage getSpriteSheet() {
         return spriteSheet;
     }
-        /**
-     * reads in a data file that contains info about a level 
+
+    /**
+     * reads in a data file that contains info about a level
+     *
      * @param path the file path to the data file
      */
-    public static Level[] readLevel(String path){
+    public static Level[] readLevel(String path) {
         //try to open a connection to the file 
         try {
-            FileReader fr = new FileReader(path); 
-            BufferedReader br = new BufferedReader(fr); 
+            FileReader fr = new FileReader(path);
+            BufferedReader br = new BufferedReader(fr);
             int numLevels = Integer.parseInt(br.readLine());
             Level[] levels = new Level[numLevels];
             //read in the starting and ending points
             for (int i = 0; i < numLevels; i++) {
                 int sx = Integer.parseInt(br.readLine());
-                int sy = Integer.parseInt(br.readLine()); 
-                Point start = new Point(sx,sy);
+                int sy = Integer.parseInt(br.readLine());
+                Point start = new Point(sx, sy);
                 int ex = Integer.parseInt(br.readLine());
                 int ey = Integer.parseInt(br.readLine());
-                Point end = new Point(ex,ey);
+                Point end = new Point(ex, ey);
                 //tells us how many obstacles are in the level
-                int numObstacles = Integer.parseInt(br.readLine()); 
+                int numObstacles = Integer.parseInt(br.readLine());
                 AbstractObstacle[] obstacles = new AbstractObstacle[numObstacles]; //set size of obstacle array
                 //loop through and create all obstacles
                 for (int j = 0; j < numObstacles; j++) {
@@ -202,27 +202,27 @@ public class FunctionRide extends Canvas implements Runnable {
                     int obstacleX = Integer.parseInt(br.readLine());
                     int obstacleY = Integer.parseInt(br.readLine());
                     //if the obstacle is a rectangle, it has a width and a heigth
-                    if(type.equals("Rectangle")) {   
-                        int obstacleHeight = Integer.parseInt(br.readLine()); 
+                    if (type.equals("Rectangle")) {
+                        int obstacleHeight = Integer.parseInt(br.readLine());
                         int obstacleWidth = Integer.parseInt(br.readLine());
                         //create a new rectangle and add it to the array 
                         Rectangle rect = new Rectangle(obstacleX, obstacleY, obstacleHeight, obstacleWidth);
                         obstacles[j] = rect;
-                    //otherwise it must be a ring and it has a radius
-                    }else { 
+                        //otherwise it must be a ring and it has a radius
+                    } else {
                         int obstacleRadius = Integer.parseInt(br.readLine());
                         //create a new ring and add it to the array
                         Ring r = new Ring(obstacleX, obstacleY, obstacleRadius);
-                        
-                        obstacles[j] = r;  
-                    } 
-            
+
+                        obstacles[j] = r;
+                    }
+
                 }
                 Level level = new Level(start, end, obstacles);
                 levels[i] = level;
                 return levels;
             }
-        //catch a file not found error
+            //catch a file not found error
         } catch (IOException e) {
             System.out.println("Error: " + e);
         }
