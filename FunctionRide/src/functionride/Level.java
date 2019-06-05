@@ -24,6 +24,7 @@ public class Level {
     private Point startPoint;
     private Point endPoint;
     private AbstractObstacle[] obstacles;
+    private String function;
 
     //function area variables
     
@@ -32,8 +33,6 @@ public class Level {
     private double xMax = 10;
     private double yMin = -10;
     private double yMax = 10;
-    private double xScale = 1;
-    private double yScale = 1;
 
     private final int funcAreaWidth = 500;
     private final int funcAreaHeight = 500;
@@ -43,9 +42,11 @@ public class Level {
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
-    private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
+    private static final Stroke GRAPH_STROKE = new BasicStroke(5f);
     private int pointWidth = 1;
     private int numberYDivisions = 10;
+    double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
+    double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
 
     /**
@@ -59,8 +60,13 @@ public class Level {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.obstacles = obstacles;
+        function = null;
     }
-
+    
+    public void setFunction(String func){
+        function = func;
+    }
+    
     public void setStartPoint(Point startPoint) {
         this.startPoint = startPoint;
     }
@@ -271,18 +277,20 @@ public class Test extends JPanel {
 
     }
 
-    public double[][] getGraphPoints(String function, double x) {
+    public List<Point> getGraphPoints(String function) {
         try {
-            double[][] graphPoints = new double[maxDataPoints][2];
-            Expression e = new ExpressionBuilder(function)
+            List<Point> graphPoints = new ArrayList<>();
+            double xValue = xMin;
+            double step = (xMax - xMin) / maxDataPoints;
+            for (int i = 0; i < maxDataPoints; i++) {
+                Expression e = new ExpressionBuilder(function)
                     .variables("x")
                     .build()
-                    .setVariable("x", x);
-            double step = (xMax - xMin) / maxDataPoints;
-            double xValue = xMin;
-            for (int i = 0; i < maxDataPoints; i++) {
-                graphPoints[i][0] = xValue;
-                graphPoints[i][1] = e.evaluate();
+                    .setVariable("x", xValue);
+                double yValue = e.evaluate();
+                if(xValue >= xMin && xValue <= xMax && yValue <= yMax && yValue >= yMin){
+                    graphPoints.add(coordTranslation(xValue, yValue));
+                }
                 xValue += step;
             }
             return graphPoints;
@@ -302,40 +310,39 @@ public class Test extends JPanel {
         for (int i = 0; i < obstacles.length; i++) {
             obstacles[i].draw(g2d);
         }
+        setFunction("x");
+        if(function != null){
+            drawFunction(g2d, function);
+        }
     }
 
-    public Point coordTranslation(Point p) {
-        //int x1 = (int) (i * xScale + padding + labelPadding);
-        //int y1 = (int) ((yMax - scores.get(i)) * yScale + padding);
-        return null;
+    public Point coordTranslation(double x, double y) {
+        int finalx = (int)Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding)/2) + xScale*x);
+        int finaly = (int)Math.round((funcAreaHeight - labelPadding)/2 + yScale*y*-1);
+        return new Point(finalx, finaly);
     }
 
-    public void drawFunction(Graphics g, double[][] graphPoints) {
-//        List<Point> graphPoints = new ArrayList<>();
-//        for (int i = 0; i < scores.size(); i++) {
-//            int x1 = (int) (i * xScale + padding + labelPadding);
-//            int y1 = (int) ((yMax - scores.get(i)) * yScale + padding);
-//            graphPoints.add(new Point(x1, y1));
-//        }
-//        Stroke oldStroke = g2.getStroke();
-//        g2.setColor(lineColor);
-//        g2.setStroke(GRAPH_STROKE);
-//        for (int i = 0; i < graphPoints.size() - 1; i++) {
-//            int x1 = graphPoints.get(i).x;
-//            int y1 = graphPoints.get(i).y;
-//            int x2 = graphPoints.get(i + 1).x;
-//            int y2 = graphPoints.get(i + 1).y;
-//            g2.drawLine(x1, y1, x2, y2);
-//        }
-//        g2.setStroke(oldStroke);
-//        g2.setColor(pointColor);
-//        for (int i = 0; i < graphPoints.size(); i++) {
-//            int x = graphPoints.get(i).x - pointWidth / 2;
-//            int y = graphPoints.get(i).y - pointWidth / 2;
-//            int ovalW = pointWidth;
-//            int ovalH = pointWidth;
-//            g2.fillOval(x, y, ovalW, ovalH);
-//        }
+    public void drawFunction(Graphics2D g2d, String function) {
+        List<Point> graphPoints = getGraphPoints(function);
+        Stroke oldStroke = g2d.getStroke();
+        g2d.setColor(lineColor);
+        g2d.setStroke(GRAPH_STROKE);
+        for (int i = 0; i < graphPoints.size() - 1; i++) {
+            int x1 = graphPoints.get(i).x;
+            int y1 = graphPoints.get(i).y;
+            int x2 = graphPoints.get(i + 1).x;
+            int y2 = graphPoints.get(i + 1).y;
+            g2d.drawLine(x1, y1, x2, y2);
+        }
+        g2d.setStroke(oldStroke);
+        g2d.setColor(pointColor);
+        for (int i = 0; i < graphPoints.size(); i++) {
+            int x = graphPoints.get(i).x - pointWidth / 2;
+            int y = graphPoints.get(i).y - pointWidth / 2;
+            int ovalW = pointWidth;
+            int ovalH = pointWidth;
+            g2d.fillOval(x, y, ovalW, ovalH);
+        }
     }
 
     /**
