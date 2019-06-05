@@ -75,13 +75,12 @@ public class Level {
                         .build()
                         .setVariable("x", xStartPoint);
         double yValue = e.evaluate();
-        if(yValue != yStartPoint){
-            double c = yStartPoint - yValue;
-            function = func + " + " + c;
+        if(yStartPoint != yValue){
+            //error message
+            System.out.println("this funciton does not go throug starting point");
         } else {
             function = func;
         }
-        
     }
 
     /**
@@ -212,7 +211,7 @@ public class Level {
             obstacles[i].draw(g2d);
         }
         drawInfoBreakdown(g2d);
-        setFunction("-x");
+        setFunction("x^2");
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
