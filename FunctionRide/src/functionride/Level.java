@@ -27,7 +27,6 @@ public class Level {
     private String function;
 
     //function area variables
-    
     private int maxDataPoints = 500;
     private double xMin = -10;
     private double xMax = 10;
@@ -44,7 +43,7 @@ public class Level {
     private Color gridColor = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(5f);
     private int pointWidth = 1;
-    private int numberYDivisions = 10;
+    private int numberYDivisions = (int)(yMax - yMin);
     double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
     double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
@@ -105,118 +104,6 @@ public class Level {
         return false;
     }
 
-    /**
-     * draws all components of the level
-     *
-     * @param g the drawing utensil
-     */
-    //CODE TO TEST AND IMPLEMENT
-    /*
-Plotting Graph of a Function
-package test;
-
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.Random;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
-public class Test extends JPanel {
-
-    
-    
-    
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
-        }
-
-        
-
-        
-
-//    @Override
-//    public Dimension getPreferredSize() {
-//        return new Dimension(width, heigth);
-//    }
-    private double getMinScore() {
-        double minScore = Double.MAX_VALUE;
-        for (Double score : scores) {
-            minScore = Math.min(minScore, score);
-        }
-        return minScore;
-    }
-
-    private double getMaxScore() {
-        double maxScore = Double.MIN_VALUE;
-        for (Double score : scores) {
-            maxScore = Math.max(maxScore, score);
-        }
-        return maxScore;
-    }
-
-    public void setScores(List<Double> scores) {
-        this.scores = scores;
-        invalidate();
-        this.repaint();
-    }
-
-    public List<Double> getScores() {
-        return scores;
-    }
-
-    private static void createAndShowGui() {
-        
-        Test mainPanel = new Test(scores);
-        mainPanel.setPreferredSize(new Dimension(800, 600));
-        JFrame frame = new JFrame("Level");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-       frame.getContentPane().add(mainPanel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true); 
-        JButton button = new JButton("Run Function");    
-        button.setBounds(100,100,150, 30);    
-                                //textfield to enter name
-        JTextField textfield= new JTextField();
-        textfield.setBounds(110, 50, 130, 30);
-                                //add to frame
-        frame.add(textfield);
-        frame.add(button);   
-        frame.setLayout(null);   
-        frame.setSize(900,700);
-
-                                                //action listener
-        button.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent arg0) {
-                       	
-                }          
-      });
-        
-    }
-
-}
-     */
     public void drawFuncArea(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -300,6 +187,11 @@ public class Test extends JPanel {
         return null;
     }
 
+    /**
+     * draws all components of the level
+     *
+     * @param g the drawing utensil
+     */
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GRAY);
@@ -310,7 +202,7 @@ public class Test extends JPanel {
         for (int i = 0; i < obstacles.length; i++) {
             obstacles[i].draw(g2d);
         }
-        setFunction("x");
+        setFunction("sin(x)");
         if(function != null){
             drawFunction(g2d, function);
         }
@@ -321,7 +213,7 @@ public class Test extends JPanel {
         int finaly = (int)Math.round((funcAreaHeight - labelPadding)/2 + yScale*y*-1);
         return new Point(finalx, finaly);
     }
-
+    
     public void drawFunction(Graphics2D g2d, String function) {
         List<Point> graphPoints = getGraphPoints(function);
         Stroke oldStroke = g2d.getStroke();
