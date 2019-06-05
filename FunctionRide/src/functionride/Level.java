@@ -22,35 +22,42 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 public class Level {
 
     //attributes 
-    private double  xStartPoint;
-    private double  yStartPoint;
+    private double xStartPoint;
+    private double yStartPoint;
     private double xEndPoint;
     private double yEndPoint;
     private AbstractObstacle[] obstacles;
     private String function;
+    private boolean intersectSp;
+    private Player p;
+    
+    private static Point startPoint;
+    private static Point endPoint;
+    private static boolean runBtn;
+    
 
     //function area variables
-    private int maxDataPoints = 500;
-    private double xMin = -10;
-    private double xMax = 10;
-    private double yMin = -10;
-    private double yMax = 10;
-    
-    private int pointSize = 10;
+    private static int maxDataPoints = 500;
+    private static double xMin = -10;
+    private static double xMax = 10;
+    private static double yMin = -10;
+    private static double yMax = 10;
 
-    private final int funcAreaWidth = 500;
-    private final int funcAreaHeight = 500;
-    private final int padding = 10;
-    private final int labelPadding = 0;
-    private final int hatchSize = 5;
+    private static int pointSize = 10;
+
+    private final static int funcAreaWidth = 500;
+    private final static int funcAreaHeight = 500;
+    private final static int padding = 10;
+    private final static int labelPadding = 0;
+    private final static int hatchSize = 5;
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(5f);
-    private int pointWidth = 1;
-    private int numberYDivisions = (int) (yMax - yMin);
-    double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
-    double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
+    private static int pointWidth = 0;
+    private static int numberYDivisions = (int) (yMax - yMin);
+    private static double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
+    private static double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
 
     /**
@@ -67,20 +74,23 @@ public class Level {
         yEndPoint = yep;
         this.obstacles = obstacles;
         function = null;
+        startPoint = coordTranslation(xStartPoint, yStartPoint);
+        endPoint = coordTranslation(xEndPoint, yEndPoint);
+        p = new Player(startPoint.x - Player.SIZE/2, startPoint.y - Player.SIZE);
     }
 
     public void setFunction(String func) {
         Expression e = new ExpressionBuilder(func)
-                        .variables("x")
-                        .build()
-                        .setVariable("x", xStartPoint);
+                .variables("x")
+                .build()
+                .setVariable("x", xStartPoint);
         double yValue = e.evaluate();
-        if(yStartPoint != yValue){
-            //error message
-            System.out.println("this funciton does not go throug starting point");
+        if (yStartPoint != yValue) {
+            intersectSp = false;
         } else {
-            function = func;
+            intersectSp = true;
         }
+        function = func;
     }
 
     /**
@@ -89,11 +99,10 @@ public class Level {
      * @param g the drawing utensil
      */
     public void drawStart(Graphics2D g2d) {
-        Point start = coordTranslation(xStartPoint, yStartPoint);
         g2d.setColor(Color.GREEN);
-        g2d.fillOval(start.x - pointSize/2, start.y - pointSize/2, pointSize, pointSize);
+        g2d.fillOval(startPoint.x - pointSize / 2, startPoint.y - pointSize / 2, pointSize, pointSize);
         g2d.setColor(Color.BLACK);
-        g2d.drawOval(start.x - pointSize/2, start.y - pointSize/2, pointSize, pointSize);
+        g2d.drawOval(startPoint.x - pointSize / 2, startPoint.y - pointSize / 2, pointSize, pointSize);
     }
 
     /**
@@ -102,11 +111,10 @@ public class Level {
      * @param g the drawing utensil
      */
     public void drawEnd(Graphics2D g2d) {
-        Point end = coordTranslation(xEndPoint, yEndPoint);
         g2d.setColor(Color.RED);
-        g2d.fillOval(end.x - pointSize/2, end.y - pointSize/2, pointSize, pointSize);
+        g2d.fillOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
         g2d.setColor(Color.BLACK);
-        g2d.drawOval(end.x - pointSize/2, end.y - pointSize/2, pointSize, pointSize);
+        g2d.drawOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
     }
 
     public boolean checkCollision(Player p, AbstractObstacle[] obstacles) {
@@ -116,8 +124,6 @@ public class Level {
     public void drawFuncArea(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        //double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (maxDataPoints - 1);
-        //double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
         // draw white background
         g2d.setColor(Color.WHITE);
         g2d.fillRect(padding + labelPadding, padding, funcAreaWidth - (2 * padding) - labelPadding, funcAreaHeight - 2 * padding - labelPadding);
@@ -174,8 +180,8 @@ public class Level {
     public List<Point> getGraphPoints(String function) {
         try {
             List<Point> graphPoints = new ArrayList<>();
-            double xValue = xMin;
-            double step = (xMax - xMin) / maxDataPoints;
+            double xValue = xStartPoint;
+            double step = (xEndPoint - xStartPoint) / maxDataPoints;
             for (int i = 0; i < maxDataPoints; i++) {
                 Expression e = new ExpressionBuilder(function)
                         .variables("x")
@@ -193,6 +199,10 @@ public class Level {
         }
         return null;
     }
+    
+    public static void setRunBtn(boolean bool){
+        runBtn = bool;
+    }
 
     /**
      * draws all components of the level
@@ -206,25 +216,46 @@ public class Level {
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
-        
+        p.render(g2d);
         for (int i = 0; i < obstacles.length; i++) {
             obstacles[i].draw(g2d);
         }
+        drawButtons(g2d);
         drawInfoBreakdown(g2d);
-        setFunction("x^2");
+        
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
             drawEnd(g2d);
         }
+        if (intersectSp) {
+           if(runBtn){
+               
+           }
+        } else{
+            g2d.drawString("This function does not pass through the starting point", 100, 600);
+        }
+    }
+    
+    public void drawButtons(Graphics2D g2d){
+        //run function
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.fillRect(FunctionRide.WIDTH/2-100,FunctionRide.HEIGHT/2+200, 100, 40);
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(FunctionRide.WIDTH/2-100,FunctionRide.HEIGHT/2+200, 100, 40);
+        Font fnt1 = new Font("arial", Font.BOLD, 14);
+        g2d.setFont(fnt1);
+        g2d.drawString("Run Function", FunctionRide.WIDTH/2-90, FunctionRide.HEIGHT/2+225);
+        //exit
     }
 
-    public void drawInfoBreakdown(Graphics2D g2d){
+    public void drawInfoBreakdown(Graphics2D g2d) {
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
         g2d.setFont(helvetica);
-        g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350 , 50);
+        g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350, 50);
         //finish this
     }
+
     public Point coordTranslation(double x, double y) {
         int finalx = (int) Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2) + xScale * x);
         int finaly = (int) Math.round((funcAreaHeight - labelPadding) / 2 + yScale * y * -1);
@@ -265,7 +296,7 @@ public class Level {
     }
 
     public String toString() {
-        return "LEVEL:\nStart Point: " + xStartPoint + "," + yStartPoint + "\nEnd Point: " + + xEndPoint + "," + yEndPoint
+        return "LEVEL:\nStart Point: " + xStartPoint + "," + yStartPoint + "\nEnd Point: " + +xEndPoint + "," + yEndPoint
                 + "\nObstacles: " + obstacles;
     }
 }
