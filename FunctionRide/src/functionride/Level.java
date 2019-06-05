@@ -7,6 +7,7 @@ package functionride;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,8 +22,10 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 public class Level {
 
     //attributes 
-    private Point startPoint;
-    private Point endPoint;
+    private double  xStartPoint;
+    private double  yStartPoint;
+    private double xEndPoint;
+    private double yEndPoint;
     private AbstractObstacle[] obstacles;
     private String function;
 
@@ -32,6 +35,8 @@ public class Level {
     private double xMax = 10;
     private double yMin = -10;
     private double yMax = 10;
+    
+    private int pointSize = 10;
 
     private final int funcAreaWidth = 500;
     private final int funcAreaHeight = 500;
@@ -43,7 +48,7 @@ public class Level {
     private Color gridColor = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(5f);
     private int pointWidth = 1;
-    private int numberYDivisions = (int)(yMax - yMin);
+    private int numberYDivisions = (int) (yMax - yMin);
     double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
     double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
@@ -55,31 +60,28 @@ public class Level {
      * @param endPoint the position of the ending platform
      * @param obstacles an array of all obstacles in the level
      */
-    public Level(Point startPoint, Point endPoint, AbstractObstacle[] obstacles) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
+    public Level(double xsp, double ysp, double xep, double yep, AbstractObstacle[] obstacles) {
+        xStartPoint = xsp;
+        yStartPoint = ysp;
+        xEndPoint = xep;
+        yEndPoint = yep;
         this.obstacles = obstacles;
         function = null;
     }
-    
-    public void setFunction(String func){
-        function = func;
-    }
-    
-    public void setStartPoint(Point startPoint) {
-        this.startPoint = startPoint;
-    }
 
-    public Point getStartPoint() {
-        return startPoint;
-    }
-
-    public void setEndPoint(Point endPoint) {
-        this.endPoint = endPoint;
-    }
-
-    public Point getendPoint() {
-        return endPoint;
+    public void setFunction(String func) {
+        Expression e = new ExpressionBuilder(func)
+                        .variables("x")
+                        .build()
+                        .setVariable("x", xStartPoint);
+        double yValue = e.evaluate();
+        if(yValue != yStartPoint){
+            double c = yStartPoint - yValue;
+            function = func + " + " + c;
+        } else {
+            function = func;
+        }
+        
     }
 
     /**
@@ -88,7 +90,11 @@ public class Level {
      * @param g the drawing utensil
      */
     public void drawStart(Graphics2D g2d) {
-        g2d.drawOval((int) startPoint.getX(), (int) startPoint.getY(), 10, 10);
+        Point start = coordTranslation(xStartPoint, yStartPoint);
+        g2d.setColor(Color.GREEN);
+        g2d.fillOval(start.x - pointSize/2, start.y - pointSize/2, pointSize, pointSize);
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(start.x - pointSize/2, start.y - pointSize/2, pointSize, pointSize);
     }
 
     /**
@@ -97,7 +103,11 @@ public class Level {
      * @param g the drawing utensil
      */
     public void drawEnd(Graphics2D g2d) {
-        g2d.drawOval((int) endPoint.getX(), (int) endPoint.getY(), 10, 10);
+        Point end = coordTranslation(xEndPoint, yEndPoint);
+        g2d.setColor(Color.RED);
+        g2d.fillOval(end.x - pointSize/2, end.y - pointSize/2, pointSize, pointSize);
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(end.x - pointSize/2, end.y - pointSize/2, pointSize, pointSize);
     }
 
     public boolean checkCollision(Player p, AbstractObstacle[] obstacles) {
@@ -109,8 +119,6 @@ public class Level {
 
         //double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (maxDataPoints - 1);
         //double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
-        
-
         // draw white background
         g2d.setColor(Color.WHITE);
         g2d.fillRect(padding + labelPadding, padding, funcAreaWidth - (2 * padding) - labelPadding, funcAreaHeight - 2 * padding - labelPadding);
@@ -118,8 +126,8 @@ public class Level {
 
         // create hatch marks and grid lines for y axis.
         for (int i = 0; i < numberYDivisions + 1; i++) {
-            int x0 = padding + (funcAreaWidth - (2 * padding) - labelPadding - padding)/2;
-            int x1 = pointWidth + padding + (- padding + funcAreaWidth - (2 * padding) - labelPadding)/2;
+            int x0 = padding + (funcAreaWidth - (2 * padding) - labelPadding - padding) / 2;
+            int x1 = pointWidth + padding + (-padding + funcAreaWidth - (2 * padding) - labelPadding) / 2;
             int y0 = funcAreaHeight - ((i * (funcAreaHeight - padding * 2 - labelPadding)) / numberYDivisions + padding + labelPadding);
             int y1 = y0;
             //grid lines
@@ -139,15 +147,15 @@ public class Level {
         double xCurrent = xMin;
         for (int i = 0; i <= (xMax - xMin); i++) {
             if ((yMax - xMin) > 1) {
-                int x0 = i * (funcAreaWidth - padding * 2 - labelPadding) / (int)(xMax - xMin) + padding + labelPadding;
+                int x0 = i * (funcAreaWidth - padding * 2 - labelPadding) / (int) (xMax - xMin) + padding + labelPadding;
                 int x1 = x0;
-                int y0 = padding + (funcAreaHeight - padding - labelPadding)/2;
+                int y0 = padding + (funcAreaHeight - padding - labelPadding) / 2;
                 int y1 = y0 - pointWidth;
-                if ((i % ((int) (((xMax - xMin) / 20.0)) + 1)) == 0) {
+                if ((i % ((int) (((xMax - xMin) / 40.0)) + 1)) == 0) {
                     g2d.setColor(gridColor);
                     g2d.drawLine(x0, funcAreaHeight - padding - labelPadding - 1 - pointWidth, x1, padding);
                     g2d.setColor(Color.BLACK);
-                    String xLabel = (int)xCurrent + "";
+                    String xLabel = (int) xCurrent + "";
                     FontMetrics metrics = g2d.getFontMetrics();
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2d.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
@@ -159,8 +167,8 @@ public class Level {
         }
 
         // create x and y axes 
-        g2d.drawLine(padding + (funcAreaWidth - (2 * padding) - labelPadding)/2, funcAreaHeight - padding - labelPadding, padding + (funcAreaWidth - (2 * padding) - labelPadding)/2, padding);
-        g2d.drawLine(padding + labelPadding,(funcAreaHeight - labelPadding)/2, funcAreaWidth - padding, (funcAreaHeight - labelPadding)/2);
+        g2d.drawLine(padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2, funcAreaHeight - padding - labelPadding, padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2, padding);
+        g2d.drawLine(padding + labelPadding, (funcAreaHeight - labelPadding) / 2, funcAreaWidth - padding, (funcAreaHeight - labelPadding) / 2);
 
     }
 
@@ -171,11 +179,11 @@ public class Level {
             double step = (xMax - xMin) / maxDataPoints;
             for (int i = 0; i < maxDataPoints; i++) {
                 Expression e = new ExpressionBuilder(function)
-                    .variables("x")
-                    .build()
-                    .setVariable("x", xValue);
+                        .variables("x")
+                        .build()
+                        .setVariable("x", xValue);
                 double yValue = e.evaluate();
-                if(xValue >= xMin && xValue <= xMax && yValue <= yMax && yValue >= yMin){
+                if (xValue >= xStartPoint && xValue <= xEndPoint && yValue <= yMax && yValue >= yMin) {
                     graphPoints.add(coordTranslation(xValue, yValue));
                 }
                 xValue += step;
@@ -194,26 +202,36 @@ public class Level {
      */
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(new Color(198, 168, 103));
         g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
+        
         for (int i = 0; i < obstacles.length; i++) {
             obstacles[i].draw(g2d);
         }
-        setFunction("sin(x)");
-        if(function != null){
+        drawInfoBreakdown(g2d);
+        setFunction("-x");
+        if (function != null) {
             drawFunction(g2d, function);
+            drawStart(g2d);
+            drawEnd(g2d);
         }
     }
 
+    public void drawInfoBreakdown(Graphics2D g2d){
+        Font helvetica = new Font("Helvetica", Font.BOLD, 19);
+        g2d.setFont(helvetica);
+        g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350 , 50);
+        //finish this
+    }
     public Point coordTranslation(double x, double y) {
-        int finalx = (int)Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding)/2) + xScale*x);
-        int finaly = (int)Math.round((funcAreaHeight - labelPadding)/2 + yScale*y*-1);
+        int finalx = (int) Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2) + xScale * x);
+        int finaly = (int) Math.round((funcAreaHeight - labelPadding) / 2 + yScale * y * -1);
         return new Point(finalx, finaly);
     }
-    
+
     public void drawFunction(Graphics2D g2d, String function) {
         List<Point> graphPoints = getGraphPoints(function);
         Stroke oldStroke = g2d.getStroke();
@@ -243,12 +261,12 @@ public class Level {
      * @return the copied version of a level
      */
     public Level clone() {
-        Level l2 = new Level(startPoint, endPoint, obstacles);
+        Level l2 = new Level(xStartPoint, yStartPoint, xEndPoint, yEndPoint, obstacles);
         return l2;
     }
 
     public String toString() {
-        return "LEVEL:\nStart Point: " + startPoint + "\nEnd Point: " + endPoint
+        return "LEVEL:\nStart Point: " + xStartPoint + "," + yStartPoint + "\nEnd Point: " + + xEndPoint + "," + yEndPoint
                 + "\nObstacles: " + obstacles;
     }
 }

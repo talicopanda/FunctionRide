@@ -187,12 +187,10 @@ public class FunctionRide extends Canvas implements Runnable {
             Level[] levels = new Level[numLevels];
             //read in the starting and ending points
             for (int i = 0; i < numLevels; i++) {
-                int sx = Integer.parseInt(br.readLine());
-                int sy = Integer.parseInt(br.readLine());
-                Point start = new Point(sx, sy);
-                int ex = Integer.parseInt(br.readLine());
-                int ey = Integer.parseInt(br.readLine());
-                Point end = new Point(ex, ey);
+                double sx = Double.parseDouble(br.readLine());
+                double sy = Double.parseDouble(br.readLine());
+                double ex = Double.parseDouble(br.readLine());
+                double ey = Double.parseDouble(br.readLine());
                 //tells us how many obstacles are in the level
                 int numObstacles = Integer.parseInt(br.readLine());
                 AbstractObstacle[] obstacles = new AbstractObstacle[numObstacles]; //set size of obstacle array
@@ -218,7 +216,7 @@ public class FunctionRide extends Canvas implements Runnable {
                     }
 
                 }
-                Level level = new Level(start, end, obstacles);
+                Level level = new Level(sx, sy, ex, ey, obstacles);
                 levels[i] = level;
                 return levels;
             }
