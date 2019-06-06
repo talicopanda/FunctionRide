@@ -22,16 +22,29 @@ public class MouseInput implements MouseListener {
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
-            if (my >= 250 && my <= 300) {
-                FunctionRide.State = FunctionRide.STATE.LEVEL1;
+        //menu screen
+        if(FunctionRide.State == FunctionRide.STATE.MENU){
+            if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
+                if (my >= 250 && my <= 300) {
+                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                }
+            }
+            if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
+                if (my >= 450 && my <= 500) {
+                    System.exit(1);
+                }
+            }
+        } else if(FunctionRide.State == FunctionRide.STATE.LEVELSCREEN){ //levelscreen
+            //level buttons
+        } else { //levels
+            if (mx >= FunctionRide.WIDTH/2-100 && mx <= FunctionRide.WIDTH/2-100 +100) {
+                if (my >= FunctionRide.HEIGHT/2+200 && my <= FunctionRide.HEIGHT/2+200+40) {
+                    Level.setRunBtn(true);
+                }
             }
         }
-        if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
-            if (my >= 450 && my <= 500) {
-                System.exit(1);
-            }
-        }
+        
+        
     }
 
     @Override

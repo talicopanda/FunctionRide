@@ -22,20 +22,30 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 public class Level {
 
     //attributes 
-    private double  xStartPoint;
-    private double  yStartPoint;
+    private double xStartPoint;
+    private double yStartPoint;
     private double xEndPoint;
     private double yEndPoint;
     private AbstractObstacle[] obstacles;
     private String function;
 
+    private Point startPoint;
+    private Point endPoint;
+    private Player p;
+    private boolean intersectSp = false;
+    
+    private static boolean runBtn = false;
+
+    List<Point> graphPoints;
+
     //function area variables
     private int maxDataPoints = 500;
+    private int dataPoint = 0;
     private double xMin = -10;
     private double xMax = 10;
     private double yMin = -10;
     private double yMax = 10;
-    
+
     private int pointSize = 10;
 
     private final int funcAreaWidth = 500;
@@ -60,27 +70,36 @@ public class Level {
      * @param endPoint the position of the ending platform
      * @param obstacles an array of all obstacles in the level
      */
-    public Level(double xsp, double ysp, double xep, double yep, AbstractObstacle[] obstacles) {
+    public Level(double xsp, double ysp, double xep, double yep, AbstractObstacle[] obstacles, Player p) {
         xStartPoint = xsp;
         yStartPoint = ysp;
         xEndPoint = xep;
         yEndPoint = yep;
         this.obstacles = obstacles;
         function = null;
+        startPoint = coordTranslation(xStartPoint, yStartPoint);
+        endPoint = coordTranslation(xEndPoint, yEndPoint);
+        this.p = p;
+        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
+    }
+    
+    public static void setRunBtn(boolean bool){
+        runBtn = bool;
     }
 
     public void setFunction(String func) {
         Expression e = new ExpressionBuilder(func)
-                        .variables("x")
-                        .build()
-                        .setVariable("x", xStartPoint);
+                .variables("x")
+                .build()
+                .setVariable("x", xStartPoint);
         double yValue = e.evaluate();
-        if(yStartPoint != yValue){
-            //error message
+        if (yStartPoint != yValue) {
+            intersectSp = false;
             System.out.println("this funciton does not go throug starting point");
         } else {
-            function = func;
+            intersectSp = true;
         }
+        function = func;
     }
 
     /**
@@ -89,11 +108,11 @@ public class Level {
      * @param g the drawing utensil
      */
     public void drawStart(Graphics2D g2d) {
-        Point start = coordTranslation(xStartPoint, yStartPoint);
+
         g2d.setColor(Color.GREEN);
-        g2d.fillOval(start.x - pointSize/2, start.y - pointSize/2, pointSize, pointSize);
+        g2d.fillOval(startPoint.x - pointSize / 2, startPoint.y - pointSize / 2, pointSize, pointSize);
         g2d.setColor(Color.BLACK);
-        g2d.drawOval(start.x - pointSize/2, start.y - pointSize/2, pointSize, pointSize);
+        g2d.drawOval(startPoint.x - pointSize / 2, startPoint.y - pointSize / 2, pointSize, pointSize);
     }
 
     /**
@@ -102,11 +121,11 @@ public class Level {
      * @param g the drawing utensil
      */
     public void drawEnd(Graphics2D g2d) {
-        Point end = coordTranslation(xEndPoint, yEndPoint);
+
         g2d.setColor(Color.RED);
-        g2d.fillOval(end.x - pointSize/2, end.y - pointSize/2, pointSize, pointSize);
+        g2d.fillOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
         g2d.setColor(Color.BLACK);
-        g2d.drawOval(end.x - pointSize/2, end.y - pointSize/2, pointSize, pointSize);
+        g2d.drawOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
     }
 
     public boolean checkCollision(Player p, AbstractObstacle[] obstacles) {
@@ -206,25 +225,44 @@ public class Level {
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
-        
+
         for (int i = 0; i < obstacles.length; i++) {
             obstacles[i].draw(g2d);
         }
         drawInfoBreakdown(g2d);
-        setFunction("x^2");
+        drawButtons(g2d);
+        setFunction("x");
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
             drawEnd(g2d);
         }
+        if (intersectSp) {
+            if (runBtn) {
+                int x = graphPoints.get(dataPoint).x - pointWidth / 2;
+                int y = graphPoints.get(dataPoint).y - pointWidth / 2;
+                p.updatePos(x - p.SIZE / 2, y - p.SIZE);
+                if(dataPoint < graphPoints.size() - 1){
+                    dataPoint++;
+                }
+            }
+        }
+        p.render(g2d);
+
+    }
+    
+    public void drawButtons(Graphics2D g2d){
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(FunctionRide.WIDTH/2-100, FunctionRide.HEIGHT/2+200, 100, 40);
     }
 
-    public void drawInfoBreakdown(Graphics2D g2d){
+    public void drawInfoBreakdown(Graphics2D g2d) {
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
         g2d.setFont(helvetica);
-        g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350 , 50);
+        g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350, 50);
         //finish this
     }
+
     public Point coordTranslation(double x, double y) {
         int finalx = (int) Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2) + xScale * x);
         int finaly = (int) Math.round((funcAreaHeight - labelPadding) / 2 + yScale * y * -1);
@@ -232,7 +270,7 @@ public class Level {
     }
 
     public void drawFunction(Graphics2D g2d, String function) {
-        List<Point> graphPoints = getGraphPoints(function);
+        graphPoints = getGraphPoints(function);
         Stroke oldStroke = g2d.getStroke();
         g2d.setColor(lineColor);
         g2d.setStroke(GRAPH_STROKE);
@@ -260,12 +298,12 @@ public class Level {
      * @return the copied version of a level
      */
     public Level clone() {
-        Level l2 = new Level(xStartPoint, yStartPoint, xEndPoint, yEndPoint, obstacles);
+        Level l2 = new Level(xStartPoint, yStartPoint, xEndPoint, yEndPoint, obstacles, p);
         return l2;
     }
 
     public String toString() {
-        return "LEVEL:\nStart Point: " + xStartPoint + "," + yStartPoint + "\nEnd Point: " + + xEndPoint + "," + yEndPoint
+        return "LEVEL:\nStart Point: " + xStartPoint + "," + yStartPoint + "\nEnd Point: " + +xEndPoint + "," + yEndPoint
                 + "\nObstacles: " + obstacles;
     }
 }

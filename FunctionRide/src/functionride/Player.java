@@ -5,7 +5,7 @@
  */
 package functionride;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point; 
 import java.awt.image.BufferedImage;
 
@@ -13,6 +13,7 @@ public class Player extends AbstractObject {
     //new attribute 
     private int speed;  
     private BufferedImage player;
+    public int SIZE = 25;
     /**
      * main and only constructor for a player 
      * @param x x location
@@ -46,6 +47,11 @@ public class Player extends AbstractObject {
         return speed;
     }
     
+    public void updatePos(int x, int y) { 
+        this.x = x;
+        this.y = y;
+    }
+    
     public void tick() { 
         //update player
     } 
@@ -53,8 +59,8 @@ public class Player extends AbstractObject {
      * draws the player sprite
      * @param g 2d drawing utensil
      */
-    public void render(Graphics g) { 
-         g.drawImage(player, x, y, 200, 200, null);
+    public void render(Graphics2D g2d) { 
+         g2d.drawImage(player, x, y, SIZE, SIZE, null);
     }  
     /**
      * updates the position of the player to follow the function that is drawn

@@ -34,7 +34,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
     private Menu menu;
-    private Player p;
+    private static Player p;
     private Level[] levels;
     //private Menu menu;
 
@@ -216,10 +216,11 @@ public class FunctionRide extends Canvas implements Runnable {
                     }
 
                 }
-                Level level = new Level(sx, sy, ex, ey, obstacles);
+                Level level = new Level(sx, sy, ex, ey, obstacles, p);
                 levels[i] = level;
-                return levels;
+                
             }
+            return levels;
             //catch a file not found error
         } catch (IOException e) {
             System.out.println("Error: " + e);
