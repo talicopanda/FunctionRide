@@ -26,12 +26,12 @@ public class FunctionRide extends Canvas implements Runnable {
     public static final int HEIGHT = 640;
     public static final int SCALE = 1;
     public static final String TITLE = "Function Ride";
+    public static BufferedImage spriteSheet = null;
 
     private boolean running = false;
     private Thread thread;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
     private Menu menu;
     private static Player p;
@@ -41,7 +41,8 @@ public class FunctionRide extends Canvas implements Runnable {
     public static enum STATE {
         MENU,
         LEVELSCREEN,
-        LEVEL1
+        LEVEL1,
+        LEVEL2
     };
 
     public static STATE State = STATE.LEVEL1;
@@ -57,10 +58,9 @@ public class FunctionRide extends Canvas implements Runnable {
 
         SpriteSheet ss = new SpriteSheet(spriteSheet);
         menu = new Menu();
-        p = new Player(200, 200, this);
+        p = new Player(200,200);
         levels = readLevel("res\\Level.txt");
         this.addMouseListener(new MouseInput());
-        //menu = new Menu();
     }
 
     private synchronized void start() {
@@ -122,7 +122,6 @@ public class FunctionRide extends Canvas implements Runnable {
 
     private void tick() {
         if (State == STATE.LEVEL1) {
-            p.tick();
         }
 
     }
@@ -140,10 +139,15 @@ public class FunctionRide extends Canvas implements Runnable {
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
-        if (State == STATE.LEVEL1) {
-            levels[0].render(g);
-        } else if (State == STATE.MENU) {
+        
+        if (State == STATE.MENU) {
             menu.render(g);
+        } else if (State == STATE.LEVELSCREEN) {
+            //
+        } else if (State == STATE.LEVEL1) {
+            levels[0].render(g);
+        } else if (State == STATE.LEVEL2) {
+            levels[1].render(g);
         }
 
         ///////////////////////////////////////////
@@ -218,7 +222,6 @@ public class FunctionRide extends Canvas implements Runnable {
                 }
                 Level level = new Level(sx, sy, ex, ey, obstacles, p);
                 levels[i] = level;
-                
             }
             return levels;
             //catch a file not found error

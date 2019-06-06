@@ -80,7 +80,6 @@ public class Level {
         startPoint = coordTranslation(xStartPoint, yStartPoint);
         endPoint = coordTranslation(xEndPoint, yEndPoint);
         this.p = p;
-        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
     }
     
     public static void setRunBtn(boolean bool){
@@ -220,12 +219,12 @@ public class Level {
      */
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
         g2d.setColor(new Color(198, 168, 103));
         g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
-
         for (int i = 0; i < obstacles.length; i++) {
             obstacles[i].draw(g2d);
         }
@@ -247,6 +246,7 @@ public class Level {
                 }
             }
         }
+        
         p.render(g2d);
 
     }

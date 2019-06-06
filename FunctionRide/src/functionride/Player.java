@@ -23,12 +23,12 @@ public class Player extends AbstractObject {
      * @param speed the speed that the player will travel at
      * @param game the game class to import spritesheet from 
      */
-    public Player(int x, int y, FunctionRide game) { 
+    public Player(int x, int y) { 
         this.x = x;
         this.y = y; 
         speed = 1; 
         //gets the spritesheet that was created in the game class to use it in this class
-        SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
+        SpriteSheet ss = new SpriteSheet(FunctionRide.spriteSheet);
         //set the player to the correct sprite 
         player = ss.grabImage(1,1,32,32);  
     }
@@ -54,19 +54,14 @@ public class Player extends AbstractObject {
     
     public void tick() { 
         //update player
-    } 
+    }
     /**
      * draws the player sprite
      * @param g 2d drawing utensil
      */
+
     public void render(Graphics2D g2d) { 
          g2d.drawImage(player, x, y, SIZE, SIZE, null);
-    }  
-    /**
-     * updates the position of the player to follow the function that is drawn
-     * @param graphPoints an array of all the points on the graph 
-     */
-    public void updatePos(Point[] graphPoints) { 
-        
+
     }
 }
