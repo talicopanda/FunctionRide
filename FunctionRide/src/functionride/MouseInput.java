@@ -2,6 +2,7 @@ package functionride;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JFrame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

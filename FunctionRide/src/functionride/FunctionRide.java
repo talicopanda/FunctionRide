@@ -5,15 +5,26 @@ Tales Scopinho, Sukhraj Garcha, Sergio Hernandez
  */
 package functionride;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Canvas;
+import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageProducer;
 import java.net.URL;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  *
@@ -35,10 +46,11 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
-    private Image icon=null;
+    private static Image icon=null;
     private Menu menu;
     private Player p;
-    //private Menu menu;
+    
+  
     
     public static  enum STATE{
         MENU,
@@ -54,7 +66,7 @@ public class FunctionRide extends Canvas implements Runnable {
         try {
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
             background = loader.loadImage("res\\background.jpg");
-            icon = new ImageIcon(("res\\menuback.gif")).getImage();
+            icon = new ImageIcon(("res\\rollercoastergif.gif")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +77,7 @@ public class FunctionRide extends Canvas implements Runnable {
         this.addMouseListener(new MouseInput());
         //menu = new Menu();
     }
+  
     
     private synchronized void start(){
         if(running) return;
@@ -125,8 +138,10 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         
     }
+  
     
     private void render(){
+       
         BufferStrategy bs = this.getBufferStrategy();
         
         if(bs == null){
@@ -136,6 +151,7 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         
         Graphics g = bs.getDrawGraphics();
+    
         //////////////////////////////////////////// drawing area
         
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
@@ -144,8 +160,12 @@ public class FunctionRide extends Canvas implements Runnable {
         g.drawImage(background, 0 ,0, getWidth(), getHeight(), this);
         p.render(g); 
         } else if(State == STATE.MENU){
-            g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+           
+             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);  
             menu.render(g);
+        
+
+          
         }
         
         
@@ -154,14 +174,21 @@ public class FunctionRide extends Canvas implements Runnable {
         bs.show();
     }
     
+   
+
+   
+
     public static void main(String args[]){
         FunctionRide game = new FunctionRide();
-        
+     
         game.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         game.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         game.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         
         JFrame frame = new JFrame(game.TITLE);
+       
+    frame.setLayout(new BorderLayout());
+  
         frame.add(game);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
