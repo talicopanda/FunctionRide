@@ -230,7 +230,7 @@ public class Level {
         }
         drawInfoBreakdown(g2d);
         drawButtons(g2d);
-        setFunction("x");
+        setFunction("x^2");
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);

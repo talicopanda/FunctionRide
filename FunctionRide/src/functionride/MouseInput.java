@@ -2,6 +2,7 @@ package functionride;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JFrame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,7 +40,9 @@ public class MouseInput implements MouseListener {
         } else { //levels
             if (mx >= FunctionRide.WIDTH/2-100 && mx <= FunctionRide.WIDTH/2-100 +100) {
                 if (my >= FunctionRide.HEIGHT/2+200 && my <= FunctionRide.HEIGHT/2+200+40) {
-                    Level.setRunBtn(true);
+                    JFrame funcTab = new functionmaker();
+                    funcTab.setVisible(true);
+                    Level.setFunction(functionmaker.func);
                 }
             }
         }
