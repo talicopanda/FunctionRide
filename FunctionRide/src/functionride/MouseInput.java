@@ -35,7 +35,7 @@ public class MouseInput implements MouseListener {
                     System.exit(1);
                 }
             }
-        } else if (FunctionRide.State == FunctionRide.STATE.LEVELSCREEN) { //levelscreen
+        } else if (FunctionRide.State == FunctionRide.STATE.LEVEL_SCREEN) { //levelscreen
             //level buttons
         } else { //levels
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {

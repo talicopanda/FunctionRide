@@ -40,12 +40,14 @@ public class FunctionRide extends Canvas implements Runnable {
 
     public static enum STATE {
         MENU,
-        LEVELSCREEN,
+        LEVEL_SCREEN,
+        COMPLETED_SCREEN,
         LEVEL1,
         LEVEL2
     };
 
-    public static STATE State = STATE.LEVEL1;
+    public int currentLevel;
+    public static STATE State = STATE.MENU;
 
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -142,11 +144,16 @@ public class FunctionRide extends Canvas implements Runnable {
         
         if (State == STATE.MENU) {
             menu.render(g);
-        } else if (State == STATE.LEVELSCREEN) {
+        } else if (State == STATE.LEVEL_SCREEN) {
             //
+        } else if (State == STATE.COMPLETED_SCREEN) {
+            LevelCompleted completedScreen = new LevelCompleted(currentLevel);
+            completedScreen.render(g);
         } else if (State == STATE.LEVEL1) {
+            currentLevel = 1;
             levels[0].render(g);
         } else if (State == STATE.LEVEL2) {
+            currentLevel = 2;
             levels[1].render(g);
         }
 

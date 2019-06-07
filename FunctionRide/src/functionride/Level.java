@@ -5,6 +5,7 @@
  */
 package functionride;
 
+import functionride.FunctionRide.STATE;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -221,7 +222,7 @@ public class Level {
 
     public boolean checkCompletion() {
         //add tolerance value of 1 pixel to any direction
-        if (p.getX()+ p.SIZE / 2 == endPoint.x && p.getY() + p.SIZE == endPoint.y) {
+        if (p.getX() + p.SIZE / 2 >= endPoint.x  - 1 && p.getX() + p.SIZE / 2 <= endPoint.x + 1 && p.getY() + p.SIZE >= endPoint.y - 1 && p.getY() + p.SIZE <= endPoint.y + 1) {
             return true;
         } else {
             return false;
@@ -268,7 +269,7 @@ public class Level {
                     if (!collided) {
                         p.updatePos(x - p.SIZE / 2, y - p.SIZE);
                         if(checkCompletion()){
-                            System.out.println("LEVEL CLEARED");
+                            FunctionRide.State = STATE.COMPLETED_SCREEN;
                         }
                     } else {
                         System.out.println("CRASH");
@@ -302,6 +303,7 @@ public class Level {
     public void drawButtons(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40);
+        //draw main menu btn
     }
 
     public static void runBtn() {
