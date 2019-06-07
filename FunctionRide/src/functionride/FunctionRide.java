@@ -36,6 +36,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage levelSelectCoaster = null;
     private BufferedImage levelSelectBackground = null;
     private BufferedImage levelSelectQuit = null;
+    private BufferedImage icon = null;
     private Menu menu;
     private LevelSelect ls;
     private static Player p;
@@ -61,6 +62,7 @@ public class FunctionRide extends Canvas implements Runnable {
             levelSelectCoaster = loader.loadImage("res\\coaster.png");
             levelSelectBackground = loader.loadImage("res\\scene.jpg");
             levelSelectQuit = loader.loadImage("res\\quit.jpg");
+            icon = loader.loadImage("res\\rollercoaster.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,17 +152,16 @@ public class FunctionRide extends Canvas implements Runnable {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
         if (State == STATE.MENU) {
+            g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
             menu.render(g);
         } else if (State == STATE.LEVEL_SCREEN) {
             g.drawImage(levelSelectBackground, 0, 0, getWidth(), getHeight()+50, this); 
             g.drawImage(levelSelectCoaster, 0, getHeight()/2, getWidth(), getHeight()/2, this);
             g.drawImage(levelSelectQuit, 900, 50, 50, 50, this); 
             ls.render(g);
-
         } else if (State == STATE.COMPLETED_SCREEN) {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
             completedScreen.render(g);
-            currentLevel = 0;
         } else if (State == STATE.LEVEL1) {
             currentLevel = 1;
             levels[0].render(g);
@@ -169,13 +170,7 @@ public class FunctionRide extends Canvas implements Runnable {
             levels[1].render(g);
         }
 
-        if (State != State.COMPLETED_SCREEN) {
-            if (currentLevel == 1) {
-                State = STATE.LEVEL1;
-            } else if (currentLevel == 2) {
-                State = STATE.LEVEL2;
-            }
-        }
+        
 
         ///////////////////////////////////////////
         g.dispose();

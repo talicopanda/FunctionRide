@@ -6,7 +6,6 @@
 package functionride;
 
 import java.awt.Color;
-import static jdk.nashorn.internal.objects.NativeFunction.function;
 
 /**
  *

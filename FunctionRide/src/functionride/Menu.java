@@ -33,9 +33,6 @@ public class Menu {
         g2d.fill(helpButton);
         g2d.fill(quitButton);
         g2d.setColor(Color.BLACK);
-        g2d.draw(playButton);
-        g2d.draw(helpButton);
-        g2d.draw(quitButton);
         g2d.setFont(fnt1);
         g2d.drawString("Play", playButton.x + 20, playButton.y + 30);
         g2d.drawString("Help", helpButton.x + 20, helpButton.y + 30);

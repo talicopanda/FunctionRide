@@ -1,5 +1,7 @@
 package functionride;
 
+import static functionride.FunctionRide.State;
+import static functionride.FunctionRide.currentLevel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
@@ -64,13 +66,21 @@ public class MouseInput implements MouseListener {
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     int current = FunctionRide.currentLevel;
-                    FunctionRide.currentLevel = current++;
+                    current++;
+                    if (current == 1) {
+                        State = FunctionRide.STATE.LEVEL1;
+                    } else if (current == 2) {
+                        State = FunctionRide.STATE.LEVEL2;
+                    }
+                    Level.setFunction(null);
                 }
+
             }
         } else { //levels
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     JFrame funcTab = new functionmaker();;
+                    funcTab.setLocationRelativeTo(null);
                     funcTab.setVisible(true);
                 }
             }
