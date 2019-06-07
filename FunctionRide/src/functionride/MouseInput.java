@@ -43,7 +43,7 @@ public class MouseInput implements MouseListener {
                 }
             } else if (mx >= 160 && mx <= 210) {
                 if (my >= 315 && my <= 365) {
-                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                    FunctionRide.State = FunctionRide.STATE.LEVEL2;
                 }
             } else if (mx >= 275 && mx <= 325) {
                 if (my >= 500 && my <= 550) {

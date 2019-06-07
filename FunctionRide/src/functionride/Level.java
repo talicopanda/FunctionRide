@@ -88,8 +88,8 @@ public class Level {
         areas = new ArrayList<>();
         for (int i = 0; i < obstacles.length; i++) {
             areas.add(obstacles[i].getCollisionArea());
-
         }
+
     }
 
     public static void setRunBtn(boolean bool) {
@@ -222,7 +222,7 @@ public class Level {
 
     public boolean checkCompletion() {
         //add tolerance value of 1 pixel to any direction
-        if (p.getX() + p.SIZE / 2 >= endPoint.x  - 1 && p.getX() + p.SIZE / 2 <= endPoint.x + 1 && p.getY() + p.SIZE >= endPoint.y - 1 && p.getY() + p.SIZE <= endPoint.y + 1) {
+        if (p.getX() + p.SIZE / 2 >= endPoint.x - 1 && p.getX() + p.SIZE / 2 <= endPoint.x + 1 && p.getY() + p.SIZE >= endPoint.y - 1 && p.getY() + p.SIZE <= endPoint.y + 1) {
             return true;
         } else {
             return false;
@@ -249,7 +249,6 @@ public class Level {
             Point pos = coordTranslation(obstacles[i].getX(), obstacles[i].getY());
             Point size = new Point((int) (xScale * obstacles[i].getWidth()), (int) (yScale * obstacles[i].getHeight()));
             obstacles[i].draw(g2d, pos.x, pos.y, size.x, size.y);
-            areas.add(obstacles[i].getCollisionArea());
         }
         drawInfoBreakdown(g2d);
         drawButtons(g2d);
@@ -268,7 +267,7 @@ public class Level {
                     dataPoint++;
                     if (!collided) {
                         p.updatePos(x - p.SIZE / 2, y - p.SIZE);
-                        if(checkCompletion()){
+                        if (checkCompletion()) {
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
                         }
                     } else {
@@ -317,7 +316,14 @@ public class Level {
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
         g2d.setFont(helvetica);
         g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350, 50);
-        //finish this
+        g2d.drawString("Starting Point (" + xStartPoint + ", " + yStartPoint + ")", 500, 500);
+        //same for y
+        //ranges of the obstacles
+        int textPadding = 20;
+        for (int i = 0; i < areas.size(); i++) {
+            //range x 
+            g2d.drawString("obstacle from" + areas.get(i)[0] + " to " + areas.get(i)[1], 400, 500 + (i+1)*textPadding);
+        }
     }
 
     public Point coordTranslation(double x, double y) {
