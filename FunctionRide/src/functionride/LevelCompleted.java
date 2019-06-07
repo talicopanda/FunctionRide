@@ -23,7 +23,7 @@ public class LevelCompleted {
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(new Color(198, 168, 103));
-        g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
+        g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32); 
         g2d.setColor(Color.BLACK);
         g2d.drawString("Congratulations you just cleared level "+currentLevel, 500, 500);
         drawButtons(g2d);

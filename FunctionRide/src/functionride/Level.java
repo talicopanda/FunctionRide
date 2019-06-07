@@ -67,11 +67,13 @@ public class Level {
     private List<Double> scores;
 
     /**
-     * constructor for a new level with all attributes
-     *
-     * @param startPoint the position of the starting platform
-     * @param endPoint the position of the ending platform
-     * @param obstacles an array of all obstacles in the level
+     * primary and only constructor for a level with all attributes
+     * @param xsp x value of starting point
+     * @param ysp y value of starting point
+     * @param xep x value of end point
+     * @param yep y value of end point
+     * @param obstacles an array of obstacles
+     * @param p a player
      */
     public Level(double xsp, double ysp, double xep, double yep, AbstractObstacle[] obstacles, Player p) {
         xStartPoint = xsp;
@@ -315,15 +317,22 @@ public class Level {
         g2d.setColor(Color.BLACK);
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
         g2d.setFont(helvetica);
+        //variable to keep track of x location of text
+        int textX = FunctionRide.WIDTH - 350; 
         g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350, 50);
-        g2d.drawString("Starting Point (" + xStartPoint + ", " + yStartPoint + ")", 500, 500);
-        //same for y
+        Font info = new Font("Helvetica", Font.PLAIN, 19);
+        g2d.setFont(info);
+        g2d.drawString("Starting Point: (" + xStartPoint + ", " + yStartPoint + ")", textX, 100);
+        g2d.drawString("Ending Point: (" + xEndPoint + ", " + yEndPoint + ")", textX, 120);
         //ranges of the obstacles
         int textPadding = 20;
         for (int i = 0; i < areas.size(); i++) {
             //range x 
-            g2d.drawString("obstacle from" + areas.get(i)[0] + " to " + areas.get(i)[1], 400, 500 + (i+1)*textPadding);
+            g2d.drawString("X Values of Obstacle " + (i+1) + ": " + areas.get(i)[0] + " to " + areas.get(i)[1], textX, 120+textPadding + (i+1)*textPadding);
+           //range y 
+           //g2d.drawString("");
         }
+        
     }
 
     public Point coordTranslation(double x, double y) {
