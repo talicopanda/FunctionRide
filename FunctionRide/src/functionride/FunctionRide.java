@@ -8,13 +8,18 @@ package functionride;
 import java.awt.Dimension;
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -36,8 +41,12 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage levelSelectCoaster = null;
     private BufferedImage levelSelectBackground = null;
     private BufferedImage levelSelectQuit = null;
+    private BufferedImage icon=null;
     private Menu menu;
     private LevelSelect ls;
+      private JPanel p1 = null; 
+
+    
     private static Player p;
     private Level[] levels;
     //private Menu menu;
@@ -56,11 +65,13 @@ public class FunctionRide extends Canvas implements Runnable {
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
         try {
+            System.out.println("");
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
             background = loader.loadImage("res\\background.jpg");
             levelSelectCoaster = loader.loadImage("res\\coaster.png");
             levelSelectBackground = loader.loadImage("res\\scene.jpg");
             levelSelectQuit = loader.loadImage("res\\quit.jpg");
+            icon = loader.loadImage("res\\rollercoaster.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,6 +161,7 @@ public class FunctionRide extends Canvas implements Runnable {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
         if (State == STATE.MENU) {
+             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);  
             menu.render(g);
         } else if (State == STATE.LEVEL_SCREEN) {
             g.drawImage(levelSelectBackground, 0, 0, getWidth(), getHeight()+50, this); 
@@ -162,8 +174,11 @@ public class FunctionRide extends Canvas implements Runnable {
             completedScreen.render(g);
             currentLevel = 0;
         } else if (State == STATE.LEVEL1) {
+ 
+           
             currentLevel = 1;
             levels[0].render(g);
+            
         } else if (State == STATE.LEVEL2) {
             currentLevel = 2;
             levels[1].render(g);
