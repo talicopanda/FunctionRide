@@ -27,7 +27,7 @@ public class MouseInput implements MouseListener {
         if (FunctionRide.State == FunctionRide.STATE.MENU) {
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
-                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
                 }
             }
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
@@ -36,7 +36,37 @@ public class MouseInput implements MouseListener {
                 }
             }
         } else if (FunctionRide.State == FunctionRide.STATE.LEVEL_SCREEN) { //levelscreen
-            //level buttons
+            //check which level button user clicks and open that level
+            if (mx >= 65 && mx <= 115) {
+                if (my >= 400 && my <= 450) {
+                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                }
+            } else if (mx >= 160 && mx <= 210) {
+                if (my >= 315 && my <= 365) {
+                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                }
+            } else if (mx >= 275 && mx <= 325) {
+                if (my >= 500 && my <= 550) {
+                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                }
+            } else if (mx >= 490 && mx <= 550) {
+                if (my >= 470 && my <= 520) {
+                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                }
+                //check if user clicks exit button 
+            } else if (mx >= 900 && mx <= 950) {
+                if (my >= 50 && my <= 100) {
+                    System.exit(1);
+                }
+            }
+
+        } else if (FunctionRide.State == FunctionRide.STATE.COMPLETED_SCREEN) { //levelscreen
+            if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    int current = FunctionRide.currentLevel;
+                    FunctionRide.currentLevel = current++;
+                }
+            }
         } else { //levels
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {

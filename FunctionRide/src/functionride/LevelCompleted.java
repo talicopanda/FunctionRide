@@ -26,9 +26,12 @@ public class LevelCompleted {
         g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
         g2d.setColor(Color.BLACK);
         g2d.drawString("Congratulations you just cleared level "+currentLevel, 500, 500);
+        drawButtons(g2d);
     }
     
     public void drawButtons(Graphics2D g2d){
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40);
         //draw play again
         //draw next level
         //draw go back to main menu
