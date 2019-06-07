@@ -14,8 +14,8 @@ public class Rectangle extends AbstractObstacle {
      * @param height height of rectangle
      * @param width width of rectangle
      */
-    public Rectangle(int x, int y, int height, int width) { 
-        super(x,y,height,width); 
+    public Rectangle(double x, double y, double width, double height) { 
+        super(x,y,width,height); 
     }  
     
     /** 

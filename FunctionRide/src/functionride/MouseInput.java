@@ -24,7 +24,7 @@ public class MouseInput implements MouseListener {
         int mx = e.getX();
         int my = e.getY();
         //menu screen
-        if(FunctionRide.State == FunctionRide.STATE.MENU){
+        if (FunctionRide.State == FunctionRide.STATE.MENU) {
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
                     FunctionRide.State = FunctionRide.STATE.LEVEL1;
@@ -35,19 +35,17 @@ public class MouseInput implements MouseListener {
                     System.exit(1);
                 }
             }
-        } else if(FunctionRide.State == FunctionRide.STATE.LEVELSCREEN){ //levelscreen
+        } else if (FunctionRide.State == FunctionRide.STATE.LEVELSCREEN) { //levelscreen
             //level buttons
         } else { //levels
-            if (mx >= FunctionRide.WIDTH/2-100 && mx <= FunctionRide.WIDTH/2-100 +100) {
-                if (my >= FunctionRide.HEIGHT/2+200 && my <= FunctionRide.HEIGHT/2+200+40) {
-                    JFrame funcTab = new functionmaker();
+            if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    JFrame funcTab = new functionmaker();;
                     funcTab.setVisible(true);
-                    Level.setFunction(functionmaker.func);
                 }
             }
         }
-        
-        
+
     }
 
     @Override

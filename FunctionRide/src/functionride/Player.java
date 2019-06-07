@@ -13,7 +13,7 @@ public class Player extends AbstractObject {
     //new attribute 
     private int speed;  
     private BufferedImage player;
-    public int SIZE = 25;
+    public int SIZE = 35;
     /**
      * main and only constructor for a player 
      * @param x x location
@@ -61,7 +61,7 @@ public class Player extends AbstractObject {
      */
 
     public void render(Graphics2D g2d) { 
-         g2d.drawImage(player, x, y, SIZE, SIZE, null);
+         g2d.drawImage(player,(int) x,(int) y, SIZE, SIZE, null);
 
     }
 }

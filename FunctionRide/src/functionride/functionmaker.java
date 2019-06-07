@@ -13,7 +13,7 @@ import static jdk.nashorn.internal.objects.NativeFunction.function;
  * @author seher4467
  */
 public class functionmaker extends javax.swing.JFrame {
-    public String func;
+    public static String func;
     /**
      * Creates new form functionmaker
      */
@@ -34,6 +34,7 @@ public class functionmaker extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         function = new javax.swing.JTextField();
         go = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,12 +48,14 @@ public class functionmaker extends javax.swing.JFrame {
         });
 
         go.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        go.setText("Go!");
+        go.setText("Test");
         go.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goActionPerformed(evt);
             }
         });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,6 +69,10 @@ public class functionmaker extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(go, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(201, 201, 201))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,7 +85,9 @@ public class functionmaker extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(function, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -90,7 +99,13 @@ public class functionmaker extends javax.swing.JFrame {
 
     private void goActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goActionPerformed
      func = function.getText();
-     // TODO add your handling code here:
+     if(!func.equals("")){
+         this.dispose();
+         Level.runBtn();
+     } else {
+         jLabel2.setText("Invalid function!");
+         func = null;
+     }
     }//GEN-LAST:event_goActionPerformed
     
     /**
@@ -132,5 +147,6 @@ public class functionmaker extends javax.swing.JFrame {
     private javax.swing.JTextField function;
     private javax.swing.JButton go;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

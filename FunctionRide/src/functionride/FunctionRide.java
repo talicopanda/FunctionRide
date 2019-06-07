@@ -201,22 +201,22 @@ public class FunctionRide extends Canvas implements Runnable {
                 //loop through and create all obstacles
                 for (int j = 0; j < numObstacles; j++) {
                     String type = br.readLine();
-                    int obstacleX = Integer.parseInt(br.readLine());
-                    int obstacleY = Integer.parseInt(br.readLine());
+                    double obstacleX = Double.parseDouble(br.readLine());
+                    double obstacleY = Double.parseDouble(br.readLine());
                     //if the obstacle is a rectangle, it has a width and a heigth
                     if (type.equals("Rectangle")) {
-                        int obstacleHeight = Integer.parseInt(br.readLine());
-                        int obstacleWidth = Integer.parseInt(br.readLine());
+                        double obstacleWidth = Double.parseDouble(br.readLine());
+                        double obstacleHeight = Double.parseDouble(br.readLine());
                         //create a new rectangle and add it to the array 
-                        Rectangle rect = new Rectangle(obstacleX, obstacleY, obstacleHeight, obstacleWidth);
+                        Rectangle rect = new Rectangle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
                         obstacles[j] = rect;
                         //otherwise it must be a ring and it has a radius
                     } else {
-                        int obstacleRadius = Integer.parseInt(br.readLine());
-                        //create a new ring and add it to the array
-                        Ring r = new Ring(obstacleX, obstacleY, obstacleRadius);
-
-                        obstacles[j] = r;
+                        double obstacleWidth = Double.parseDouble(br.readLine());
+                        double obstacleHeight = Double.parseDouble(br.readLine());
+                        //create a new rectangle and add it to the array 
+                        Ring ring = new Ring(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
+                        obstacles[j] = ring;
                     }
 
                 }

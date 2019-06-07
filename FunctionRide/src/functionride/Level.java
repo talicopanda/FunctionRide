@@ -27,16 +27,19 @@ public class Level {
     private double xEndPoint;
     private double yEndPoint;
     private AbstractObstacle[] obstacles;
-    private String function;
 
     private Point startPoint;
     private Point endPoint;
     private Player p;
-    private boolean intersectSp = false;
-    
+    private boolean intersectSp;
+
+    private boolean firstRun;
     private static boolean runBtn = false;
+    private static String function;
 
     List<Point> graphPoints;
+
+    List<double[]> areas;
 
     //function area variables
     private int maxDataPoints = 500;
@@ -80,13 +83,24 @@ public class Level {
         startPoint = coordTranslation(xStartPoint, yStartPoint);
         endPoint = coordTranslation(xEndPoint, yEndPoint);
         this.p = p;
+        intersectSp = false;
+        firstRun = true;
+        areas = new ArrayList<>();
+        for (int i = 0; i < obstacles.length; i++) {
+            areas.add(obstacles[i].getCollisionArea());
+            
+        }
     }
-    
-    public static void setRunBtn(boolean bool){
+
+    public static void setRunBtn(boolean bool) {
         runBtn = bool;
     }
 
-    public void setFunction(String func) {
+    public static void setFunction(String func) {
+        function = func;
+    }
+
+    public void testFunction(String func) {
         Expression e = new ExpressionBuilder(func)
                 .variables("x")
                 .build()
@@ -94,11 +108,9 @@ public class Level {
         double yValue = e.evaluate();
         if (yStartPoint != yValue) {
             intersectSp = false;
-            System.out.println("this funciton does not go throug starting point");
         } else {
             intersectSp = true;
         }
-        function = func;
     }
 
     /**
@@ -125,10 +137,6 @@ public class Level {
         g2d.fillOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
         g2d.setColor(Color.BLACK);
         g2d.drawOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
-    }
-
-    public boolean checkCollision(Player p, AbstractObstacle[] obstacles) {
-        return false;
     }
 
     public void drawFuncArea(Graphics2D g2d) {
@@ -212,6 +220,14 @@ public class Level {
         return null;
     }
 
+    public boolean checkCompletion() {
+        if (p.getX() == endPoint.x && p.getY() == endPoint.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * draws all components of the level
      *
@@ -219,44 +235,76 @@ public class Level {
      */
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
+        if (checkCompletion() || firstRun) {
+            p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
+        }
+        firstRun = false;
         g2d.setColor(new Color(198, 168, 103));
         g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
         for (int i = 0; i < obstacles.length; i++) {
-            obstacles[i].draw(g2d);
+            Point pos = coordTranslation(obstacles[i].getX(), obstacles[i].getY());
+            Point size = new Point((int) (xScale * obstacles[i].getWidth()), (int) (yScale * obstacles[i].getHeight()));
+            obstacles[i].draw(g2d, pos.x, pos.y, size.x, size.y);
+            areas.add(obstacles[i].getCollisionArea());
         }
         drawInfoBreakdown(g2d);
         drawButtons(g2d);
-        setFunction("x^2");
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
             drawEnd(g2d);
         }
-        if (intersectSp) {
-            if (runBtn) {
+        if (runBtn) {
+            testFunction(function);
+            if (intersectSp) {
                 int x = graphPoints.get(dataPoint).x - pointWidth / 2;
                 int y = graphPoints.get(dataPoint).y - pointWidth / 2;
-                p.updatePos(x - p.SIZE / 2, y - p.SIZE);
-                if(dataPoint < graphPoints.size() - 1){
+                boolean collided = checkCollision(x, y);
+                if(!collided){
+                    p.updatePos(x - p.SIZE / 2, y - p.SIZE);
+                }
+                if (dataPoint < graphPoints.size() - 1) {
                     dataPoint++;
                 }
+            } else {
+                System.out.println("this funciton does not go throug starting point");
+            }
+            if (dataPoint >= graphPoints.size() - 1) {
+                runBtn = false;
             }
         }
-        
+
         p.render(g2d);
 
     }
-    
-    public void drawButtons(Graphics2D g2d){
+
+    public boolean checkCollision(int x1, int y1) {
+        for (double[] area : areas) {
+            Point xRange = coordTranslation(area[0], area[1]);
+            Point yRange = coordTranslation(area[2], area[3]);
+            if(x1 >= xRange.x && x1 <= xRange.y && y1 >= yRange.x && y1 <= yRange.y){
+                System.out.println("collide");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void drawButtons(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
-        g2d.fillRect(FunctionRide.WIDTH/2-100, FunctionRide.HEIGHT/2+200, 100, 40);
+        g2d.fillRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40);
+    }
+
+    public static void runBtn() {
+        function = functionmaker.func;
+        runBtn = true;
     }
 
     public void drawInfoBreakdown(Graphics2D g2d) {
+        g2d.setColor(Color.BLACK);
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
         g2d.setFont(helvetica);
         g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350, 50);
