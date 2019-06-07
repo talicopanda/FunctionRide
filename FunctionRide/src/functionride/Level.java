@@ -38,12 +38,11 @@ public class Level {
     private static String function;
 
     List<Point> graphPoints;
-
+    private static int dataPoint = 0;
     List<double[]> areas;
 
     //function area variables
     private int maxDataPoints = 500;
-    private int dataPoint = 0;
     private double xMin = -10;
     private double xMax = 10;
     private double yMin = -10;
@@ -88,7 +87,7 @@ public class Level {
         areas = new ArrayList<>();
         for (int i = 0; i < obstacles.length; i++) {
             areas.add(obstacles[i].getCollisionArea());
-            
+
         }
     }
 
@@ -221,7 +220,8 @@ public class Level {
     }
 
     public boolean checkCompletion() {
-        if (p.getX() == endPoint.x && p.getY() == endPoint.y) {
+        //add tolerance value of 1 pixel to any direction
+        if (p.getX()+ p.SIZE / 2 == endPoint.x && p.getY() + p.SIZE == endPoint.y) {
             return true;
         } else {
             return false;
@@ -235,7 +235,7 @@ public class Level {
      */
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        if (checkCompletion() || firstRun) {
+        if (firstRun) {
             p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
         }
         firstRun = false;
@@ -260,17 +260,24 @@ public class Level {
         if (runBtn) {
             testFunction(function);
             if (intersectSp) {
-                int x = graphPoints.get(dataPoint).x - pointWidth / 2;
-                int y = graphPoints.get(dataPoint).y - pointWidth / 2;
-                boolean collided = checkCollision(x, y);
-                if(!collided){
-                    p.updatePos(x - p.SIZE / 2, y - p.SIZE);
-                }
                 if (dataPoint < graphPoints.size() - 1) {
+                    int x = graphPoints.get(dataPoint).x - pointWidth / 2;
+                    int y = graphPoints.get(dataPoint).y - pointWidth / 2;
+                    boolean collided = checkCollision(x, y);
                     dataPoint++;
+                    if (!collided) {
+                        p.updatePos(x - p.SIZE / 2, y - p.SIZE);
+                        if(checkCompletion()){
+                            System.out.println("LEVEL CLEARED");
+                        }
+                    } else {
+                        System.out.println("CRASH");
+                        dataPoint = graphPoints.size() - 1;
+                        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
+                    }
                 }
             } else {
-                System.out.println("this funciton does not go throug starting point");
+                System.out.println("this funciton does not go through the starting point");
             }
             if (dataPoint >= graphPoints.size() - 1) {
                 runBtn = false;
@@ -283,10 +290,9 @@ public class Level {
 
     public boolean checkCollision(int x1, int y1) {
         for (double[] area : areas) {
-            Point xRange = coordTranslation(area[0], area[1]);
-            Point yRange = coordTranslation(area[2], area[3]);
-            if(x1 >= xRange.x && x1 <= xRange.y && y1 >= yRange.x && y1 <= yRange.y){
-                System.out.println("collide");
+            Point initialRange = coordTranslation(area[0], area[2]);
+            Point finalRange = coordTranslation(area[1], area[3]);
+            if (x1 >= initialRange.x && x1 <= finalRange.x && y1 >= initialRange.y && y1 <= finalRange.y) {
                 return true;
             }
         }
@@ -301,6 +307,7 @@ public class Level {
     public static void runBtn() {
         function = functionmaker.func;
         runBtn = true;
+        dataPoint = 0;
     }
 
     public void drawInfoBreakdown(Graphics2D g2d) {

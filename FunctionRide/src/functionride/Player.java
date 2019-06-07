@@ -13,7 +13,7 @@ public class Player extends AbstractObject {
     //new attribute 
     private int speed;  
     private BufferedImage player;
-    public int SIZE = 35;
+    public int SIZE = 36;
     /**
      * main and only constructor for a player 
      * @param x x location
