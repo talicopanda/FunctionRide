@@ -128,7 +128,7 @@ public class Level {
                 .setVariable("x", xStartPoint);
         double yValue = e.evaluate();
         //check whether or not the function intersects the starting point
-        if (yStartPoint != yValue) {
+        if (yStartPoint != Math.round(yValue * 100000.0) / 100000.0) { //rounded to 5 decimals places due to innacuracy of PI
             intersectSp = false;
         } else {
             intersectSp = true;
@@ -260,7 +260,7 @@ public class Level {
      */
     public boolean checkCompletion() {
         //add tolerance value of 1 pixel to any direction
-        if (p.getX() + p.SIZE / 2 >= endPoint.x - 1 && p.getX() + p.SIZE / 2 <= endPoint.x + 1 && p.getY() + p.SIZE >= endPoint.y - 1 && p.getY() + p.SIZE <= endPoint.y + 1) {
+        if (p.getX() + p.SIZE / 2 >= endPoint.x - 5 && p.getX() + p.SIZE / 2 <= endPoint.x + 5 && p.getY() + p.SIZE >= endPoint.y - 5 && p.getY() + p.SIZE <= endPoint.y + 5) {
             return true;
         } else {
             return false;
@@ -278,7 +278,6 @@ public class Level {
             //move player to starting point
             p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
         }
-        firstRun = false;
         g2d.setColor(new Color(198, 168, 103));
         g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32);
         drawFuncArea(g2d);
@@ -292,15 +291,13 @@ public class Level {
         }
         drawInfoBreakdown(g2d);
         drawButtons(g2d, btnFont);
-        //draw the funciton if the user has entered one
-        if (function != null) {
+        //test the function when user clicks the "play" button
+        if (runBtn && function != null) {
+            firstRun = false;
+            crash = false;
             drawFunction(g2d, function);
             drawStart(g2d);
             drawEnd(g2d);
-        }
-        //test the function when user clicks the "play" button
-        if (runBtn) {
-            crash = false;
             testFunction(function);
             //only continue if the function goes through the starting point
             if (intersectSp) {
@@ -332,7 +329,7 @@ public class Level {
                 runBtn = false;
             }
         }
-        if(crash){
+        if (crash) {
             drawInfo(g, "Crash! Try again.", btnFont, 10, FunctionRide.HEIGHT - 20);
         }
         //draw player
