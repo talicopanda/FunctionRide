@@ -47,9 +47,9 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage icon=null;
     private Menu menu;
     private LevelSelect ls;
-      private JPanel p1 = null; 
-     private String highScore="";
-
+ private JPanel p1 = null; 
+ private String highScore="";
+public static  int preLevel;
     
     private static Player p;
     private Level[] levels;
@@ -177,15 +177,16 @@ public class FunctionRide extends Canvas implements Runnable {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
             completedScreen.render(g);
             currentLevel = 0;
-            System.out.println(MouseInput.counter);
         } else if (State == STATE.LEVEL1) {
  
            
             currentLevel = 1;
+           preLevel=currentLevel;
             levels[0].render(g);
             
         } else if (State == STATE.LEVEL2) {
-            currentLevel = 2;
+            currentLevel = 2; 
+          preLevel=currentLevel;
             levels[1].render(g);
         }
 
@@ -236,9 +237,20 @@ BufferedWriter writer=null;
       try {
           writeFile=new FileWriter(scoreFile);
           writer=new BufferedWriter(writeFile);
-          writer.write("Name"+":");
+          writer.write("Name"+":"+" "+LName.name+"\n"+"Levels completed"+":"+" ");
       } catch (Exception e) {
+          System.out.println(e);
       }
+      finally{
+          try {
+              if (writer!=null){
+                  writer.close();
+              }
+          } catch (Exception e) {
+          }
+      }
+      
+      
   }
 
     
