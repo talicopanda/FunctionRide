@@ -1,11 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tales, Sergio, Sukhraj
+ * June 2 2019
+ * the level completed screen
  */
 package functionride;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -14,26 +15,36 @@ import java.awt.Graphics2D;
  * @author Usuario
  */
 public class LevelCompleted {
+    //attribute to keep track of which level user is on
     private int currentLevel;
-    
+    /**
+     * main and only constructor
+     * @param currentLevel the level that we are on
+     */
     public LevelCompleted(int currentLevel){
         this.currentLevel = currentLevel;
     }
-    
+    /**
+     * draw components of the screen
+     * @param g drawing utensil
+     */
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(new Color(198, 168, 103));
-        g2d.fillRect(0, 0, FunctionRide.WIDTH + 32, FunctionRide.HEIGHT + 32); 
-        g2d.setColor(Color.BLACK);
-        g2d.drawString("Congratulations you just cleared level "+currentLevel, 500, 500);
+        Font fnt0 = new Font("arial", Font.BOLD, 50);
+        g2d.setColor(Color.BLACK); 
+        Level.drawInfo(g, "Congratulations!", fnt0, FunctionRide.WIDTH/2 - 200, 100);  
+        Font fnt1 = new Font("arial", Font.PLAIN, 30);
+        Level.drawInfo(g, "You just cleared level " + (currentLevel + 1) + "!", fnt1, FunctionRide.WIDTH/2-165,
+        FunctionRide.HEIGHT/2-100);
         drawButtons(g2d);
     }
-    
+    /**
+     * draw the buttons on the screen
+     * @param g2d drawing utensil
+     */
     public void drawButtons(Graphics2D g2d){
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40);
-        //draw play again
-        //draw next level
-        //draw go back to main menu
+        g2d.setColor(Color.white);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
+        
     }
 }

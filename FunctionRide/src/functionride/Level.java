@@ -1,5 +1,5 @@
 /*
- * Sukhraj Garcha
+ * Tales, Sergio, Sukhraj
  * May 28th 2019 
  * template for a level type object
  */
@@ -28,7 +28,7 @@ public class Level {
     private double xEndPoint;
     private double yEndPoint;
     private AbstractObstacle[] obstacles;
-
+    
     private Point startPoint;
     private Point endPoint;
     private Player p;
@@ -96,21 +96,31 @@ public class Level {
         }
 
     }
-    
+    /**
+     * set whether or not the run button has been clicked
+     * @param bool the boolean we want to change to
+     */
     public static void setRunBtn(boolean bool) {
         runBtn = bool;
     }
-
+    /**
+     * set the function that will be drawn
+     * @param func the function as a string
+     */
     public static void setFunction(String func) {
         function = func;
     }
-
+    /**
+     * test to see if the function works
+     * @param func the function
+     */
     public void testFunction(String func) {
         Expression e = new ExpressionBuilder(func)
                 .variables("x")
                 .build()
                 .setVariable("x", xStartPoint);
         double yValue = e.evaluate();
+        //check whether or not the function intersects the starting point
         if (yStartPoint != yValue) {
             intersectSp = false;
         } else {
@@ -143,7 +153,10 @@ public class Level {
         g2d.setColor(Color.BLACK);
         g2d.drawOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
     }
-
+    /**
+     * draws the graphing area
+     * @param g2d the drawing utensil
+     */
     public void drawFuncArea(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -201,7 +214,11 @@ public class Level {
         g2d.drawLine(padding + labelPadding, (funcAreaHeight - labelPadding) / 2, funcAreaWidth - padding, (funcAreaHeight - labelPadding) / 2);
 
     }
-
+    /**
+     * get a list of the points the function goes through
+     * @param function the function
+     * @return a list of all the points
+     */
     public List<Point> getGraphPoints(String function) {
         try {
             List<Point> graphPoints = new ArrayList<>();
@@ -224,7 +241,10 @@ public class Level {
         }
         return null;
     }
-
+    /**
+     * check whether or not the function the user entered completes the level
+     * @return true or false depending on if the function worked
+     */
     public boolean checkCompletion() {
         //add tolerance value of 1 pixel to any direction
         if (p.getX() + p.SIZE / 2 >= endPoint.x - 1 && p.getX() + p.SIZE / 2 <= endPoint.x + 1 && p.getY() + p.SIZE >= endPoint.y - 1 && p.getY() + p.SIZE <= endPoint.y + 1) {
@@ -242,6 +262,7 @@ public class Level {
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         if (firstRun) {
+            //move player to starting point
             p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
         }
         firstRun = false;
@@ -250,6 +271,7 @@ public class Level {
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
+        //draw all of the obstacles in the level
         for (int i = 0; i < obstacles.length; i++) {
             Point pos = coordTranslation(obstacles[i].getX(), obstacles[i].getY());
             Point size = new Point((int) (xScale * obstacles[i].getWidth()), (int) (yScale * obstacles[i].getHeight()));
@@ -257,31 +279,38 @@ public class Level {
         }
         drawInfoBreakdown(g2d);
         drawButtons(g2d, btnFont);
+        //draw the funciton if the user has entered one
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
             drawEnd(g2d);
         }
+        //test the function when user clicks the "play" button
         if (runBtn) {
             testFunction(function);
+            //only continue if the function goes through the starting point
             if (intersectSp) {
                 if (dataPoint < graphPoints.size() - 1) {
                     int x = graphPoints.get(dataPoint).x - pointWidth / 2;
                     int y = graphPoints.get(dataPoint).y - pointWidth / 2;
                     boolean collided = checkCollision(x, y);
                     dataPoint++;
+                    //if player doesn't hit anything then they have finished the level
                     if (!collided) {
                         p.updatePos(x - p.SIZE / 2, y - p.SIZE);
                         if (checkCompletion()) {
+                            //change state to level completed screen
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
                         }
+                    //if they hit an obstacle
                     } else {
-                       
                        drawInfo(g, "Crash!", infoFont, 10, FunctionRide.HEIGHT - 20); 
                        dataPoint = graphPoints.size() - 1;
+                       //move player back to start
                        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
                     }
                 }
+            //function doesn't go through start point
             } else {
                   drawInfo(g, "This function does not go through the starting point!", infoFont, 10, FunctionRide.HEIGHT - 20); 
             }
@@ -289,16 +318,28 @@ public class Level {
                 runBtn = false;
             }
         }
-
+        //draw player
         p.render(g2d);
 
     }
-    
-    public void drawInfo(Graphics g, String msg, Font font, int x, int y) { 
+    /**
+     * print messages to the screen
+     * @param g drawing utensil
+     * @param msg the message to display
+     * @param font the font to draw in
+     * @param x x location
+     * @param y y location
+     */
+    public static void drawInfo(Graphics g, String msg, Font font, int x, int y) { 
         g.setFont(font);
         g.drawString(msg, x, y);
     }
-    
+    /**
+     * check whether or not player hits an obstacle
+     * @param x1 
+     * @param y1
+     * @return true or false depending on if they hit something or not
+     */
     public boolean checkCollision(int x1, int y1) {
         for (double[] area : areas) {
             Point initialRange = coordTranslation(area[0], area[2]);
@@ -309,7 +350,11 @@ public class Level {
         }
         return false;
     }
-
+    /**
+     * draw all of the buttons on the level
+     * @param g2d drawing utensil
+     * @param font font to draw text in
+     */
     public void drawButtons(Graphics2D g2d, Font font) {
         //offsets for centering text in buttons
         int xOff = 25;
@@ -333,7 +378,10 @@ public class Level {
         runBtn = true;
         dataPoint = 0;
     }
-
+    /**
+     * draw information about level
+     * @param g2d drawing utensil
+     */
     public void drawInfoBreakdown(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
@@ -355,13 +403,22 @@ public class Level {
         }
         
     }
-
+    /**
+     * convert x and y coordinates to graph coordinates
+     * @param x x value
+     * @param y y value
+     * @return a point on the graph
+     */
     public Point coordTranslation(double x, double y) {
         int finalx = (int) Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2) + xScale * x);
         int finaly = (int) Math.round((funcAreaHeight - labelPadding) / 2 + yScale * y * -1);
         return new Point(finalx, finaly);
     }
-
+    /**
+     * draw the function the user enters
+     * @param g2d drawing utensil
+     * @param function the function to draw
+     */
     public void drawFunction(Graphics2D g2d, String function) {
         graphPoints = getGraphPoints(function);
         Stroke oldStroke = g2d.getStroke();

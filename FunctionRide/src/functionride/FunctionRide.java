@@ -5,7 +5,7 @@ Tales Scopinho, Sukhraj Garcha, Sergio Hernandez
  */
 package functionride;
 
-import java.awt.Dimension;
+import java.awt.Dimension; 
 import java.awt.Canvas; 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -30,12 +30,13 @@ public class FunctionRide extends Canvas implements Runnable {
 
     private boolean running = false;
     private Thread thread;
-
+    //images needed
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private BufferedImage background = null;
     private BufferedImage levelSelectCoaster = null;
     private BufferedImage levelSelectBackground = null;
     private BufferedImage levelSelectQuit = null;
+    private BufferedImage levelComplete = null;
+    //different attributes of the game
     private Menu menu;
     private LevelSelect ls;
     private static Player p;
@@ -51,24 +52,30 @@ public class FunctionRide extends Canvas implements Runnable {
     };
 
     public static int currentLevel;
+    //set the initial state to the menu screen
     public static STATE State = STATE.MENU;
-
+    
+    /**
+     * initialize components of the game
+     */
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
+        //try to load in images
         try {
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
-            background = loader.loadImage("res\\background.jpg");
             levelSelectCoaster = loader.loadImage("res\\coaster.png");
             levelSelectBackground = loader.loadImage("res\\scene.jpg");
             levelSelectQuit = loader.loadImage("res\\quit.jpg");
+            levelComplete = loader.loadImage("res\\level_complete.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        //create new spritesheet to load in player
         SpriteSheet ss = new SpriteSheet(spriteSheet);
         menu = new Menu();
         ls = new LevelSelect();
         p = new Player(200, 200);
+        //read in levels
         levels = readLevel("res\\Level.txt");
         this.addMouseListener(new MouseInput());
     }
@@ -135,7 +142,9 @@ public class FunctionRide extends Canvas implements Runnable {
         }
 
     }
-
+    /**
+     * draw components of the game
+     */
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
 
@@ -148,7 +157,7 @@ public class FunctionRide extends Canvas implements Runnable {
         //////////////////////////////////////////// drawing area
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-
+        //draw the different components of the game depending on which state we are on
         if (State == STATE.MENU) {
             menu.render(g);
         } else if (State == STATE.LEVEL_SCREEN) {
@@ -159,8 +168,10 @@ public class FunctionRide extends Canvas implements Runnable {
 
         } else if (State == STATE.COMPLETED_SCREEN) {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
+            g.drawImage(levelComplete, 0, 0, getWidth(), getHeight(), this);
             completedScreen.render(g);
             currentLevel = 0;
+        //draw level depending on which level we are on
         } else if (State == STATE.LEVEL1) {
             currentLevel = 1;
             levels[0].render(g);
@@ -199,7 +210,10 @@ public class FunctionRide extends Canvas implements Runnable {
 
         game.start();
     }
-
+    /**
+     * get the spritesheet to draw the player
+     * @return the spritesheet 
+     */
     public BufferedImage getSpriteSheet() {
         return spriteSheet;
     }
