@@ -65,6 +65,8 @@ public class Level {
     double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
     double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
+    //font for printing information
+    private Font infoFont = new Font("arial",Font.PLAIN,30);
 
     /**
      * primary and only constructor for a level with all attributes
@@ -93,7 +95,7 @@ public class Level {
         }
 
     }
-
+    
     public static void setRunBtn(boolean bool) {
         runBtn = bool;
     }
@@ -217,7 +219,7 @@ public class Level {
             }
             return graphPoints;
         } catch (Exception e) {
-            System.out.println("Ops, there is a discontinuity in the rollercoaster. Try again!");
+            System.out.println("Oops! There is a discontinuity in the rollercoaster. Try again!");
         }
         return null;
     }
@@ -273,13 +275,13 @@ public class Level {
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
                         }
                     } else {
-                        System.out.println("CRASH");
+                        drawInfo(g, "Crash!", infoFont, 10, FunctionRide.WIDTH - 20); 
                         dataPoint = graphPoints.size() - 1;
                         p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
                     }
                 }
             } else {
-                System.out.println("this funciton does not go through the starting point");
+                  drawInfo(g, "This function does not go through the starting point!", infoFont, 10, FunctionRide.HEIGHT - 20); 
             }
             if (dataPoint >= graphPoints.size() - 1) {
                 runBtn = false;
@@ -289,7 +291,12 @@ public class Level {
         p.render(g2d);
 
     }
-
+    
+    public void drawInfo(Graphics g, String msg, Font font, int x, int y) { 
+        g.setFont(font);
+        g.drawString(msg, x, y);
+    }
+    
     public boolean checkCollision(int x1, int y1) {
         for (double[] area : areas) {
             Point initialRange = coordTranslation(area[0], area[2]);

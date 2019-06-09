@@ -25,7 +25,7 @@ public class FunctionRide extends Canvas implements Runnable {
     public static final int WIDTH = 960;
     public static final int HEIGHT = 640;
     public static final int SCALE = 1;
-    public static final String TITLE = "Function Ride1";
+    public static final String TITLE = "Function Ride";
     public static BufferedImage spriteSheet = null;
 
     private boolean running = false;
