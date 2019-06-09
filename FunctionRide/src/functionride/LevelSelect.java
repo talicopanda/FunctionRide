@@ -1,12 +1,12 @@
 /*
- * Sukhraj Garcha
+ * Tales, Sergio, Sukhraj
  * June 3 2019
  * the level select menu 
  */
 package functionride;
 
-import java.awt.Color;
-import java.awt.Font; 
+import java.awt.Color; 
+import java.awt.Font;  
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;

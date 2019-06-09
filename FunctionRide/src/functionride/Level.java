@@ -1,5 +1,5 @@
 /*
- * Sukhraj Garcha
+ * Tales, Sergio, Sukhraj
  * May 28th 2019 
  * template for a level type object
  */
@@ -35,6 +35,7 @@ public class Level {
     private boolean intersectSp;
 
     private boolean firstRun;
+    private boolean crash;
     private static boolean runBtn = false;
     private static String function;
 
@@ -65,13 +66,18 @@ public class Level {
     double xScale = ((double) funcAreaWidth - (2 * padding) - labelPadding) / (xMax - xMin);
     double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
+    //font for printing information
+    private Font btnFont = new Font("arial", Font.PLAIN, 20);
 
     /**
-     * constructor for a new level with all attributes
+     * primary and only constructor for a level with all attributes
      *
-     * @param startPoint the position of the starting platform
-     * @param endPoint the position of the ending platform
-     * @param obstacles an array of all obstacles in the level
+     * @param xsp x value of starting point
+     * @param ysp y value of starting point
+     * @param xep x value of end point
+     * @param yep y value of end point
+     * @param obstacles an array of obstacles
+     * @param p a player
      */
     public Level(double xsp, double ysp, double xep, double yep, AbstractObstacle[] obstacles, Player p) {
         xStartPoint = xsp;
@@ -89,23 +95,39 @@ public class Level {
         for (int i = 0; i < obstacles.length; i++) {
             areas.add(obstacles[i].getCollisionArea());
         }
-
+        crash = false;
     }
 
+    /**
+     * set whether or not the run button has been clicked
+     *
+     * @param bool the boolean we want to change to
+     */
     public static void setRunBtn(boolean bool) {
         runBtn = bool;
     }
 
+    /**
+     * set the function that will be drawn
+     *
+     * @param func the function as a string
+     */
     public static void setFunction(String func) {
         function = func;
     }
 
+    /**
+     * test to see if the function works
+     *
+     * @param func the function
+     */
     public void testFunction(String func) {
         Expression e = new ExpressionBuilder(func)
                 .variables("x")
                 .build()
                 .setVariable("x", xStartPoint);
         double yValue = e.evaluate();
+        //check whether or not the function intersects the starting point
         if (yStartPoint != yValue) {
             intersectSp = false;
         } else {
@@ -139,6 +161,11 @@ public class Level {
         g2d.drawOval(endPoint.x - pointSize / 2, endPoint.y - pointSize / 2, pointSize, pointSize);
     }
 
+    /**
+     * draws the graphing area
+     *
+     * @param g2d the drawing utensil
+     */
     public void drawFuncArea(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -197,6 +224,12 @@ public class Level {
 
     }
 
+    /**
+     * get a list of the points the function goes through
+     *
+     * @param function the function
+     * @return a list of all the points
+     */
     public List<Point> getGraphPoints(String function) {
         try {
             List<Point> graphPoints = new ArrayList<>();
@@ -215,11 +248,16 @@ public class Level {
             }
             return graphPoints;
         } catch (Exception e) {
-            System.out.println("Ops, there is a discontinuity in the rollercoaster. Try again!");
+            System.out.println("Oops! There is a discontinuity in the rollercoaster. Try again!");
         }
         return null;
     }
 
+    /**
+     * check whether or not the function the user entered completes the level
+     *
+     * @return true or false depending on if the function worked
+     */
     public boolean checkCompletion() {
         //add tolerance value of 1 pixel to any direction
         if (p.getX() + p.SIZE / 2 >= endPoint.x - 1 && p.getX() + p.SIZE / 2 <= endPoint.x + 1 && p.getY() + p.SIZE >= endPoint.y - 1 && p.getY() + p.SIZE <= endPoint.y + 1) {
@@ -237,6 +275,7 @@ public class Level {
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         if (firstRun) {
+            //move player to starting point
             p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
         }
         firstRun = false;
@@ -245,49 +284,83 @@ public class Level {
         drawFuncArea(g2d);
         drawStart(g2d);
         drawEnd(g2d);
+        //draw all of the obstacles in the level
         for (int i = 0; i < obstacles.length; i++) {
             Point pos = coordTranslation(obstacles[i].getX(), obstacles[i].getY());
             Point size = new Point((int) (xScale * obstacles[i].getWidth()), (int) (yScale * obstacles[i].getHeight()));
             obstacles[i].draw(g2d, pos.x, pos.y, size.x, size.y);
         }
         drawInfoBreakdown(g2d);
-        drawButtons(g2d);
+        drawButtons(g2d, btnFont);
+        //draw the funciton if the user has entered one
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
             drawEnd(g2d);
         }
+        //test the function when user clicks the "play" button
         if (runBtn) {
+            crash = false;
             testFunction(function);
+            //only continue if the function goes through the starting point
             if (intersectSp) {
                 if (dataPoint < graphPoints.size() - 1) {
                     int x = graphPoints.get(dataPoint).x - pointWidth / 2;
                     int y = graphPoints.get(dataPoint).y - pointWidth / 2;
                     boolean collided = checkCollision(x, y);
                     dataPoint++;
+                    //if player doesn't hit anything then they have finished the level
                     if (!collided) {
                         p.updatePos(x - p.SIZE / 2, y - p.SIZE);
                         if (checkCompletion()) {
+                            //change state to level completed screen
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
                         }
+                        //if they hit an obstacle
                     } else {
-                        System.out.println("CRASH");
+                        crash = true;
                         dataPoint = graphPoints.size() - 1;
+                        //move player back to start
                         p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
                     }
                 }
+                //function doesn't go through start point
             } else {
-                System.out.println("this funciton does not go through the starting point");
+                drawInfo(g, "This function does not go through the starting point!", btnFont, 25, FunctionRide.HEIGHT - 20);
             }
             if (dataPoint >= graphPoints.size() - 1) {
                 runBtn = false;
             }
         }
-
+        if(crash){
+            drawInfo(g, "Crash! Try again.", btnFont, 10, FunctionRide.HEIGHT - 20);
+        }
+        //draw player
         p.render(g2d);
 
     }
 
+    /**
+     * print messages to the screen
+     *
+     * @param g drawing utensil
+     * @param msg the message to display
+     * @param font the font to draw in
+     * @param x x location
+     * @param y y location
+     */
+    public static void drawInfo(Graphics g, String msg, Font font, int x, int y) {
+        g.setFont(font);
+        g.drawString(msg, x, y);
+    }
+
+    /**
+     * check whether or not player hits an obstacle
+     *
+     * @param x1
+     * @param y1
+     * @return true or false depending on if they hit something or not
+     */
     public boolean checkCollision(int x1, int y1) {
         for (double[] area : areas) {
             Point initialRange = coordTranslation(area[0], area[2]);
@@ -299,10 +372,27 @@ public class Level {
         return false;
     }
 
-    public void drawButtons(Graphics2D g2d) {
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40);
-        //draw main menu btn
+    /**
+     * draw all of the buttons on the level
+     *
+     * @param g2d drawing utensil
+     * @param font font to draw text in
+     */
+    public void drawButtons(Graphics2D g2d, Font font) {
+        //offsets for centering text in buttons
+        int xOff = 25;
+        int yOff = 28;
+        g2d.setFont(font);
+        g2d.setColor(Color.white);
+        //draw butons
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 280, FunctionRide.HEIGHT / 2 + 200, 100, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 460, FunctionRide.HEIGHT / 2 + 200, 100, 40, 20, 20);
+        g2d.setColor(Color.black);
+        g2d.drawString("Play", FunctionRide.WIDTH / 2 - 100 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Levels", FunctionRide.WIDTH / 2 - 280 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Quit", FunctionRide.WIDTH / 2 - 460 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+
     }
 
     public static void runBtn() {
@@ -311,27 +401,52 @@ public class Level {
         dataPoint = 0;
     }
 
+    /**
+     * draw information about level
+     *
+     * @param g2d drawing utensil
+     */
     public void drawInfoBreakdown(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         Font helvetica = new Font("Helvetica", Font.BOLD, 19);
         g2d.setFont(helvetica);
+        //variable to keep track of x location of text
+        int textX = FunctionRide.WIDTH - 425;
         g2d.drawString("INFORMATION BREAKDOWN", FunctionRide.WIDTH - 350, 50);
-        g2d.drawString("Starting Point (" + xStartPoint + ", " + yStartPoint + ")", 500, 500);
-        //same for y
+        Font info = new Font("Helvetica", Font.PLAIN, 19);
+        g2d.setFont(info);
+        g2d.drawString("Starting Point: (" + xStartPoint + ", " + yStartPoint + ")", textX, 100);
+        g2d.drawString("Ending Point: (" + xEndPoint + ", " + yEndPoint + ")", textX, 120);
         //ranges of the obstacles
         int textPadding = 20;
         for (int i = 0; i < areas.size(); i++) {
             //range x 
-            g2d.drawString("obstacle from" + areas.get(i)[0] + " to " + areas.get(i)[1], 400, 500 + (i+1)*textPadding);
+            g2d.drawString("X Values of Obstacle " + (i + 1) + ": " + areas.get(i)[0] + " to " + areas.get(i)[1], textX, 120 + textPadding + (i + 1) * textPadding);
+            //range y 
+            //g2d.drawString("");
         }
+
     }
 
+    /**
+     * convert x and y coordinates to graph coordinates
+     *
+     * @param x x value
+     * @param y y value
+     * @return a point on the graph
+     */
     public Point coordTranslation(double x, double y) {
         int finalx = (int) Math.round((padding + (funcAreaWidth - (2 * padding) - labelPadding) / 2) + xScale * x);
         int finaly = (int) Math.round((funcAreaHeight - labelPadding) / 2 + yScale * y * -1);
         return new Point(finalx, finaly);
     }
 
+    /**
+     * draw the function the user enters
+     *
+     * @param g2d drawing utensil
+     * @param function the function to draw
+     */
     public void drawFunction(Graphics2D g2d, String function) {
         graphPoints = getGraphPoints(function);
         Stroke oldStroke = g2d.getStroke();

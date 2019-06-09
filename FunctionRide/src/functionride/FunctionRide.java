@@ -36,6 +36,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage levelSelectCoaster = null;
     private BufferedImage levelSelectBackground = null;
     private BufferedImage levelSelectQuit = null;
+    private BufferedImage levelComplete = null;
     private BufferedImage icon = null;
     private Menu menu;
     private LevelSelect ls;
@@ -62,6 +63,7 @@ public class FunctionRide extends Canvas implements Runnable {
             levelSelectCoaster = loader.loadImage("res\\coaster.png");
             levelSelectBackground = loader.loadImage("res\\scene.jpg");
             levelSelectQuit = loader.loadImage("res\\quit.jpg");
+            levelComplete = loader.loadImage("res\\level_complete.jpg");
             icon = loader.loadImage("res\\rollercoaster.jpg");
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,6 +163,7 @@ public class FunctionRide extends Canvas implements Runnable {
             ls.render(g);
         } else if (State == STATE.COMPLETED_SCREEN) {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
+            g.drawImage(levelComplete, 0, 0, getWidth(), getHeight(), this);
             completedScreen.render(g);
         } else if (State == STATE.LEVEL1) {
             currentLevel = 1;

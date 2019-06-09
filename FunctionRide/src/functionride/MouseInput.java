@@ -77,11 +77,25 @@ public class MouseInput implements MouseListener {
 
             }
         } else { //levels
+            //check if user clicks the play button
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    //open screen that allows user to enter a function
                     JFrame funcTab = new functionmaker();;
-                    funcTab.setLocationRelativeTo(null);
                     funcTab.setVisible(true);
+                    funcTab.setLocationRelativeTo(null);
+                }
+            //check if user clicks the levels button
+            } else if (mx >= FunctionRide.WIDTH / 2 - 280 && mx <= FunctionRide.WIDTH / 2 - 280 + 100) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    //show the level select screen
+                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                }
+            //check if user clicks quit
+            } else if (mx >= FunctionRide.WIDTH / 2 - 460 && mx <= FunctionRide.WIDTH / 2 - 460 + 100) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    //close the game
+                    System.exit(0);
                 }
             }
         }
