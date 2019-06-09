@@ -67,6 +67,7 @@ public class Level {
     private List<Double> scores;
     //font for printing information
     private Font infoFont = new Font("arial",Font.PLAIN,30);
+    private Font btnFont = new Font("arial",Font.PLAIN,20);
 
     /**
      * primary and only constructor for a level with all attributes
@@ -255,7 +256,7 @@ public class Level {
             obstacles[i].draw(g2d, pos.x, pos.y, size.x, size.y);
         }
         drawInfoBreakdown(g2d);
-        drawButtons(g2d);
+        drawButtons(g2d, btnFont);
         if (function != null) {
             drawFunction(g2d, function);
             drawStart(g2d);
@@ -275,9 +276,10 @@ public class Level {
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
                         }
                     } else {
-                        drawInfo(g, "Crash!", infoFont, 10, FunctionRide.WIDTH - 20); 
-                        dataPoint = graphPoints.size() - 1;
-                        p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
+                       
+                       drawInfo(g, "Crash!", infoFont, 10, FunctionRide.HEIGHT - 20); 
+                       dataPoint = graphPoints.size() - 1;
+                       p.updatePos(startPoint.x - p.SIZE / 2, startPoint.y - p.SIZE);
                     }
                 }
             } else {
@@ -308,10 +310,22 @@ public class Level {
         return false;
     }
 
-    public void drawButtons(Graphics2D g2d) {
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40);
-        //draw main menu btn
+    public void drawButtons(Graphics2D g2d, Font font) {
+        //offsets for centering text in buttons
+        int xOff = 25;
+        int yOff = 28;
+        g2d.setFont(font);
+        g2d.setColor(Color.white);
+        //draw butons
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 280, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 460, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
+        g2d.setColor(Color.black);
+        g2d.drawString("Play",FunctionRide.WIDTH / 2 - 100 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Levels",FunctionRide.WIDTH / 2 - 280 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Quit",FunctionRide.WIDTH / 2 - 460 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+       
+        
     }
 
     public static void runBtn() {

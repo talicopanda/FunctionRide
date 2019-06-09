@@ -23,7 +23,7 @@ public class MouseInput implements MouseListener {
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        //menu screen
+        //if we are on the menu screen
         if (FunctionRide.State == FunctionRide.STATE.MENU) {
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
@@ -35,6 +35,7 @@ public class MouseInput implements MouseListener {
                     System.exit(1);
                 }
             }
+         //if we are on the level select screen
         } else if (FunctionRide.State == FunctionRide.STATE.LEVEL_SCREEN) { //levelscreen
             //check which level button user clicks and open that level
             if (mx >= 65 && mx <= 115) {
@@ -59,7 +60,7 @@ public class MouseInput implements MouseListener {
                     System.exit(1);
                 }
             }
-
+        //if we are on the level complete screen
         } else if (FunctionRide.State == FunctionRide.STATE.COMPLETED_SCREEN) { //levelscreen
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
@@ -67,13 +68,18 @@ public class MouseInput implements MouseListener {
                     FunctionRide.currentLevel = current++;
                 }
             }
-        } else { //levels
+        //if we are on a level screen    
+        } else { 
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     JFrame funcTab = new functionmaker();;
                     funcTab.setVisible(true);
+                } 
+            }else if (mx >= FunctionRide.WIDTH / 2 - 280 && mx <= FunctionRide.WIDTH / 2 - 280 + 100) { 
+                     if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                         FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                     }
                 }
-            }
         }
 
     }
