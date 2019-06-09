@@ -14,7 +14,10 @@ import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,6 +48,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private Menu menu;
     private LevelSelect ls;
       private JPanel p1 = null; 
+     private String highScore="";
 
     
     private static Player p;
@@ -173,6 +177,7 @@ public class FunctionRide extends Canvas implements Runnable {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
             completedScreen.render(g);
             currentLevel = 0;
+            System.out.println(MouseInput.counter);
         } else if (State == STATE.LEVEL1) {
  
            
@@ -196,6 +201,47 @@ public class FunctionRide extends Canvas implements Runnable {
         g.dispose();
         bs.show();
     }
+public String getHighschore(){
+    FileReader readfile=null;
+    BufferedReader reader= null;
+    try {
+           readfile=new FileReader("Highscore.txt");
+           reader=new BufferedReader(readfile);
+          return reader.readLine();
+    } catch (Exception e) {
+        return "e";
+    }
+    finally{
+        try {
+            if (reader!=null){
+                reader.close();
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+  public void filemaker(){
+      File scoreFile=new File("Highscore.txt");
+      try {
+                if (!scoreFile.exists()){
+          scoreFile.createNewFile();
+      }
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+FileWriter writeFile=null;
+BufferedWriter writer=null;
+      try {
+          writeFile=new FileWriter(scoreFile);
+          writer=new BufferedWriter(writeFile);
+          writer.write("Name"+":");
+      } catch (Exception e) {
+      }
+  }
+
+    
 
     public static void main(String args[]) {
         FunctionRide game = new FunctionRide();
