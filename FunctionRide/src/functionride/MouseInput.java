@@ -40,7 +40,7 @@ public class MouseInput implements MouseListener {
             //check if user clicks the quit button
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 450 && my <= 500) {
-                    //close the game
+                    //close the game 
                     System.exit(0);
                 }
             }
