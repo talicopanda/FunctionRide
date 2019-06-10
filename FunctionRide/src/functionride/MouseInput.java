@@ -18,10 +18,9 @@ import javax.swing.JFrame;
 public class MouseInput implements MouseListener {
 
     private boolean notAdded;
-    private int level;
     public ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
-    ;
+    public static int cLevel;
 
 
 
@@ -39,7 +38,9 @@ public class MouseInput implements MouseListener {
                 if (my >= 250 && my <= 300) {
                     JFrame getname = new LName();
                     getname.setVisible(true);
+                  
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                    
 
                 }
             }
@@ -50,8 +51,13 @@ public class MouseInput implements MouseListener {
 
                 if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                     if (my >= 550 && my <= 600) {
+                        
                         JFrame leaderboard = new leaderboard();
-                        leaderboard.setVisible(true);
+                        leaderboard.setVisible(true);  
+                    FunctionRide.filemaker();
+                    FunctionRide.getHighschore();
+                        System.out.println(FunctionRide.highScores);
+                    
                     }
                 }
             }
@@ -98,7 +104,7 @@ public class MouseInput implements MouseListener {
                     if (notAdded) {
                         levelsCompleted.add(FunctionRide.preLevel);
                     }
-
+                    cLevel=levelsCompleted.size();
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
                 }
             }
