@@ -391,11 +391,13 @@ public class Level {
         g2d.setFont(font);
         g2d.setColor(Color.white); 
         //draw butons
-        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 170, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
-        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 420, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 140, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 470, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 305, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20); 
         g2d.setColor(Color.black);
-        g2d.drawString("Run Function", FunctionRide.WIDTH / 2 - 171 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
-        g2d.drawString("Menu", FunctionRide.WIDTH / 2 - 400 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Run Function", FunctionRide.WIDTH / 2 - 141 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Menu", FunctionRide.WIDTH / 2 - 450 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Level Select", FunctionRide.WIDTH / 2 - 305 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff); 
 
     }
 
@@ -426,7 +428,7 @@ public class Level {
         for (int i = 0; i < areas.size(); i++) {
             //range x 
             g2d.drawString("X Values of Obstacle " + (i + 1) + ": " + areas.get(i)[0] + " to " + areas.get(i)[1], textX, 120 + textPadding + (i + 1) * textPadding);
-            //range y  
+            g2d.drawString("Y Values of Obstacle " + (i + 1) + ": " + areas.get(i)[3] + " to " + areas.get(i)[2], textX, 170 + textPadding + (i + 1) * textPadding);
            
         }
 

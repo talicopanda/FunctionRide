@@ -16,10 +16,12 @@ import javax.swing.JFrame;
  * @author nm
  */
 public class MouseInput implements MouseListener {
-private boolean notAdded;
+
+    private boolean notAdded;
     public ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
     public static int cLevel;
+
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -30,30 +32,35 @@ private boolean notAdded;
         int my = e.getY();
         //menu screen
         if (FunctionRide.State == FunctionRide.STATE.MENU) {
+            //if user clicks play
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
                     JFrame getName = new LName();
                     getName.setVisible(true);
                     getName.setLocationRelativeTo(null);
+                    //move on to next screen
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
 
                 }
             }
+            //if user clicks quit button
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 450 && my <= 500) {
+                    //quit the game
                     System.exit(1);
                 }
-
+                //if user click leader board button
                 if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                     if (my >= 550 && my <= 600) {
+                        //open up leaderrboard
                         JFrame leaderboard = new leaderboard();
                         leaderboard.setLocationRelativeTo(null);
-                        leaderboard.setVisible(true);
+                        leaderboard.setVisible(true); 
                     }
                 }
             }
             //levelscreen
-        } else if (FunctionRide.State == FunctionRide.STATE.LEVEL_SCREEN) { 
+        } else if (FunctionRide.State == FunctionRide.STATE.LEVEL_SCREEN) {
             //check which level button user clicks and open that level
             if (mx >= 65 && mx <= 115) {
                 if (my >= 400 && my <= 450) {
@@ -77,14 +84,14 @@ private boolean notAdded;
                     FunctionRide.State = FunctionRide.STATE.MENU;
                 }
             }
-          //level complete screen 
+            //level complete screen 
         } else if (FunctionRide.State == FunctionRide.STATE.COMPLETED_SCREEN) {
             //check if user clicks next button
             if (mx >= FunctionRide.WIDTH / 2 + 100 && mx <= FunctionRide.WIDTH / 2 + 100 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     int current = FunctionRide.currentLevel;
                     //set current level to the level the user should progress to
-                    current++; 
+                    current++;
                     //open up corresponding level
                     if (current == 1) {
                         State = FunctionRide.STATE.LEVEL1;
@@ -97,32 +104,43 @@ private boolean notAdded;
                     }
                     Level.setFunction(null);
                 }
-            //check if user clicks the menu button
-            }else if (mx >= FunctionRide.WIDTH / 2 - 200 && mx <= FunctionRide.WIDTH / 2 - 200 + 100) { 
-                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) { 
-                    //show the main menu screen
-                    FunctionRide.State = FunctionRide.STATE.MENU; 
-                    FunctionRide.fileMaker(); 
-                }
-            }
-        
-        } else { //levels
-            //check if user clicks the play button 
-            if (mx >= FunctionRide.WIDTH / 2 - 170 && mx <= FunctionRide.WIDTH / 2 - 170 + 150) {
-                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
-                    //open screen that allows user to enter a function
-                    JFrame funcTab = new functionmaker();;
-                    funcTab.setVisible(true); 
-                    funcTab.setLocationRelativeTo(null);
-                }
                 //check if user clicks the menu button
-            } else if (mx >= FunctionRide.WIDTH / 2 - 420 && mx <= FunctionRide.WIDTH / 2 - 420 + 150) {
+            } else if (mx >= FunctionRide.WIDTH / 2 - 200 && mx <= FunctionRide.WIDTH / 2 - 200 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     //show the main menu screen
-                    FunctionRide.State = FunctionRide.STATE.MENU; 
+                    FunctionRide.State = FunctionRide.STATE.MENU;
                     FunctionRide.fileMaker();
                 }
-            } 
+                //check if user clicks the level screen button
+            } else if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 - 50 + 100) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    //show the level select screen
+                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                }
+            }
+
+        } else //levels
+        //check if user clicks the play button 
+        if (mx >= FunctionRide.WIDTH / 2 - 140 && mx <= FunctionRide.WIDTH / 2 - 140 + 150) {
+            if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                //open screen that allows user to enter a function
+                JFrame funcTab = new functionmaker();;
+                funcTab.setVisible(true);
+                funcTab.setLocationRelativeTo(null);
+            }
+            //check if user clicks the menu button
+        } else if (mx >= FunctionRide.WIDTH / 2 - 470 && mx <= FunctionRide.WIDTH / 2 - 470 + 150) {
+            if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                //show the main menu screen
+                FunctionRide.State = FunctionRide.STATE.MENU;
+                FunctionRide.fileMaker();
+            }
+            //check if user clicks the level screen button 
+        } else if (mx >= FunctionRide.WIDTH / 2 - 305 && mx <= FunctionRide.WIDTH / 2 - 305 + 150) {
+            if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                //show the level select screen
+                FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+            }
         }
 
     }

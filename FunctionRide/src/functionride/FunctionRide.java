@@ -56,7 +56,7 @@ public class FunctionRide extends Canvas implements Runnable {
         MENU,
         LEVEL_SCREEN,
         COMPLETED_SCREEN,
-        LEVEL1,
+        LEVEL1, 
         LEVEL2,
         LEVEL3,
         LEVEL4
