@@ -18,7 +18,7 @@ public class CompletedLevels {
     public CompletedLevels(String n, String t){
         name = t;
         levels =n;
-        System.out.println("Hello");
+        
     }
     
     //accessors
@@ -31,7 +31,7 @@ public class CompletedLevels {
     }
     
     public String toString(){
-        return "Name";
+        return "Name"+":"+" "+this.name+"\n"+"Levels completed"+":"+this.levels;
     }
     
     //mutators

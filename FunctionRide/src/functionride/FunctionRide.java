@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,7 +51,7 @@ public class FunctionRide extends Canvas implements Runnable {
  private JPanel p1 = null; 
  private String highScore="";
 public static  int preLevel;
-    
+    public static ArrayList <CompletedLevels> highScores=new ArrayList();
     private static Player p;
     private Level[] levels;
     //private Menu menu;
@@ -202,15 +203,24 @@ public static  int preLevel;
         g.dispose();
         bs.show();
     }
-public String getHighschore(){
+public static void getHighschore(){
+    
     FileReader readfile=null;
     BufferedReader reader= null;
     try {
            readfile=new FileReader("Highscore.txt");
            reader=new BufferedReader(readfile);
-          return reader.readLine();
+            boolean eof = false;
+            //loop until we hit the end
+            while (!eof) {
+                String Name = reader.readLine();
+                String levelsCleared=reader.readLine();
+                  CompletedLevels b = new CompletedLevels(levelsCleared, Name);
+                    //add the book to the list
+                    highScores.add(b);          
+           }
     } catch (Exception e) {
-        return "e";
+        System.out.println(e);
     }
     finally{
         try {
@@ -223,7 +233,7 @@ public String getHighschore(){
         }
     }
 }
-  public void filemaker(){
+  public static void filemaker(){
       File scoreFile=new File("Highscore.txt");
       try {
                 if (!scoreFile.exists()){
@@ -237,7 +247,7 @@ BufferedWriter writer=null;
       try {
           writeFile=new FileWriter(scoreFile);
           writer=new BufferedWriter(writeFile);
-          writer.write("Name"+":"+" "+LName.name+"\n"+"Levels completed"+":"+" ");
+          writer.write("Name"+":"+" "+LName.name+"\n"+"Levels completed"+":"+MouseInput.cLevel);
       } catch (Exception e) {
           System.out.println(e);
       }
