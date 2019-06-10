@@ -3,6 +3,7 @@ package functionride;
 import static functionride.FunctionRide.State;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /*
@@ -15,7 +16,10 @@ import javax.swing.JFrame;
  * @author nm
  */
 public class MouseInput implements MouseListener {
+private boolean notAdded;
+    public ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
+    public static int cLevel;
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -101,9 +105,9 @@ public class MouseInput implements MouseListener {
                     FunctionRide.fileMaker(); 
                 }
             }
-
+        
         } else { //levels
-            //check if user clicks the play button
+            //check if user clicks the play button 
             if (mx >= FunctionRide.WIDTH / 2 - 170 && mx <= FunctionRide.WIDTH / 2 - 170 + 150) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     //open screen that allows user to enter a function
