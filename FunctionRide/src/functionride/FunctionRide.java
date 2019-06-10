@@ -63,7 +63,7 @@ public class FunctionRide extends Canvas implements Runnable {
     };
 
     public static int currentLevel;
-    public static STATE State = STATE.COMPLETED_SCREEN; 
+    public static STATE State = STATE.MENU;  
 
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
