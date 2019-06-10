@@ -2,6 +2,7 @@ package functionride;
 
 import java.awt.Color;
 import java.net.URL;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -10,20 +11,76 @@ import javax.swing.JLabel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author seher4467
  */
 public class leaderboard extends javax.swing.JFrame {
 
+int a[]={3,2,1,5,6,7};
+    String b[] = {"one", "two", "three", "four" };
+    public static void dquiksort(int[] a, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int i = left;
+        int j = right;
+        int pivot = a[(left + right) / 2];
+        while (i < j) {
+            
+            while (a[i] > pivot) {
+                i++;
+            }
+            while (a[j] < pivot) {
+                j--;
+            }
+            if (i <= j) {
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+                i++;
+                j--;
+            }
+
+        }
+        dquiksort(a, left, j);
+        dquiksort(a, i, right);
+
+    }
+    public static int binarySearch(String[] b, String x) {
+       int l = 0, 
+        r = b.length - 1; 
+        while (l <= r) { 
+            int m = l + (r - l) / 2; 
+  
+            int res = x.compareTo(b[m]); 
+  
+            // Check if x is present at mid 
+            if (res == 0) 
+                return m; 
+  
+            // If x greater, ignore left half 
+            if (res > 0) 
+                l = m + 1; 
+  
+            // If x is smaller, ignore right half 
+            else
+                r = m - 1; 
+        } 
+  
+        return -1; 
+    } 
+
     /**
      * Creates new form leaderboard
      */
     public leaderboard() {
         initComponents();
-                this.getContentPane().setBackground(new Color(198,168,103));
-
+        this.getContentPane().setBackground(new Color(198, 168, 103));
+        dquiksort(a,0,a.length-1);
+  String y=Arrays.toString(a);
+  players.setText(y);
+        
     }
 
     /**
@@ -40,6 +97,9 @@ public class leaderboard extends javax.swing.JFrame {
         players = new javax.swing.JTextArea();
         exit = new javax.swing.JButton();
         search = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        namesearch = new javax.swing.JTextField();
+        searchArea = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,44 +125,63 @@ public class leaderboard extends javax.swing.JFrame {
             }
         });
 
-        search.setText("search");
+        search.setText("Search");
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Engravers MT", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Rankings");
+
+        namesearch.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE)
+                .addComponent(jtext, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(exit)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(searchArea, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jtext, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(search)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(exit)
-                        .addGap(102, 102, 102))))
+                .addGap(73, 73, 73)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(namesearch, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(search)
+                .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtext, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtext, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exit))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(search)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addComponent(namesearch, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(searchArea))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -113,9 +192,19 @@ public class leaderboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jtextActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-this.dispose();
+        this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_exitActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+
+ String p=namesearch.getText();
+ int x= binarySearch(b,p);
+ 
+ searchArea.setText(b[x]);
+
+         // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,7 +232,9 @@ this.dispose();
             java.util.logging.Logger.getLogger(leaderboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-       
+        URL url = FunctionRide.class.getResource("res\\rollercoaster.jpg");
+        ImageIcon imageIcon = new ImageIcon(url);
+        JLabel label = new JLabel(imageIcon);
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -155,9 +246,12 @@ this.dispose();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jtext;
+    private javax.swing.JTextField namesearch;
     private javax.swing.JTextArea players;
     private javax.swing.JButton search;
+    private javax.swing.JTextField searchArea;
     // End of variables declaration//GEN-END:variables
 }

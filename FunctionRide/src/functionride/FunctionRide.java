@@ -257,7 +257,7 @@ public class FunctionRide extends Canvas implements Runnable {
         try {
             writeFile = new FileWriter(scoreFile);
             writer = new BufferedWriter(writeFile);
-            writer.write(input + "Name" + ":" + " " + LName.name + "\n" + "Levels completed" + ":" + levelsCompleted.size());
+            writer.write(input + "Name" + ":" + " " + LName.name + "\n" + "Levels completed" + ":" + MouseInput.cLevel);
         } catch (Exception e) {
             System.out.println(e);
         } finally {
