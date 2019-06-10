@@ -312,15 +312,6 @@ public class Level {
                         if (checkCompletion()) {
                             //change state to level completed screen
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
-                            boolean notAdded = true;
-                            for (int levels : FunctionRide.levelsCompleted) {
-                                if (levels == FunctionRide.preLevel) {
-                                    notAdded = false;
-                                }
-                            }
-                            if (notAdded) {
-                                FunctionRide.levelsCompleted.add(FunctionRide.preLevel);
-                            }
                         }
                         //if they hit an obstacle
                     } else {

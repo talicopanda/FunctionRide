@@ -33,6 +33,8 @@ public class FunctionRide extends Canvas implements Runnable {
 
     private boolean running = false;
     private Thread thread;
+    
+    boolean askedName = false;
 
     public static ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
@@ -63,7 +65,7 @@ public class FunctionRide extends Canvas implements Runnable {
     };
 
     public static int currentLevel;
-    public static STATE State = STATE.MENU;  
+    public static STATE State = STATE.MENU;
 
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -167,6 +169,13 @@ public class FunctionRide extends Canvas implements Runnable {
         if (State == STATE.MENU) {
             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
             menu.render(g);
+            if (!askedName) {
+                JFrame getName = new LName();
+                getName.setVisible(true);
+                getName.setLocationRelativeTo(null);
+                askedName = true;
+                getHighScore();
+            }
         } else if (State == STATE.LEVEL_SCREEN) {
             g.drawImage(levelSelectBackground, 0, 0, getWidth(), getHeight() + 50, this);
             g.drawImage(levelSelectCoaster, 0, getHeight() / 2, getWidth(), getHeight() / 2, this);
@@ -175,9 +184,9 @@ public class FunctionRide extends Canvas implements Runnable {
         } else if (State == STATE.COMPLETED_SCREEN) {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
             g.drawImage(levelComplete, 0, 0, getWidth(), getHeight(), this);
-            g.drawImage(stars, getWidth()/2 - 250 , getHeight()/2-70, this);
+            g.drawImage(stars, getWidth() / 2 - 250, getHeight() / 2 - 70, this);
             completedScreen.render(g);
-        } else if (State == STATE.LEVEL1) { 
+        } else if (State == STATE.LEVEL1) {
             currentLevel = 1;
             levels[0].render(g);
         } else if (State == STATE.LEVEL2) {
@@ -208,7 +217,7 @@ public class FunctionRide extends Canvas implements Runnable {
             //loop until we hit the end
             while (!eof) {
                 String Name = reader.readLine();
-                String levelsCleared = reader.readLine();
+                int levelsCleared = Integer.parseInt(reader.readLine());
                 CompletedLevels b = new CompletedLevels(levelsCleared, Name);
                 //add the book to the list
                 highScores.add(b);
@@ -257,7 +266,7 @@ public class FunctionRide extends Canvas implements Runnable {
         try {
             writeFile = new FileWriter(scoreFile);
             writer = new BufferedWriter(writeFile);
-            writer.write(input + "Name" + ":" + " " + LName.name + "\n" + "Levels completed" + ":" + MouseInput.cLevel);
+            writer.write(input + LName.name + "\n"+levelsCompleted.size());
         } catch (Exception e) {
             System.out.println(e);
         } finally {

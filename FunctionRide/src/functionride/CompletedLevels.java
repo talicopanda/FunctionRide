@@ -12,17 +12,17 @@ package functionride;
  */
 public class CompletedLevels {  
     private String name;
-    private String levels;
+    private int levels;
     
     //constructor
-    public CompletedLevels(String n, String t){
+    public CompletedLevels(int n, String t){
         name = t;
         levels =n;
         
     }
     
     //accessors
-    public String getLevels(){
+    public int getLevels(){
         return levels;
     }
     
@@ -35,7 +35,7 @@ public class CompletedLevels {
     }
     
     //mutators
-    public void setLevels(String n){
+    public void setLevels(int n){
         levels = n;
     }
     
