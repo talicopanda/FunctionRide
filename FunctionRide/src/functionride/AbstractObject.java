@@ -5,8 +5,10 @@
  */
 package functionride;
 
+import java.awt.Graphics2D;
 
-abstract public class AbstractObject {
+
+abstract public class AbstractObject implements Object {
      //attributes 
     protected double x;
     protected double y;
@@ -33,6 +35,7 @@ abstract public class AbstractObject {
         this.height = height; 
         this.width = width;  
     }   
+    
     
     public double getX() {
         return x;

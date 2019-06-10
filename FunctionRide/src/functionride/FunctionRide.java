@@ -43,6 +43,7 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage levelSelectQuit = null;
     private BufferedImage levelComplete = null;
     private BufferedImage icon = null;
+    private BufferedImage stars = null;
     private Menu menu;
     private LevelSelect ls;
     public static int preLevel;
@@ -62,7 +63,7 @@ public class FunctionRide extends Canvas implements Runnable {
     };
 
     public static int currentLevel;
-    public static STATE State = STATE.MENU;
+    public static STATE State = STATE.COMPLETED_SCREEN; 
 
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -74,6 +75,7 @@ public class FunctionRide extends Canvas implements Runnable {
             levelSelectQuit = loader.loadImage("res\\quit.jpg");
             levelComplete = loader.loadImage("res\\level_complete.jpg");
             icon = loader.loadImage("res\\rollercoaster.jpg");
+            stars = loader.loadImage("res\\stars.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,8 +175,9 @@ public class FunctionRide extends Canvas implements Runnable {
         } else if (State == STATE.COMPLETED_SCREEN) {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
             g.drawImage(levelComplete, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(stars, getWidth()/2 - 250 , getHeight()/2-70, this);
             completedScreen.render(g);
-        } else if (State == STATE.LEVEL1) {
+        } else if (State == STATE.LEVEL1) { 
             currentLevel = 1;
             levels[0].render(g);
         } else if (State == STATE.LEVEL2) {
@@ -310,7 +313,7 @@ public class FunctionRide extends Canvas implements Runnable {
                 double ey = Double.parseDouble(br.readLine());
                 //tells us how many obstacles are in the level
                 int numObstacles = Integer.parseInt(br.readLine());
-                AbstractObstacle[] obstacles = new AbstractObstacle[numObstacles]; //set size of obstacle array
+                Rectangle[] obstacles = new Rectangle[numObstacles]; //set size of obstacle array 
                 //loop through and create all obstacles
                 for (int j = 0; j < numObstacles; j++) {
                     double obstacleX = Double.parseDouble(br.readLine());
