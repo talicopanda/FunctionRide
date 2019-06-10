@@ -110,7 +110,7 @@ public class leaderboard extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
 System.exit(0);
-        System.out.println("");// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_exitActionPerformed
 
     /**
