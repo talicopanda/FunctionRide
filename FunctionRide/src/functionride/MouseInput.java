@@ -46,7 +46,20 @@ public class MouseInput implements MouseListener {
                         }
                     }
                     if (notAdded) {
-                        FunctionRide.levelsCompleted.add(FunctionRide.preLevel);
+                        boolean update = false;
+                        int i = 0;
+                        for (CompletedLevels cl : FunctionRide.highScores) {
+                            if (LName.name.equals(cl.getName())) {
+                                update = true;
+                                i = FunctionRide.highScores.indexOf(cl);
+                            }
+                        }
+                        if(update){
+                            FunctionRide.levelsCompleted.set(i, FunctionRide.preLevel);
+                        } else{
+                            FunctionRide.levelsCompleted.add(FunctionRide.preLevel);
+                        }
+                        
                     }
                     FunctionRide.fileMaker();
                     System.exit(1);
@@ -112,11 +125,16 @@ public class MouseInput implements MouseListener {
                     //show the main menu screen
                     FunctionRide.State = FunctionRide.STATE.MENU;
                 }
+            } //check if user clicks the level screen button
+            else if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 - 50 + 100) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    //show the level select screen
+                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                }
             }
-
         } else { //levels
             //check if user clicks the play button 
-            if (mx >= FunctionRide.WIDTH / 2 - 170 && mx <= FunctionRide.WIDTH / 2 - 170 + 150) {
+            if (mx >= FunctionRide.WIDTH / 2 - 140 && mx <= FunctionRide.WIDTH / 2 - 140 + 150) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     //open screen that allows user to enter a function
                     JFrame funcTab = new functionmaker();;
@@ -124,10 +142,17 @@ public class MouseInput implements MouseListener {
                     funcTab.setLocationRelativeTo(null);
                 }
                 //check if user clicks the menu button
-            } else if (mx >= FunctionRide.WIDTH / 2 - 420 && mx <= FunctionRide.WIDTH / 2 - 420 + 150) {
+            } else if (mx >= FunctionRide.WIDTH / 2 - 470 && mx <= FunctionRide.WIDTH / 2 - 470 + 150) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     //show the main menu screen
                     FunctionRide.State = FunctionRide.STATE.MENU;
+                    FunctionRide.fileMaker();
+                }
+                //check if user clicks the level screen button 
+            } else if (mx >= FunctionRide.WIDTH / 2 - 305 && mx <= FunctionRide.WIDTH / 2 - 305 + 150) {
+                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
+                    //show the level select screen
+                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
                 }
             }
         }
@@ -135,17 +160,20 @@ public class MouseInput implements MouseListener {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e
+    ) {
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e
+    ) {
 
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e
+    ) {
     }
 
 }

@@ -48,9 +48,11 @@ public class LevelCompleted {
         //draw buttons
         g2d.fillRoundRect(FunctionRide.WIDTH / 2 + 100, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
         g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 200, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 50, FunctionRide.HEIGHT / 2 + 200, 100, 40,20,20);
         //draw text 
         g2d.setColor(Color.BLACK);
         Level.drawInfo(g2d, "Next", Level.btnFont, FunctionRide.WIDTH / 2 + 100 + 29, FunctionRide.HEIGHT / 2 + 200 + 25);
         Level.drawInfo(g2d, "Menu", Level.btnFont, FunctionRide.WIDTH / 2 - 200 + 29, FunctionRide.HEIGHT / 2 + 200 + 25);
+        Level.drawInfo(g2d, "Levels", Level.btnFont, FunctionRide.WIDTH / 2 - 50 + 20, FunctionRide.HEIGHT / 2 + 200 + 25); 
     }
 }

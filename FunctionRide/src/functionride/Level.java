@@ -27,7 +27,7 @@ public class Level {
     private double yStartPoint;
     private double xEndPoint;
     private double yEndPoint;
-    private Rectangle[] obstacles; 
+    private Rectangle[] obstacles;
 
     private Point startPoint;
     private Point endPoint;
@@ -67,7 +67,7 @@ public class Level {
     double yScale = ((double) funcAreaHeight - 2 * padding - labelPadding) / (yMax - yMin);
     private List<Double> scores;
     //font for printing information
-    public static Font btnFont = new Font("arial", Font.PLAIN, 20); 
+    public static Font btnFont = new Font("arial", Font.PLAIN, 20);
 
     /**
      * primary and only constructor for a level with all attributes
@@ -78,7 +78,7 @@ public class Level {
      * @param yep y value of end point
      * @param obstacles an array of obstacles
      * @param p a player
-     */ 
+     */
     public Level(double xsp, double ysp, double xep, double yep, Rectangle[] obstacles, Player p) {
         xStartPoint = xsp;
         yStartPoint = ysp;
@@ -93,7 +93,7 @@ public class Level {
         firstRun = true;
         areas = new ArrayList<>();
         for (int i = 0; i < obstacles.length; i++) {
-            areas.add(obstacles[i].getCollisionArea()); 
+            areas.add(obstacles[i].getCollisionArea());
         }
         crash = false;
     }
@@ -287,7 +287,7 @@ public class Level {
         for (int i = 0; i < obstacles.length; i++) {
             Point pos = coordTranslation(obstacles[i].getX(), obstacles[i].getY());
             Point size = new Point((int) (xScale * obstacles[i].getWidth()), (int) (yScale * obstacles[i].getHeight()));
-            obstacles[i].draw(g2d, pos.x, pos.y, size.x, size.y); 
+            obstacles[i].draw(g2d, pos.x, pos.y, size.x, size.y);
         }
         drawInfoBreakdown(g2d);
         drawButtons(g2d, btnFont);
@@ -380,13 +380,15 @@ public class Level {
         int xOff = 25;
         int yOff = 28;
         g2d.setFont(font);
-        g2d.setColor(Color.white); 
+        g2d.setColor(Color.white);
         //draw butons
-        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 170, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
-        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 420, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 140, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 470, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
+        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 305, FunctionRide.HEIGHT / 2 + 200, 150, 40, 20, 20);
         g2d.setColor(Color.black);
-        g2d.drawString("Run Function", FunctionRide.WIDTH / 2 - 171 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
-        g2d.drawString("Menu", FunctionRide.WIDTH / 2 - 400 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Run Function", FunctionRide.WIDTH / 2 - 141 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Menu", FunctionRide.WIDTH / 2 - 450 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Level Select", FunctionRide.WIDTH / 2 - 305 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
 
     }
 
@@ -417,8 +419,8 @@ public class Level {
         for (int i = 0; i < areas.size(); i++) {
             //range x 
             g2d.drawString("X Values of Obstacle " + (i + 1) + ": " + areas.get(i)[0] + " to " + areas.get(i)[1], textX, 120 + textPadding + (i + 1) * textPadding);
-            //range y  
-           
+            g2d.drawString("Y Values of Obstacle " + (i + 1) + ": " + areas.get(i)[3] + " to " + areas.get(i)[2], textX, 170 + textPadding + (i + 1) * textPadding);
+
         }
 
     }
