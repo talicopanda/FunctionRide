@@ -312,6 +312,15 @@ public class Level {
                         if (checkCompletion()) {
                             //change state to level completed screen
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
+                            boolean notAdded = true;
+                            for (int levels : FunctionRide.levelsCompleted) {
+                                if (levels == FunctionRide.preLevel) {
+                                    notAdded = false;
+                                }
+                            }
+                            if (notAdded) {
+                                FunctionRide.levelsCompleted.add(FunctionRide.preLevel);
+                            }
                         }
                         //if they hit an obstacle
                     } else {
@@ -384,11 +393,9 @@ public class Level {
         //draw butons
         g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 100, FunctionRide.HEIGHT / 2 + 200, 100, 40, 20, 20);
         g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 280, FunctionRide.HEIGHT / 2 + 200, 100, 40, 20, 20);
-        g2d.fillRoundRect(FunctionRide.WIDTH / 2 - 460, FunctionRide.HEIGHT / 2 + 200, 100, 40, 20, 20);
         g2d.setColor(Color.black);
-        g2d.drawString("Play", FunctionRide.WIDTH / 2 - 100 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
-        g2d.drawString("Levels", FunctionRide.WIDTH / 2 - 280 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
-        g2d.drawString("Quit", FunctionRide.WIDTH / 2 - 460 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Run Function", FunctionRide.WIDTH / 2 - 135 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
+        g2d.drawString("Menu", FunctionRide.WIDTH / 2 - 280 + xOff, FunctionRide.HEIGHT / 2 + 200 + yOff);
 
     }
 

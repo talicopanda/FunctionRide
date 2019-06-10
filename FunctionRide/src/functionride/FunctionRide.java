@@ -8,12 +8,15 @@ package functionride;
 import java.awt.Dimension;
 import java.awt.Canvas;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -31,6 +34,8 @@ public class FunctionRide extends Canvas implements Runnable {
     private boolean running = false;
     private Thread thread;
 
+    public static ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
+
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage background = null;
     private BufferedImage levelSelectCoaster = null;
@@ -40,6 +45,8 @@ public class FunctionRide extends Canvas implements Runnable {
     private BufferedImage icon = null;
     private Menu menu;
     private LevelSelect ls;
+    public static int preLevel;
+    public static ArrayList<CompletedLevels> highScores = new ArrayList();
     private static Player p;
     private Level[] levels;
     //private Menu menu;
@@ -49,7 +56,9 @@ public class FunctionRide extends Canvas implements Runnable {
         LEVEL_SCREEN,
         COMPLETED_SCREEN,
         LEVEL1,
-        LEVEL2
+        LEVEL2,
+        LEVEL3,
+        LEVEL4
     };
 
     public static int currentLevel;
@@ -157,9 +166,9 @@ public class FunctionRide extends Canvas implements Runnable {
             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
             menu.render(g);
         } else if (State == STATE.LEVEL_SCREEN) {
-            g.drawImage(levelSelectBackground, 0, 0, getWidth(), getHeight()+50, this); 
-            g.drawImage(levelSelectCoaster, 0, getHeight()/2, getWidth(), getHeight()/2, this);
-            g.drawImage(levelSelectQuit, 900, 50, 50, 50, this); 
+            g.drawImage(levelSelectBackground, 0, 0, getWidth(), getHeight() + 50, this);
+            g.drawImage(levelSelectCoaster, 0, getHeight() / 2, getWidth(), getHeight() / 2, this);
+            g.drawImage(levelSelectQuit, 900, 50, 50, 50, this);
             ls.render(g);
         } else if (State == STATE.COMPLETED_SCREEN) {
             LevelCompleted completedScreen = new LevelCompleted(currentLevel);
@@ -171,13 +180,92 @@ public class FunctionRide extends Canvas implements Runnable {
         } else if (State == STATE.LEVEL2) {
             currentLevel = 2;
             levels[1].render(g);
+        } else if (State == STATE.LEVEL3) {
+            currentLevel = 3;
+            levels[2].render(g);
+        } else if (State == STATE.LEVEL4) {
+            currentLevel = 4;
+            levels[3].render(g);
         }
 
-        
+        preLevel = currentLevel;
 
         ///////////////////////////////////////////
         g.dispose();
         bs.show();
+    }
+
+    public static void getHighScore() {
+        FileReader readfile = null;
+        BufferedReader reader = null;
+        try {
+            readfile = new FileReader("res\\HighScore.txt");
+            reader = new BufferedReader(readfile);
+            boolean eof = false;
+            //loop until we hit the end
+            while (!eof) {
+                String Name = reader.readLine();
+                String levelsCleared = reader.readLine();
+                CompletedLevels b = new CompletedLevels(levelsCleared, Name);
+                //add the book to the list
+                highScores.add(b);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void fileMaker() {
+        File scoreFile = new File("res\\HighScore.txt");
+        String input = "";
+        try {
+            FileReader fr = new FileReader(scoreFile);
+            BufferedReader br = new BufferedReader(fr);
+            boolean eof = false;
+            while (!eof) {
+                String temp = br.readLine();
+                if (temp == null) {
+                    eof = true;
+                } else {
+                    input += temp + "\n";
+                }
+            }
+
+        } catch (Exception e) {
+        }
+        try {
+            if (!scoreFile.exists()) {
+                scoreFile.createNewFile();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FileWriter writeFile = null;
+        BufferedWriter writer = null;
+        try {
+            writeFile = new FileWriter(scoreFile);
+            writer = new BufferedWriter(writeFile);
+            writer.write(input + "Name" + ":" + " " + LName.name + "\n" + "Levels completed" + ":" + levelsCompleted.size());
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
     }
 
     public static void main(String args[]) {
@@ -225,25 +313,14 @@ public class FunctionRide extends Canvas implements Runnable {
                 AbstractObstacle[] obstacles = new AbstractObstacle[numObstacles]; //set size of obstacle array
                 //loop through and create all obstacles
                 for (int j = 0; j < numObstacles; j++) {
-                    String type = br.readLine();
                     double obstacleX = Double.parseDouble(br.readLine());
                     double obstacleY = Double.parseDouble(br.readLine());
                     //if the obstacle is a rectangle, it has a width and a heigth
-                    if (type.equals("Rectangle")) {
-                        double obstacleWidth = Double.parseDouble(br.readLine());
-                        double obstacleHeight = Double.parseDouble(br.readLine());
-                        //create a new rectangle and add it to the array 
-                        Rectangle rect = new Rectangle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
-                        obstacles[j] = rect;
-                        //otherwise it must be a ring and it has a radius
-                    } else {
-                        double obstacleWidth = Double.parseDouble(br.readLine());
-                        double obstacleHeight = Double.parseDouble(br.readLine());
-                        //create a new rectangle and add it to the array 
-                        Ring ring = new Ring(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
-                        obstacles[j] = ring;
-                    }
-
+                    double obstacleWidth = Double.parseDouble(br.readLine());
+                    double obstacleHeight = Double.parseDouble(br.readLine());
+                    //create a new rectangle and add it to the array 
+                    Rectangle rect = new Rectangle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
+                    obstacles[j] = rect;
                 }
                 Level level = new Level(sx, sy, ex, ey, obstacles, p);
                 levels[i] = level;

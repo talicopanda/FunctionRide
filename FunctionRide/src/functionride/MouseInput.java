@@ -1,7 +1,6 @@
 package functionride;
 
 import static functionride.FunctionRide.State;
-import static functionride.FunctionRide.currentLevel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
@@ -29,14 +28,27 @@ public class MouseInput implements MouseListener {
         if (FunctionRide.State == FunctionRide.STATE.MENU) {
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
+                    JFrame getName = new LName();
+                    getName.setVisible(true);
+                    getName.setLocationRelativeTo(null);
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+
                 }
             }
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 450 && my <= 500) {
                     System.exit(1);
                 }
+
+                if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
+                    if (my >= 550 && my <= 600) {
+                        JFrame leaderboard = new leaderboard();
+                        leaderboard.setLocationRelativeTo(null);
+                        leaderboard.setVisible(true);
+                    }
+                }
             }
+
         } else if (FunctionRide.State == FunctionRide.STATE.LEVEL_SCREEN) { //levelscreen
             //check which level button user clicks and open that level
             if (mx >= 65 && mx <= 115) {
@@ -49,16 +61,16 @@ public class MouseInput implements MouseListener {
                 }
             } else if (mx >= 275 && mx <= 325) {
                 if (my >= 500 && my <= 550) {
-                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                    FunctionRide.State = FunctionRide.STATE.LEVEL3;
                 }
             } else if (mx >= 490 && mx <= 550) {
                 if (my >= 470 && my <= 520) {
-                    FunctionRide.State = FunctionRide.STATE.LEVEL1;
+                    FunctionRide.State = FunctionRide.STATE.LEVEL4;
                 }
                 //check if user clicks exit button 
             } else if (mx >= 900 && mx <= 950) {
                 if (my >= 50 && my <= 100) {
-                    System.exit(1);
+                    FunctionRide.State = FunctionRide.STATE.MENU;
                 }
             }
 
@@ -71,11 +83,15 @@ public class MouseInput implements MouseListener {
                         State = FunctionRide.STATE.LEVEL1;
                     } else if (current == 2) {
                         State = FunctionRide.STATE.LEVEL2;
+                    } else if (current == 3) {
+                        State = FunctionRide.STATE.LEVEL3;
+                    } else if (current == 4) {
+                        State = FunctionRide.STATE.LEVEL4;
                     }
                     Level.setFunction(null);
                 }
-
             }
+
         } else { //levels
             //check if user clicks the play button
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
@@ -85,19 +101,14 @@ public class MouseInput implements MouseListener {
                     funcTab.setVisible(true);
                     funcTab.setLocationRelativeTo(null);
                 }
-            //check if user clicks the levels button
+                //check if user clicks the levels button
             } else if (mx >= FunctionRide.WIDTH / 2 - 280 && mx <= FunctionRide.WIDTH / 2 - 280 + 100) {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     //show the level select screen
-                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                    FunctionRide.State = FunctionRide.STATE.MENU;
+                    FunctionRide.fileMaker();
                 }
-            //check if user clicks quit
-            } else if (mx >= FunctionRide.WIDTH / 2 - 460 && mx <= FunctionRide.WIDTH / 2 - 460 + 100) {
-                if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
-                    //close the game
-                    System.exit(0);
-                }
-            }
+            } 
         }
 
     }
