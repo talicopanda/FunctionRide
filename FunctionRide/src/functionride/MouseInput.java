@@ -3,6 +3,7 @@ package functionride;
 import static functionride.FunctionRide.State;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /*
@@ -15,7 +16,10 @@ import javax.swing.JFrame;
  * @author nm
  */
 public class MouseInput implements MouseListener {
+private boolean notAdded;
+    public ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
+    public static int cLevel;
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -79,6 +83,21 @@ public class MouseInput implements MouseListener {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     int current = FunctionRide.currentLevel;
                     current++;
+                    notAdded = true;
+
+                    for (int levels : levelsCompleted) {
+
+                        if (levels == FunctionRide.preLevel) {
+                            notAdded = false;
+                        }
+                    }
+                    if (notAdded) {
+                        levelsCompleted.add(FunctionRide.preLevel);
+                    }
+                    cLevel=levelsCompleted.size();
+                    FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
+                
+
                     if (current == 1) {
                         State = FunctionRide.STATE.LEVEL1;
                     } else if (current == 2) {
@@ -91,7 +110,7 @@ public class MouseInput implements MouseListener {
                     Level.setFunction(null);
                 }
             }
-
+        
         } else { //levels
             //check if user clicks the play button
             if (mx >= FunctionRide.WIDTH / 2 - 100 && mx <= FunctionRide.WIDTH / 2 - 100 + 100) {
