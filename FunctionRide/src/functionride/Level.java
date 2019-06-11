@@ -235,7 +235,7 @@ public class Level {
             List<Point> graphPoints = new ArrayList<>();
             double xValue = xMin;
             double step = (xMax - xMin) / maxDataPoints;
-            for (int i = 0; i < maxDataPoints; i++) {
+            for (int i = 0; i < maxDataPoints; i++) { //finds value of everyh point in graph
                 Expression e = new ExpressionBuilder(function)
                         .variables("x")
                         .build()
@@ -373,6 +373,7 @@ public class Level {
         for (double[] area : areas) {
             Point initialRange = coordTranslation(area[0], area[2]);
             Point finalRange = coordTranslation(area[1], area[3]);
+            //if collides
             if (x1 >= initialRange.x && x1 <= finalRange.x && y1 >= initialRange.y && y1 <= finalRange.y) {
                 return true;
             }
@@ -460,7 +461,7 @@ public class Level {
         Stroke oldStroke = g2d.getStroke();
         g2d.setColor(lineColor);
         g2d.setStroke(GRAPH_STROKE);
-        for (int i = 0; i < graphPoints.size() - 1; i++) {
+        for (int i = 0; i < graphPoints.size() - 1; i++) { //loops through graph points
             int x1 = graphPoints.get(i).x;
             int y1 = graphPoints.get(i).y;
             int x2 = graphPoints.get(i + 1).x;
@@ -469,7 +470,7 @@ public class Level {
         }
         g2d.setStroke(oldStroke);
         g2d.setColor(pointColor);
-        for (int i = 0; i < graphPoints.size(); i++) {
+        for (int i = 0; i < graphPoints.size(); i++) { //loops through graph points
             int x = graphPoints.get(i).x - pointWidth / 2;
             int y = graphPoints.get(i).y - pointWidth / 2;
             int ovalW = pointWidth;

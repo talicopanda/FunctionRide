@@ -93,7 +93,7 @@ public class FunctionRide extends Canvas implements Runnable {
         levels = readLevel("res\\Level.txt");
         this.addMouseListener(new MouseInput());
     }
-
+    //starts the program
     private synchronized void start() {
         if (running) {
             return;
@@ -104,7 +104,7 @@ public class FunctionRide extends Canvas implements Runnable {
         thread.start();
 
     }
-
+    //stops the program
     private synchronized void stop() {
         if (!running) {
             return;
@@ -118,7 +118,7 @@ public class FunctionRide extends Canvas implements Runnable {
         }
         System.exit(1);
     }
-
+    //makes the program run 60 fps
     public void run() {
         init();
         long lastTime = System.nanoTime();
@@ -152,8 +152,6 @@ public class FunctionRide extends Canvas implements Runnable {
     }
 
     private void tick() {
-        if (State == STATE.LEVEL1) {
-        }
 
     }
 
@@ -169,6 +167,8 @@ public class FunctionRide extends Canvas implements Runnable {
         //////////////////////////////////////////// drawing area
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        
+        //draws each screen
         if (State == STATE.MENU) {
             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
             menu.render(g);
@@ -192,6 +192,7 @@ public class FunctionRide extends Canvas implements Runnable {
         } else if (State == STATE.LEVEL1) {
             currentLevel = 1;
             boolean completed = false;
+            //only renders level if it has not been completed
             for (int levels : levelsCompleted) {
                 if (levels == currentLevel) {
                     completed = true;
@@ -199,12 +200,13 @@ public class FunctionRide extends Canvas implements Runnable {
             }
             if (!completed) {
                 levels[0].render(g);
-            } else{
+            } else{ //otherwise render completed screen
                 State = State.COMPLETED_SCREEN;
             }
         } else if (State == STATE.LEVEL2) {
             currentLevel = 2;
             boolean completed = false;
+            //only renders level if it has not been completed
             for (int levels : levelsCompleted) {
                 if (levels == currentLevel) {
                     completed = true;
@@ -212,12 +214,13 @@ public class FunctionRide extends Canvas implements Runnable {
             }
             if (!completed) {
                 levels[1].render(g);
-            } else{
+            } else{ //otherwise render completed screen
                 State = State.COMPLETED_SCREEN;
             }
         } else if (State == STATE.LEVEL3) {
             currentLevel = 3;
             boolean completed = false;
+            //only renders level if it has not been completed
             for (int levels : levelsCompleted) {
                 if (levels == currentLevel) {
                     completed = true;
@@ -225,12 +228,13 @@ public class FunctionRide extends Canvas implements Runnable {
             }
             if (!completed) {
                 levels[2].render(g);
-            } else{
+            } else{ //otherwise render completed screen
                 State = State.COMPLETED_SCREEN;
             }
         } else if (State == STATE.LEVEL4) {
             currentLevel = 4;
             boolean completed = false;
+            //only renders level if it has not been completed
             for (int levels : levelsCompleted) {
                 if (levels == currentLevel) {
                     completed = true;
@@ -238,7 +242,7 @@ public class FunctionRide extends Canvas implements Runnable {
             }
             if (!completed) {
                 levels[3].render(g);
-            } else{
+            } else{ //otherwise render completed screen
                 State = State.COMPLETED_SCREEN;
             }
         }

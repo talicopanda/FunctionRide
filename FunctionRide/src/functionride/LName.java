@@ -98,12 +98,12 @@ public class LName extends javax.swing.JFrame {
         //get the name of the player
         name = Name.getText();
         boolean repeatedName = false;
-        for(CompletedLevels cl : FunctionRide.highScores){
+        for(CompletedLevels cl : FunctionRide.highScores){ //checks if name is on the list
             if(cl.getName().equals(name)){
                 repeatedName = true;
             }
         }
-        if (!name.equals("") && !repeatedName) {
+        if (!name.equals("") && !repeatedName) { //if input is not invalid or repeated
             this.dispose();
         } else {
             jLabel2.setText("Repeated Name");

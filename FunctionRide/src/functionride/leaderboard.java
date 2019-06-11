@@ -21,7 +21,7 @@ public class leaderboard extends javax.swing.JFrame {
     int[] scores = new int[highScores.size()];
     String[] names = new String[highScores.size()];
     //sort the leaderboard datafile in terms of levels completed
-    public static void dquiksort(int[] a, int left, int right) {
+    public static void dquiksort(int[] a, int left, int right) { 
         if (left >= right) {
             return;
         }
@@ -82,13 +82,13 @@ public class leaderboard extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground(new Color(198, 168, 103));
         int i = 0;
-        for (CompletedLevels cl : highScores) {
+        for (CompletedLevels cl : highScores) { //load scores array
             scores[i] = cl.getLevels();
             i++;
         }
         dquiksort(scores, 0, scores.length - 1);
         int k = 0;
-        for (int score : scores) {
+        for (int score : scores) { //makes the names array and scores array match
             for (CompletedLevels cl : highScores) {
                 if (cl.getLevels() == score) {
                     names[k] = cl.getName();
@@ -98,7 +98,7 @@ public class leaderboard extends javax.swing.JFrame {
             k++;
         }
         String output = "";
-        for (int j = 0; j < scores.length; j++) {
+        for (int j = 0; j < scores.length; j++) { //outputs the leaderboard
             output += (j+1)+". Name: " + names[j] + "\nLevels Completed: " + scores[j] + "\n";
         }
         players.setText(output);
@@ -229,8 +229,8 @@ public class leaderboard extends javax.swing.JFrame {
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
 
         String p = namesearch.getText();
-        int x = binarySearch(names, p);
-        if (x != -1) {
+        int x = binarySearch(names, p); //search for name
+        if (x != -1) { //if found, output in search area
             searchArea.setText("Name: " + names[x] + "\nLevels completed: " + scores[x]);
         } else {
             searchArea.setText("Not found");

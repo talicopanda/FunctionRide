@@ -49,7 +49,7 @@ public class Rectangle extends AbstractObject {
      * @return an array of the values that will result in a crash 
      */
     public double[] getCollisionArea() {
-        //0-x1 1-x2 2-y1 3-y2
+        //array data (index - value): 0 - x1 1 - x2 2 - y1 3 - y2
         double[] area = {x, x + width, y, y - height};
         return area;
     }
