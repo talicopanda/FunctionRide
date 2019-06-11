@@ -310,8 +310,18 @@ public class Level {
                     if (!collided) {
                         p.updatePos(x - p.SIZE / 2, y - p.SIZE);
                         if (checkCompletion()) {
+                            boolean notAdded = true;
+                            for (int levels : FunctionRide.levelsCompleted) {
+                                if (levels == FunctionRide.preLevel) {
+                                    notAdded = false;
+                                }
+                            }
+                            if (notAdded) {
+                                FunctionRide.levelsCompleted.add(FunctionRide.preLevel);
+                            }
                             //change state to level completed screen
                             FunctionRide.State = STATE.COMPLETED_SCREEN;
+
                         }
                         //if they hit an obstacle
                     } else {
@@ -333,6 +343,7 @@ public class Level {
             drawInfo(g, "Crash! Try again.", btnFont, 10, FunctionRide.HEIGHT - 20);
         }
         //draw player
+
         p.render(g2d);
 
     }

@@ -25,22 +25,20 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="exit" min="-2" pref="69" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="663" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="263" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="290" max="-2" attributes="0"/>
+                      <Component id="exit" min="-2" pref="164" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="316" max="-2" attributes="0"/>
-              <EmptySpace pref="93" max="32767" attributes="0"/>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,10 +48,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="170" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="631" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="exit" min="-2" pref="23" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="exit" min="-2" pref="28" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -77,9 +75,10 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jTextArea1">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="      &#xa;&#xa;&#xa;&#xa;&#xa; &#x9;&#x9;Function Ride&#xa;     By: Tales Scopinho,Sukhraj Garcha, Sergio Hernandez&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;Introduction:&#xa;Welcome to Function Ride, the game that will help you on your quest of understanding graphics. We hope you have an amazing time crunching down numbers.&#xa;&#xa;&#xa;Table of contents:&#xa;&#xa;I. Set-Up&#x9;3&#xa;II. Main-Menu&#x9;3&#xa;A. Play&#x9;4&#xa;B. Help&#x9;4&#xa;C. Quit&#x9;4&#xa;D. Leaderboard&#x9;4&#xa;III. Level Screen&#x9;5&#xa;IV. Objective of the Game&#x9;6&#xa;V. Function Writing&#x9;6&#xa;VI. Completed Screen&#x9;7&#xa;&#xa;&#xa;&#xa;&#xa;                                                                                                                                                                                                                              &#xa;I. Set-Up &#xa;The program can be started by running the &#x201c;FunctionRide.jar&#x201d; provided with the user manual. Upon starting the program the main menu will appear.&#xa;II. Main-Menu&#xa;Once the program starts up, the game will ask you for your name, or the name you want to be recognized with. The name you input will be registered for the leaderboard.&#xa;Afterward, there are four options that you can choose from. Play, Help, Quit and Leaderboard.&#xa;&#xa;&#xa;&#xa;A. Play&#xa;This option takes you to the level-choosing screen.&#xa;&#xa;B. Help&#xa;This option opens a JFrame with the user manual.&#xa;&#xa;C. Quit&#xa;This option closes the program.&#xa;&#xa;D. Leaderboard&#xa;This option opens a panel which shows the players that have played the game in descending order, from the most levels completed to the least. This is displayed under the &#x201c;Rankings&#x201d; text.&#xa;The panel also allows you to search for the desired player and shows its name and the levels completed by the player.&#xa;&#xa;III. Level Screen&#xa;In the level screen, the square boxes with numbers represent the levels. Once you press a box, it will take you to one of the levels of the game. The X button on the top right, once pressed, will take you to the main menu.&#xa;&#xa;IV. Objective of the Game&#xa;Once you enter the game you will be presented with this screen. The objective is to create a function that will go through the starting and end points without touching the obstacles(blue rectangles) in between. The starting point is labeled in green and has a sprite which represents you (the player), and the end point is labeled in red. &#xa;To write a function, press the &#x201c;Run function button&#x201d;, refer to Function Writing (V), for more instructions of writing a function.&#xa;&#xa;&#xa;V. Function Writing&#xa;To write a function, you must use &#x201c;x&#x201d; as the variable. Different symbols mean different mathematical operations.&#xa; ^=exponents (ex. x^2)&#xa;sqrt= square root (ex. sqrt(x))&#xa;/= division (ex. x/2)&#xa;*=multiplication (ex. 2x or 2*x)&#xa;+=addition (ex. x+4)&#xa;()=parentheses (grouping)(ex. (x^2)+4, (x+5)/(x+6))&#xa;Afterward, press the &#x201d;test&#x201d; button to display the function.&#xa;The Menu and the Level-Select buttons will take you to their respective screens. &#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;VI. Completed Screen&#xa;Once you complete a level by passing the starting point and end point, as shown in this screen, the completed screen will appear. &#xa;&#xa;&#xa;The completed screen will show three buttons for you to choose from. &#xa;The &#x201c;Menu&#x201d; button will take you to the main menu, the &#x201c;Levels&#x201d; screen will take you to the level select. &#xa;The button &#x201c;next&#x201d;, will take you the next level in the sequence.&#xa;&#xa;"/>
+            <Property name="text" type="java.lang.String" value="Introduction:&#xa;Welcome to Function Ride, the game that will help you on your quest of understanding graphics. We hope you have an amazing time crunching down numbers.&#xa;&#xa;&#xa;Table of contents:&#xa;&#xa;I. Set-Up&#x9;&#xa;II. Main-Menu&#x9;&#xa;A. Play&#x9;&#xa;B. Help&#x9;&#xa;C. Quit&#x9;&#xa;D. Leaderboard&#x9;&#xa;III. Level Screen&#xa;IV. Objective of the Game&#x9;&#xa;V. Function Writing&#x9;&#xa;VI. Completed Screen&#x9;&#xa;                                                                                                                                                                                                                              &#xa;I. Set-Up &#xa;The program can be started by running the &#x201c;FunctionRide.jar&#x201d; provided with the user manual. Upon starting the program the main menu will appear.&#xa;II. Main-Menu&#xa;Once the program starts up, the game will ask you for your name, or the name you want to be recognized with. The name you input will be registered for the leaderboard.&#xa;Afterward, there are four options that you can choose from. Play, Help, Quit and Leaderboard.&#xa;&#xa;A. Play&#xa;This option takes you to the level-choosing screen.&#xa;&#xa;B. Help&#xa;This option opens a JFrame with the user manual.&#xa;&#xa;C. Quit&#xa;This option closes the program.&#xa;&#xa;D. Leaderboard&#xa;This option opens a panel which shows the players that have played the game in descending order, from the most levels completed to the least. This is displayed under the &#x201c;Rankings&#x201d; text.&#xa;The panel also allows you to search for the desired player and shows its name and the levels completed by the player.&#xa;&#xa;III. Level Screen&#xa;In the level screen, the square boxes with numbers represent the levels. Once you press a box, it will take you to one of the levels of the game. The X button on the top right, once pressed, will take you to the main menu.&#xa;&#xa;IV. Objective of the Game&#xa;Once you enter the game you will be presented with this screen. The objective is to create a function that will go through the starting and end points without touching the obstacles(blue rectangles) in between. The starting point is labeled in green and has a sprite which represents you (the player), and the end point is labeled in red. &#xa;To write a function, press the &#x201c;Run function button&#x201d;, refer to Function Writing (V), for more instructions of writing a function.&#xa;&#xa;V. Function Writing&#xa;To write a function, you must use &#x201c;x&#x201d; as the variable. Different symbols mean different mathematical operations.&#xa; ^=exponents (ex. x^2)&#xa;sqrt= square root (ex. sqrt(x))&#xa;/= division (ex. x/2)&#xa;*=multiplication (ex. 2x or 2*x)&#xa;+=addition (ex. x+4)&#xa;()=parentheses (grouping)(ex. (x^2)+4, (x+5)/(x+6))&#xa;Afterward, press the &#x201d;test&#x201d; button to display the function.&#xa;The Menu and the Level-Select buttons will take you to their respective screens. &#xa;&#xa;VI. Completed Screen&#xa;Once you complete a level by passing the starting point and end point, as shown in this screen, the completed screen will appear. &#xa;&#xa;The completed screen will show three buttons for you to choose from. &#xa;The &#x201c;Menu&#x201d; button will take you to the main menu, the &#x201c;Levels&#x201d; screen will take you to the level select. &#xa;The button &#x201c;next&#x201d;, will take you the next level in the sequence.&#xa;&#xa;PS: To exit the game, you must go to Main Menu and press &quot;quit&quot;. Otherwise your data will not be saved"/>
           </Properties>
         </Component>
       </SubComponents>

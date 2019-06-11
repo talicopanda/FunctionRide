@@ -42,9 +42,10 @@ public class UserManual extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("User Manual");
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("      \n\n\n\n\n \t\tFunction Ride\n     By: Tales Scopinho,Sukhraj Garcha, Sergio Hernandez\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction:\nWelcome to Function Ride, the game that will help you on your quest of understanding graphics. We hope you have an amazing time crunching down numbers.\n\n\nTable of contents:\n\nI. Set-Up\t3\nII. Main-Menu\t3\nA. Play\t4\nB. Help\t4\nC. Quit\t4\nD. Leaderboard\t4\nIII. Level Screen\t5\nIV. Objective of the Game\t6\nV. Function Writing\t6\nVI. Completed Screen\t7\n\n\n\n\n                                                                                                                                                                                                                              \nI. Set-Up \nThe program can be started by running the “FunctionRide.jar” provided with the user manual. Upon starting the program the main menu will appear.\nII. Main-Menu\nOnce the program starts up, the game will ask you for your name, or the name you want to be recognized with. The name you input will be registered for the leaderboard.\nAfterward, there are four options that you can choose from. Play, Help, Quit and Leaderboard.\n\n\n\nA. Play\nThis option takes you to the level-choosing screen.\n\nB. Help\nThis option opens a JFrame with the user manual.\n\nC. Quit\nThis option closes the program.\n\nD. Leaderboard\nThis option opens a panel which shows the players that have played the game in descending order, from the most levels completed to the least. This is displayed under the “Rankings” text.\nThe panel also allows you to search for the desired player and shows its name and the levels completed by the player.\n\nIII. Level Screen\nIn the level screen, the square boxes with numbers represent the levels. Once you press a box, it will take you to one of the levels of the game. The X button on the top right, once pressed, will take you to the main menu.\n\nIV. Objective of the Game\nOnce you enter the game you will be presented with this screen. The objective is to create a function that will go through the starting and end points without touching the obstacles(blue rectangles) in between. The starting point is labeled in green and has a sprite which represents you (the player), and the end point is labeled in red. \nTo write a function, press the “Run function button”, refer to Function Writing (V), for more instructions of writing a function.\n\n\nV. Function Writing\nTo write a function, you must use “x” as the variable. Different symbols mean different mathematical operations.\n ^=exponents (ex. x^2)\nsqrt= square root (ex. sqrt(x))\n/= division (ex. x/2)\n*=multiplication (ex. 2x or 2*x)\n+=addition (ex. x+4)\n()=parentheses (grouping)(ex. (x^2)+4, (x+5)/(x+6))\nAfterward, press the ”test” button to display the function.\nThe Menu and the Level-Select buttons will take you to their respective screens. \n\n\n\n\n\n\n\n\n\nVI. Completed Screen\nOnce you complete a level by passing the starting point and end point, as shown in this screen, the completed screen will appear. \n\n\nThe completed screen will show three buttons for you to choose from. \nThe “Menu” button will take you to the main menu, the “Levels” screen will take you to the level select. \nThe button “next”, will take you the next level in the sequence.\n\n");
+        jTextArea1.setText("Introduction:\nWelcome to Function Ride, the game that will help you on your quest of understanding graphics. We hope you have an amazing time crunching down numbers.\n\n\nTable of contents:\n\nI. Set-Up\t\nII. Main-Menu\t\nA. Play\t\nB. Help\t\nC. Quit\t\nD. Leaderboard\t\nIII. Level Screen\nIV. Objective of the Game\t\nV. Function Writing\t\nVI. Completed Screen\t\n                                                                                                                                                                                                                              \nI. Set-Up \nThe program can be started by running the “FunctionRide.jar” provided with the user manual. Upon starting the program the main menu will appear.\nII. Main-Menu\nOnce the program starts up, the game will ask you for your name, or the name you want to be recognized with. The name you input will be registered for the leaderboard.\nAfterward, there are four options that you can choose from. Play, Help, Quit and Leaderboard.\n\nA. Play\nThis option takes you to the level-choosing screen.\n\nB. Help\nThis option opens a JFrame with the user manual.\n\nC. Quit\nThis option closes the program.\n\nD. Leaderboard\nThis option opens a panel which shows the players that have played the game in descending order, from the most levels completed to the least. This is displayed under the “Rankings” text.\nThe panel also allows you to search for the desired player and shows its name and the levels completed by the player.\n\nIII. Level Screen\nIn the level screen, the square boxes with numbers represent the levels. Once you press a box, it will take you to one of the levels of the game. The X button on the top right, once pressed, will take you to the main menu.\n\nIV. Objective of the Game\nOnce you enter the game you will be presented with this screen. The objective is to create a function that will go through the starting and end points without touching the obstacles(blue rectangles) in between. The starting point is labeled in green and has a sprite which represents you (the player), and the end point is labeled in red. \nTo write a function, press the “Run function button”, refer to Function Writing (V), for more instructions of writing a function.\n\nV. Function Writing\nTo write a function, you must use “x” as the variable. Different symbols mean different mathematical operations.\n ^=exponents (ex. x^2)\nsqrt= square root (ex. sqrt(x))\n/= division (ex. x/2)\n*=multiplication (ex. 2x or 2*x)\n+=addition (ex. x+4)\n()=parentheses (grouping)(ex. (x^2)+4, (x+5)/(x+6))\nAfterward, press the ”test” button to display the function.\nThe Menu and the Level-Select buttons will take you to their respective screens. \n\nVI. Completed Screen\nOnce you complete a level by passing the starting point and end point, as shown in this screen, the completed screen will appear. \n\nThe completed screen will show three buttons for you to choose from. \nThe “Menu” button will take you to the main menu, the “Levels” screen will take you to the level select. \nThe button “next”, will take you the next level in the sequence.\n\nPS: To exit the game, you must go to Main Menu and press \"quit\". Otherwise your data will not be saved");
         jScrollPane1.setViewportView(jTextArea1);
 
         exit.setText("Exit");
@@ -60,18 +61,16 @@ public class UserManual extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(231, 231, 231)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(290, 290, 290)
+                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,10 +78,10 @@ public class UserManual extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();

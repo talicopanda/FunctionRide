@@ -3,8 +3,6 @@
  * May 31 2019
  * class keeps track of any mouse input
  */
-
-
 package functionride;
 
 import static functionride.FunctionRide.State;
@@ -13,9 +11,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
-
-
 public class MouseInput implements MouseListener {
+
     //keep track of whether or not the player has been added to the leaderboard
     private boolean notAdded;
     //list of all of the levels that have been completed by a player
@@ -36,48 +33,32 @@ public class MouseInput implements MouseListener {
         int mx = e.getX();
         int my = e.getY();
         //menu screen
+
+        //check if user clicks help button 
         if (FunctionRide.State == FunctionRide.STATE.MENU) {
-                  if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
+            if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 350 && my <= 400) {
-                      JFrame UserManual = new UserManual();
-                        UserManual.setLocationRelativeTo(null);
-                        UserManual.setVisible(true);
+                    JFrame UserManual = new UserManual();
+                    UserManual.setLocationRelativeTo(null);
+                    UserManual.setVisible(true);
                 }
-                }
+            }
+
+            //check if user clicks level screen button 
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
                 }
             }
-            //check if user clicks leaderboard button 
+
+            //check if user clicks quit button 
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 450 && my <= 500) {
-                    boolean notAdded = true;
-                    for (int levels : FunctionRide.levelsCompleted) {
-                        if (levels == FunctionRide.preLevel) {
-                            notAdded = false;
-                        }
-                    }
-                    if (notAdded) {
-                        boolean update = false;
-                        int i = 0;
-                        for (CompletedLevels cl : FunctionRide.highScores) {
-                            if (LName.name.equals(cl.getName())) {
-                                update = true;
-                                i = FunctionRide.highScores.indexOf(cl);
-                            }
-                        }
-                        if(update){
-                            FunctionRide.levelsCompleted.set(i, FunctionRide.preLevel);
-                        } else{
-                            FunctionRide.levelsCompleted.add(FunctionRide.preLevel);
-                        }
-                        
-                    }
                     FunctionRide.fileMaker();
                     System.exit(1);
                 }
 
+                //check if user clicks leaderboard button 
                 if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                     if (my >= 550 && my <= 600) {
                         JFrame leaderboard = new leaderboard();
@@ -159,7 +140,6 @@ public class MouseInput implements MouseListener {
                 if (my >= FunctionRide.HEIGHT / 2 + 200 && my <= FunctionRide.HEIGHT / 2 + 200 + 40) {
                     //show the main menu screen
                     FunctionRide.State = FunctionRide.STATE.MENU;
-                    FunctionRide.fileMaker();
                 }
                 //check if user clicks the level screen button 
             } else if (mx >= FunctionRide.WIDTH / 2 - 305 && mx <= FunctionRide.WIDTH / 2 - 305 + 150) {
