@@ -32,6 +32,13 @@ public class MouseInput implements MouseListener {
         int my = e.getY();
         //menu screen
         if (FunctionRide.State == FunctionRide.STATE.MENU) {
+                  if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
+                if (my >= 350 && my <= 400) {
+                      JFrame UserManual = new UserManual();
+                        UserManual.setLocationRelativeTo(null);
+                        UserManual.setVisible(true);
+                }
+                }
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 250 && my <= 300) {
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
