@@ -18,10 +18,6 @@ public class Player extends AbstractObject {
      * main and only constructor for a player 
      * @param x x location
      * @param y y location 
-     * @param width width of player
-     * @param height height of player
-     * @param speed the speed that the player will travel at
-     * @param game the game class to import spritesheet from 
      */
     public Player(int x, int y) { 
         this.x = x; 
@@ -46,20 +42,20 @@ public class Player extends AbstractObject {
     public int getSpeed() { 
         return speed;
     }
-    
+    /**
+     * updates the players position to move it
+     * @param x the new x location
+     * @param y the new y location
+     */
     public void updatePos(int x, int y) { 
         this.x = x;
         this.y = y;
-    }
-    
-    public void tick() { 
-        //update player
-    }
+    } 
+     
     /**
      * draws the player sprite
      * @param g2d 2d drawing utensil
      */
-
     public void render(Graphics2D g2d) { 
          g2d.drawImage(player,(int) x,(int) y, SIZE, SIZE, null);
 

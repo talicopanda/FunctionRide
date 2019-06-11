@@ -1,28 +1,26 @@
+/*
+ * Sukhraj, Tales, Sergio
+ * June 9 2019
+ * the class that displays the leaderboard
+ */
+
 package functionride;
 
 import java.awt.Color;
-import java.net.URL;
+import java.net.URL; 
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author seher4467
- */
-public class leaderboard extends javax.swing.JFrame {
 
+public class leaderboard extends javax.swing.JFrame {
+    
     ArrayList<CompletedLevels> highScores = FunctionRide.highScores;
 
     int[] scores = new int[highScores.size()];
     String[] names = new String[highScores.size()];
-
+    //sort the leaderboard datafile in terms of levels completed
     public static void dquiksort(int[] a, int left, int right) {
         if (left >= right) {
             return;
@@ -51,7 +49,7 @@ public class leaderboard extends javax.swing.JFrame {
         dquiksort(a, i, right);
 
     }
-
+    //search for a specific name in the leaderboards
     public static int binarySearch(String[] b, String x) {
         int l = 0,
                 r = b.length - 1;
@@ -106,7 +104,7 @@ public class leaderboard extends javax.swing.JFrame {
         players.setText(output);
 
     }
-
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

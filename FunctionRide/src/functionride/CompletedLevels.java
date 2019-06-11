@@ -1,47 +1,67 @@
+/*
+ * Sukhraj, Tales, Sergio
+ * June 8 2019
+ * keeps track of info to put in leaderboard
+ */
+
+
 package functionride;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author nm
- */
 public class CompletedLevels {  
+    //attributes
     private String name;
     private int levels;
     
-    //constructor
+    /**
+     * main constructor 
+     * @param n the number of levels the player has completed
+     * @param t the name of the player
+     */
     public CompletedLevels(int n, String t){
         name = t;
         levels =n;
         
     }
     
-    //accessors
+    /**
+     * allows us to access the number of levels a player has completed
+     * @return number of levels
+     */
     public int getLevels(){
         return levels;
     }
-    
+    /**
+     * allows us to access the name of a player
+     * @return their name
+     */
     public String getName(){
         return name;
     }
     
+    /**
+     * output all the info about a player
+     * @return a string that lists all the info
+     */
     public String toString(){
         return "Name"+":"+" "+this.name+"\n"+"Levels completed"+":"+this.levels;
     }
     
-    //mutators
+    /**
+     * allows us to set the number of levels a player has completed
+     * @param n the number of levels
+     */
     public void setLevels(int n){
         levels = n;
     }
     
+    /**
+     * allows us to set the name of a player
+     * @param n their name
+     */
     public void setName(String n){
         name=n;
-    }
+    } 
     
 
     

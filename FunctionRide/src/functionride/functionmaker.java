@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Sukhraj, Tales, Sergio
+ * June 5 2019
+ * class that allows user to enter a function
  */
 package functionride;
 
@@ -12,13 +12,15 @@ import java.awt.Color;
  * @author seher4467
  */
 public class functionmaker extends javax.swing.JFrame {
+
     public static String func;
+
     /**
      * Creates new form functionmaker
      */
     public functionmaker() {
         initComponents();
-        this.getContentPane().setBackground(new Color(198,168,103));
+        this.getContentPane().setBackground(new Color(198, 168, 103));
     }
 
     /**
@@ -93,20 +95,24 @@ public class functionmaker extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void functionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_functionActionPerformed
-     // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_functionActionPerformed
 
     private void goActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goActionPerformed
-     func = function.getText();
-     if(!func.equals("")){
-         this.dispose();
-         Level.runBtn();
-     } else {
-         jLabel2.setText("Invalid function!");
-         func = null;
-     }
+        //stores the function that the player entered
+        func = function.getText();
+        //if it is a valid function - continue to test it
+        if (!func.equals("")) {
+            this.dispose();
+            Level.runBtn();
+        //otherwise let user know that the function is invalid
+        } else {
+            jLabel2.setText("Invalid function!");
+            //set function to nothing
+            func = null;
+        }
     }//GEN-LAST:event_goActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -140,7 +146,7 @@ public class functionmaker extends javax.swing.JFrame {
                 new functionmaker().setVisible(true);
             }
         });
-    }
+    } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField function;

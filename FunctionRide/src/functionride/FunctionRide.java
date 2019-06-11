@@ -2,9 +2,10 @@
 Function Ride App
 5/27/2019
 Tales Scopinho, Sukhraj Garcha, Sergio Hernandez
+The main game class
  */
 package functionride;
-
+ 
 import java.awt.Dimension;
 import java.awt.Canvas;
 import java.awt.Graphics;
@@ -30,7 +31,7 @@ public class FunctionRide extends Canvas implements Runnable {
     public static final int SCALE = 1;
     public static final String TITLE = "Function Ride";
     public static BufferedImage spriteSheet = null;
-
+    
     private boolean running = false;
     private Thread thread;
     
@@ -65,10 +66,12 @@ public class FunctionRide extends Canvas implements Runnable {
     };
 
     public static int currentLevel;
+    //start the intial state as the menu scree n
     public static STATE State = STATE.MENU;
 
     public void init() {
         BufferedImageLoader loader = new BufferedImageLoader();
+        //try to load all of the images
         try {
             spriteSheet = loader.loadImage("res\\sprite_sheet.png");
             background = loader.loadImage("res\\background.jpg");
@@ -81,7 +84,8 @@ public class FunctionRide extends Canvas implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
+        //initialize components that we need 
         SpriteSheet ss = new SpriteSheet(spriteSheet);
         menu = new Menu();
         ls = new LevelSelect();
@@ -122,7 +126,7 @@ public class FunctionRide extends Canvas implements Runnable {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         int updates = 0;
-        int frames = 0;
+        int frames = 0; 
         long timer = System.currentTimeMillis();
 
         while (running) {
@@ -165,7 +169,6 @@ public class FunctionRide extends Canvas implements Runnable {
         //////////////////////////////////////////// drawing area
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-
         if (State == STATE.MENU) {
             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
             menu.render(g);
@@ -236,7 +239,7 @@ public class FunctionRide extends Canvas implements Runnable {
         }
     }
 
-    public static void fileMaker() {
+    public static void fileMaker() { 
         File scoreFile = new File("res\\HighScore.txt");
         String input = "";
         try {

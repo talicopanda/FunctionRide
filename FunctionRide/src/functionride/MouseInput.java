@@ -1,3 +1,10 @@
+/*
+ * Sukhraj, Tales, Sergio
+ * May 31 2019
+ * class keeps track of any mouse input
+ */
+
+
 package functionride;
 
 import static functionride.FunctionRide.State;
@@ -6,18 +13,12 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author nm
- */
-public class MouseInput implements MouseListener {
 
+
+public class MouseInput implements MouseListener {
+    //keep track of whether or not the player has been added to the leaderboard
     private boolean notAdded;
+    //list of all of the levels that have been completed by a player
     public ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
     public static int cLevel;
@@ -27,7 +28,11 @@ public class MouseInput implements MouseListener {
     }
 
     @Override
+    /**
+     * controls what will happen when the mouse is pressed at a certain location
+     */
     public void mousePressed(MouseEvent e) {
+        //keep track of the mouse's x and y locations
         int mx = e.getX();
         int my = e.getY();
         //menu screen
@@ -44,6 +49,7 @@ public class MouseInput implements MouseListener {
                     FunctionRide.State = FunctionRide.STATE.LEVEL_SCREEN;
                 }
             }
+            //check if user clicks leaderboard button 
             if (mx >= FunctionRide.WIDTH / 2 - 50 && mx <= FunctionRide.WIDTH / 2 + 50) {
                 if (my >= 450 && my <= 500) {
                     boolean notAdded = true;
