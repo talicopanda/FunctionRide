@@ -56,7 +56,7 @@ public class leaderboard extends javax.swing.JFrame {
         while (l <= r) {
             int m = l + (r - l) / 2;
 
-            int res = x.compareTo(b[m]);
+            int res = x.compareTo(b[m].toLowerCase());
 
             // Check if x is present at mid 
             if (res == 0) {
@@ -92,7 +92,6 @@ public class leaderboard extends javax.swing.JFrame {
             for (CompletedLevels cl : highScores) {
                 if (cl.getLevels() == score) {
                     names[k] = cl.getName();
-                    
                 }
             } 
             k++;
@@ -229,7 +228,7 @@ public class leaderboard extends javax.swing.JFrame {
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
 
         String p = namesearch.getText();
-        int x = binarySearch(names, p); //search for name
+        int x = binarySearch(names, p.toLowerCase()); //search for name
         if (x != -1) { //if found, output in search area
             searchArea.setText("Name: " + names[x] + "\nLevels completed: " + scores[x]);
         } else {
