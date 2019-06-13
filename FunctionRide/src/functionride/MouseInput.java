@@ -16,7 +16,7 @@ public class MouseInput implements MouseListener {
     //keep track of whether or not the player has been added to the leaderboard
     private boolean notAdded;
     //list of all of the levels that have been completed by a player
-    public ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
+    public ArrayList<Integer> levelsCompleted = new ArrayList<>();
 
     public static int cLevel;
 

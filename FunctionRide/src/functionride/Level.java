@@ -37,7 +37,7 @@ public class Level {
     private boolean firstRun;
     private boolean crash;
     private static boolean runBtn = false;
-    private static String function;
+    public static String function;
 
     List<Point> graphPoints;
     private static int dataPoint = 0;

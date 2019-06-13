@@ -30,7 +30,6 @@ public class FunctionRide extends Canvas implements Runnable {
     public static final int HEIGHT = 640;
     public static final int SCALE = 1;
     public static final String TITLE = "Function Ride";
-    public static BufferedImage spriteSheet = null;
 
     private boolean running = false;
     private Thread thread;
@@ -39,6 +38,7 @@ public class FunctionRide extends Canvas implements Runnable {
 
     public static ArrayList<Integer> levelsCompleted = new ArrayList<Integer>();
 
+    public static BufferedImage spriteSheet = null;
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private BufferedImage background = null;
     private BufferedImage levelSelectCoaster = null;

@@ -20,6 +20,7 @@ public class functionmaker extends javax.swing.JFrame {
      */
     public functionmaker() {
         initComponents();
+        function.setText(Level.function);
         this.getContentPane().setBackground(new Color(198, 168, 103));
     }
 
