@@ -3,40 +3,29 @@
 Welcome to Function Ride, the game that will help you on your quest of understanding graphics. We hope you have an amazing time crunching down numbers.
 
 ## Table of contents:
-  
-  - Main-Menu
+
+  - Main Menu
       - Play
-  
       - Help
-      
       - Quit
-      
       - Leaderboard
-      
   - Level Screen
-  
   - Objective of the Game
-  
   - Function Writing
-  
   - Completed Screen                         
 
-## Main-Menu
+## Main Menu
 
 Once the program starts up, the game will ask you for your name, or the name you want to be recognized with. The name you input will be registered for the leaderboard.
 Afterward, there are four options that you can choose from. Play, Help, Quit and Leaderboard.
 
-### Play
-This option takes you to the level-choosing screen.
+**Play**: this option takes you to the level-choosing screen.
 
-### Help
-This option opens a JFrame with the user manual.
+**Help**: this option opens a JFrame with the user manual.
 
-### Quit
-This option closes the program.
+**Quit**: this option closes the program.
 
-### Leaderboard
-This option opens a panel which shows the players that have played the game in descending order, from the most levels completed to the least. This is displayed under the “Rankings” text.
+**Leaderboard**: this option opens a panel which shows the players that have played the game in descending order, from the most levels completed to the least. This is displayed under the “Rankings” text.
 The panel also allows you to search for the desired player and shows its name and the levels completed by the player.
 
 ## Level Screen
@@ -55,8 +44,8 @@ To write a function, you must use “x” as the variable. Different symbols mea
 - ^ = exponents (ex. x^2)
 - sqrt = square root (ex. sqrt(x))
 - / = division (ex. x/2)
-- * = multiplication (ex. 2x or 2*x)
-- + = addition (ex. x+4)
+- \* = multiplication (ex. 2x or 2*x)
+- \+ = addition (ex. x+4)
 - () = parentheses (grouping)(ex. (x^2)+4, (x+5)/(x+6))
 
 Afterward, press the ”test” button to display the function.
